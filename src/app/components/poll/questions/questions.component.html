@@ -1,0 +1,15 @@
+<div class="col-12 pre-scrollable ">
+  <ul class="list-group" *ngFor="let question of questions?.reverse()">
+    <a (click)="showAnswers(question.idQuestion); onClick(question)" >
+      <li class="list-group-item d-flex justify-content-between bg-light border-secondary mt-2 mb-2 display-6">
+        {{ question.content }}
+      </li>
+    </a>
+    <div class="d-flex justify-content-end">
+
+    </div>
+    <div *ngIf="displayedAnswers[question.idQuestion]==true">
+      <app-answers [question]="question" [displayedAnswers]="displayedAnswers"></app-answers>
+    </div>
+  </ul>
+</div>

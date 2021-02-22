@@ -1,0 +1,21 @@
+.my-form-container {
+  width: 70%;
+  padding: 0px;
+  margin: 0px;
+}
+
+
+
+@media screen and (max-width: 992px) {
+
+  .my-form-container {
+    width: 80%
+  }
+}
+
+@media screen and (max-width: 600px) {
+
+  .my-form-container {
+    width: 80%
+  }
+}

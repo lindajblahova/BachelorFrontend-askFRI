@@ -1,0 +1,30 @@
+<app-navbar></app-navbar>
+{{errorMsg}}
+<div class="container bg-light text-center">
+  <div class="row">
+    <div class="col-12">
+      <hr class="my-2">
+      <h1 class="display-4">Účastník</h1>
+      <hr class="my-2">
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <form [formGroup]="passcodeForm" (ngSubmit)="onSubmit()">
+        <div class="form-group d-flex justify-content-center">
+          <div class="container my-form-container">
+            <div class="row">
+              <label for="passcode" class="mt-2">Zadajte prístupový kód</label>
+            </div>
+            <div class="row">
+              <input id="passcode" type="text" class="form-control form-control-lg" formControlName="passcode"
+                     placeholder="napr. 12101998">
+            </div>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-warning m-3"><i class="fas fa-door-open"></i> Vstúpiť</button>
+      </form>
+    </div>
+  </div>
+</div>

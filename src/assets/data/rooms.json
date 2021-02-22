@@ -1,0 +1,20 @@
+[
+{
+"idRoom": 1,
+"idOwner": 1 ,
+"roomName": "INF room",
+"roomPasscode": 123456
+},
+{
+"idRoom": 2,
+"idOwner": 1 ,
+"roomName": "MATH room",
+"roomPasscode": 654321
+},
+{
+"idRoom": 3,
+"idOwner": 1 ,
+"roomName": "Conference room",
+"roomPasscode": 12101998
+}
+];
