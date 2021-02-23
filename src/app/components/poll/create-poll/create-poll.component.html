@@ -8,9 +8,12 @@
               <label for="questionType" class="mt-2">Vyberte typ otázky</label>
             </div>
             <div class="row">
-              <select class="form-select form-control" id="questionType" formControlName="questionType" aria-label="Default select example">
+              <select #questionType class="form-select form-control" id="questionType" formControlName="questionType"
+                      (change)="selected(questionType.value)">
                 <option value="0">Otvorená otázka</option>
-                <option value="1">Výber z odpovedí</option>
+                <option value="1">Výber jednej možnosti</option>
+                <option value="2">Výber viacerých možností</option>
+                <option value="3">Posúvač</option>
               </select>
             </div>
             <div class="row">
@@ -19,6 +22,45 @@
             <div class="row">
               <input id="content" type="text" class="form-control" formControlName="content"
                      placeholder="Napíšte niečo...">
+            </div>
+            <div class="row">
+              <input hidden type="text" class="form-control" formControlName="content"
+                     placeholder="{{selectedType}}">
+            </div>
+
+            <div *ngIf="selectedType==1 || selectedType==2">
+              <div class="row">
+                <input hidden type="text" class="form-control" formControlName="content"
+                       placeholder="{{selectedType}}">
+              </div>
+              <form #formRef="ngForm">
+                <div class="row">
+                  <label class="mt-2">Odpovede</label>
+                </div>
+                <div *ngFor="let option of optionalAnswers; let ind=index" class="col-lg-12">
+                  <div class="form-group">
+                      <input type="text" [(ngModel)]="optionalAnswers[ind].value" name="name{{ind}}" class="form-control"
+                             #name="ngModel" required/>
+                      <!--<p [hidden]="optionalAnswers[in].value">Field is required</p>-->
+                  </div>
+                </div>
+                <button type="button" class="btn btn-warning m-3" [disabled]="!formRef.form.valid"
+                        (click)="addAnswer()"><i class="fas fa-plus"></i> Odpoveď</button>
+                <button type="button" class="btn btn-warning m-3"
+                        (click)="deleteAnswer()"><i class="fas fa-trash-alt"></i> Odpoveď</button>
+              </form>
+            </div>
+
+            <div *ngIf="selectedType==3">
+              <div class="row">
+                <label for="customRange" class="form-label mt-2 mb-2">Rozsah</label>
+              </div>
+              <div class="row d-flex mb-2">
+                <input #slider (change)="value=slider.value" type="range" class="form-range" min="{{minVal}}" max="{{maxVal}}" id="customRange">
+                <h4 class="mt-1 ml-2">{{value}}</h4>
+                <input #minValue id="inputMin" class="ctrl form-control w-25 ml-2 mr-2" type="number" value="0" (change)="minVal=minValue.value">
+                <input #maxValue id="inputMax" class="ctrl form-control w-25" type="number" value="10" (change)="maxVal=maxValue.value">
+              </div>
             </div>
           </div>
         </div>

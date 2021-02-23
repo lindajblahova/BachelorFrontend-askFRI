@@ -1,6 +1,6 @@
 <div *ngIf="question.type==0">
   <div *ngFor="let answer of answers">
-    <div *ngIf="displayedAnswers[answer.idQuestion]==true">
+    <div *ngIf="(displayedAnswers[answer.idQuestion]==true && author==true)">
       <ul class="list-group">
         <li class="list-group-item d-flex bg-light border-secondary ml-5 mr-5 mt-2 mb-2 display-6">
           {{ answer.content }}
@@ -9,15 +9,23 @@
     </div>
   </div>
 </div>
-<div *ngIf="question.type==1">
-  <div *ngFor="let answer of answers">
-    <div *ngIf="displayedAnswers[answer.idQuestion]==true">
+<div *ngIf="question.type!=0">
+  <div *ngFor="let answer of question.optionalAnswers" >
+    <div *ngIf="author==true">
+    {{showCount(answer)}}
+    <div>
       <ul class="list-group">
-        <li class="list-group-item d-flex bg-light border-secondary ml-5 mr-5 mt-2 mb-2 display-6">
-          {{ answer.content }}
+        <li class="list-group-item d-flex justify-content-between bg-light border-secondary ml-5 mr-5 mt-2 mb-2 display-6">
+          <div> {{ answer }} </div>
+          <div>{{ answersCount }}</div>
         </li>
+        <div class="ml-5 mr-5">
+          <div [style.width.%]="(answersCount / answers.length)*100" class="bg-warning">
+            {{(answersCount / answers.length) | percent}}
+          </div>
+        </div>
       </ul>
+    </div>
     </div>
   </div>
 </div>
-

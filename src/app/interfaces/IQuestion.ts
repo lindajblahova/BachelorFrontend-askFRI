@@ -3,12 +3,15 @@ export interface IQuestion {
   idRoom: number;
   type: number;
   content: string;
+  optionalAnswers: string[];
+  displayed: boolean;
 }
+
 /*
-export enum MyEnum {
-  open,
-  choice,
-  checkbox,
-  slider
+type:
+  open = 0
+  choice = 1
+  checkbox = 2
+  slider = 3
 }*/
 

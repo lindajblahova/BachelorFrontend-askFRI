@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { EnterRoomComponent } from './pages/enter-room/enter-room.component';
 import { HttpClientModule } from '@angular/common/http';
-import {ReactiveFormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { MessagesComponent } from './components/messages/messages.component';
 import { ParticipantRoomComponent } from './pages/participant-room/participant-room.component';
 import { LoginComponent } from './pages/login/login.component';
@@ -19,6 +19,7 @@ import { PollComponent } from './components/poll/poll.component';
 import { CreatePollComponent } from './components/poll/create-poll/create-poll.component';
 import { QuestionsComponent } from './components/poll/questions/questions.component';
 import { AnswersComponent } from './components/poll/questions/answers/answers.component';
+import { AnswerQuestionComponent } from './components/poll/answer-question/answer-question.component';
 
 
 @NgModule({
@@ -37,14 +38,16 @@ import { AnswersComponent } from './components/poll/questions/answers/answers.co
     PollComponent,
     CreatePollComponent,
     QuestionsComponent,
-    AnswersComponent
+    AnswersComponent,
+    AnswerQuestionComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    ReactiveFormsModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        HttpClientModule,
+        ReactiveFormsModule,
+        FormsModule
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })

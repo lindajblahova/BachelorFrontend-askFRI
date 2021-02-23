@@ -13,10 +13,15 @@ import {IRoom} from '../../../interfaces/IRoom';
 export class CreatePollComponent implements OnInit {
 
   @Input() room: IRoom;
+  selectedType = -1;
   createQuestionForm = this.formBuilder.group({
     questionType: '',
     content: ''
   });
+  minVal = '0';
+  maxVal = '10';
+  value = '10';
+  optionalAnswers = [{value: ''}];
 
   constructor( private questionService: QuestionService, private formBuilder: FormBuilder, private router: Router) { }
 
@@ -31,6 +36,18 @@ export class CreatePollComponent implements OnInit {
     this.router.navigate(['/rooms', this.room.idRoom]);
   }
 
-  selected(): void{}
+  selected(value: string): void{
+    this.selectedType = Number(value);
+    console.log(this.selectedType);
+  }
+
+  addAnswer(): void {
+    this.optionalAnswers.push({value: ''});
+  }
+
+  deleteAnswer(): void {
+    this.optionalAnswers.pop();
+  }
+
 
 }

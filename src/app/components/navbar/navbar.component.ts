@@ -21,4 +21,8 @@ export class NavbarComponent implements OnInit {
     this.router.navigate(['/register']);
   }
 
+  goParticipant(): void {
+    this.router.navigate(['/participant-rooms', 1]);
+  }
+
 }

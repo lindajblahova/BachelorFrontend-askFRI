@@ -13,6 +13,7 @@ import {IRoom} from '../../interfaces/IRoom';
 export class PollComponent implements OnInit {
 
   @Input() room: IRoom;
+  @Input() author: boolean;
   displayed = 'questionList';
   questionId: number;
 
@@ -29,6 +30,10 @@ export class PollComponent implements OnInit {
 
   showQuestions(): void {
     this.displayed = 'questionList';
+  }
+
+  newAnswer(): void {
+    this.displayed = 'answer';
   }
 
 

@@ -1,15 +1,26 @@
 <div class="col-12 pre-scrollable ">
   <ul class="list-group" *ngFor="let question of questions?.reverse()">
-    <a (click)="showAnswers(question.idQuestion); onClick(question)" >
+    <a *ngIf="question.displayed==true || author==true"
+       (click)="showAnswers(question.idQuestion); onClick(question)" >
       <li class="list-group-item d-flex justify-content-between bg-light border-secondary mt-2 mb-2 display-6">
         {{ question.content }}
       </li>
     </a>
-    <div class="d-flex justify-content-end">
-
+    <div class="d-flex justify-content-end" *ngIf="author==true">
+      <div class="form-check form-switch mr-2">
+        <input class="form-check-input" type="checkbox" id="checkboxQuestion"
+               (change)="displayQuestionPublic(question.idQuestion)">
+        <label class="form-check-label" for="checkboxQuestion">Zobraziť otázku všetkým</label>
+      </div>
+      <div class="form-check form-switch">
+        <input class="form-check-input" type="checkbox" id="checkboxAnswers"
+               (change)="displayAnswersPublic(question.idQuestion)">
+        <label class="form-check-label" for="checkboxAnswers">Zobraziť odpovede všetkým</label>
+      </div>
     </div>
-    <div *ngIf="displayedAnswers[question.idQuestion]==true">
-      <app-answers [question]="question" [displayedAnswers]="displayedAnswers"></app-answers>
+    <div *ngIf="(displayedAnswers[question.idQuestion]==true && author==true) ||
+     (displayedAnswersPublic[question.idQuestion]==true && author==false)">
+      <app-answers [question]="question" [displayedAnswers]="displayedAnswers" [author]="author"></app-answers>
     </div>
   </ul>
 </div>

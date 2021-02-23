@@ -26,6 +26,12 @@ export class QuestionService {
     );
   }
 
+  displayQuestion(id: number): void {
+    this.getQuestions().pipe(
+      map(findQ => findQ.find(question => question.idRoom === id).displayed = true)
+    );
+  }
+
   deleteQuestion(questionId): void {
   }
 

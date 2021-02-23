@@ -3,6 +3,7 @@ import {IRoom} from '../../../interfaces/IRoom';
 import {ActivatedRoute, ParamMap, Router} from '@angular/router';
 import {QuestionService} from '../../../services/question.service';
 import {IQuestion} from '../../../interfaces/IQuestion';
+import {element} from 'protractor';
 
 @Component({
   selector: 'app-questions',
@@ -11,10 +12,12 @@ import {IQuestion} from '../../../interfaces/IQuestion';
 })
 export class QuestionsComponent implements OnInit {
 
-  @Input() room: IRoom;
+  @Input() author: boolean;
   roomId;
   questions = [];
+  question ;
   questionClicked: IQuestion;
+  displayedAnswersPublic = [];
   displayedAnswers = [];
   constructor( private route: ActivatedRoute, private questionService: QuestionService) { }
 
@@ -26,6 +29,7 @@ export class QuestionsComponent implements OnInit {
     this.questionService.getRoomQuestions(this.roomId).subscribe(data => this.questions = data);
 
     this.displayedAnswers.fill(false);
+    this.displayedAnswersPublic.fill(false);
   }
 
   showAnswers(id: number): void {
@@ -34,6 +38,14 @@ export class QuestionsComponent implements OnInit {
 
   onClick(question: IQuestion): void {
     this.questionClicked = question;
+  }
+
+  displayQuestionPublic(id: number): void {
+    this.questionService.displayQuestion(id);
+  }
+
+  displayAnswersPublic(id: number): void {
+    this.displayedAnswersPublic[id] = !this.displayedAnswersPublic[id];
   }
 
 }

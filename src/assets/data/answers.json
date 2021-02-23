@@ -1,0 +1,68 @@
+[
+  {
+    "idAnswer": 1,
+    "idQuestion": 1,
+    "type": 0,
+    "content": "First answer"
+  },
+  {
+    "idAnswer": 2,
+    "idQuestion": 1,
+    "type": 0,
+    "content": "Second answer"
+  },
+  {
+    "idAnswer": 3,
+    "idQuestion": 2,
+    "type": 0,
+    "content": "Yes"
+  },
+  {
+    "idAnswer": 4,
+    "idQuestion": 2,
+    "type": 0,
+    "content": "No"
+  },
+  {
+    "idAnswer": 5,
+    "idQuestion": 3,
+    "type": 0,
+    "content": "True"
+  },
+  {
+    "idAnswer": 6,
+    "idQuestion": 2,
+    "type": 0,
+    "content": "Yes"
+  },
+  {
+    "idAnswer": 6,
+    "idQuestion": 2,
+    "type": 0,
+    "content": "Yes"
+  },
+  {
+    "idAnswer": 7,
+    "idQuestion": 2,
+    "type": 0,
+    "content": "Yes"
+  },
+  {
+    "idAnswer": 8,
+    "idQuestion": 2,
+    "type": 0,
+    "content": "Yes"
+  },
+  {
+    "idAnswer": 9,
+    "idQuestion": 2,
+    "type": 0,
+    "content": "Maybe"
+  },
+  {
+    "idAnswer": 10,
+    "idQuestion": 2,
+    "type": 0,
+    "content": "No"
+  }
+]

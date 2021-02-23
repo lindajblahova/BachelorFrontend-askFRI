@@ -1,0 +1,30 @@
+[
+  {
+    "idUser": 1,
+    "firstname": "Linda",
+    "surname": "Blahova",
+    "email": "linda@gmail.com",
+    "password": "Linda123"
+  },
+  {
+    "idUser": 2,
+    "firstname": "Marek",
+    "surname": "Blaha",
+    "email": "marek@gmail.com",
+    "password": "Marek123"
+  },
+  {
+    "idUser": 3,
+    "firstname": "Lukas",
+    "surname": "Blaha",
+    "email": "lukas@gmail.com",
+    "password": "Lukas123"
+  },
+  {
+    "idUser": 4,
+    "firstname": "Maria",
+    "surname": "Blahova",
+    "email": "maria@gmail.com",
+    "password": "Maria123"
+  }
+]

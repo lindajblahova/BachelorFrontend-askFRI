@@ -2,19 +2,24 @@
   <div class="row">
     <div class="col-12">
       <hr class="my-2">
-      <button class="btn btn-warning m-3" (click)="newQuestion()"><i class="fas fa-plus"></i> Otázka</button>
-      <button class="btn btn-warning m-3" (click)="showQuestions()"><i class="fas fa-list-ol"></i> Otázky</button>
+        <button *ngIf="author==true" class="btn btn-warning m-3" (click)="newQuestion()"><i class="fas fa-plus"></i> Otázka</button>
+        <button *ngIf="author==false" class="btn btn-warning m-3"  (click)="newAnswer()"><i class="fas fa-list-ol"></i> Otázky</button>
+      <button *ngIf="author==true" class="btn btn-warning m-3" (click)="showQuestions()"><i class="fas fa-list-ol"></i> Otázky a odpovede</button>
+      <button *ngIf="author==false" class="btn btn-warning m-3" (click)="showQuestions()"><i class="fas fa-chart-bar"></i> Odpovede</button>
       <hr class="my-2">
     </div>
     <div class="col-12">
-      <div *ngIf="displayed=='question'">
-        <app-create-poll (submit)="showQuestions()" [room]="room"></app-create-poll>
+      <div *ngIf="displayed=='question' && author==true">
+        <app-create-poll (submit)="showQuestions()"></app-create-poll>
+      </div>
+
+      <div *ngIf="displayed=='answer' && author==false">
+        <app-answer-question ></app-answer-question>
       </div>
 
       <div *ngIf="displayed=='questionList'">
-        <app-questions [room]="room"></app-questions>
+        <app-questions [author]="author"></app-questions>
         {{ questionId }}
-
       </div>
     </div>
   </div>
