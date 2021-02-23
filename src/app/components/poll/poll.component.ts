@@ -15,7 +15,7 @@ export class PollComponent implements OnInit {
   @Input() room: IRoom;
   @Input() author: boolean;
   displayed = 'questionList';
-  questionId: number;
+
 
   constructor() {
   }
