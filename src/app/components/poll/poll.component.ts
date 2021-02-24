@@ -32,9 +32,4 @@ export class PollComponent implements OnInit {
     this.displayed = 'questionList';
   }
 
-  newAnswer(): void {
-    this.displayed = 'answer';
-  }
-
-
 }

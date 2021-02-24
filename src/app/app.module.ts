@@ -19,7 +19,7 @@ import { PollComponent } from './components/poll/poll.component';
 import { CreatePollComponent } from './components/poll/create-poll/create-poll.component';
 import { QuestionsComponent } from './components/poll/questions/questions.component';
 import { AnswersComponent } from './components/poll/questions/answers/answers.component';
-import { AnswerQuestionComponent } from './components/poll/answer-question/answer-question.component';
+import { AnswerQuestionComponent } from './components/poll/questions/answer-question/answer-question.component';
 
 
 @NgModule({

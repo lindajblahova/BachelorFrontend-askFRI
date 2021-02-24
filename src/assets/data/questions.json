@@ -1,17 +1,9 @@
 [
   {
-    "idQuestion": 1,
-    "idRoom": 1,
-    "type": 0,
-    "content": "This is some question",
-    "optionalAnswers": [],
-    "displayed": false
-  },
-  {
     "idQuestion": 2,
     "idRoom": 1,
-    "type": 1,
-    "content": "This is other question",
+    "type": 2,
+    "content": "This is question with optional answers",
     "optionalAnswers": ["No","Yes","Maybe"],
     "displayed": true
   },
@@ -22,5 +14,45 @@
     "content": "This is the last question",
     "optionalAnswers": [],
     "displayed": false
+  },
+  {
+    "idQuestion": 4,
+    "idRoom": 1,
+    "type": 1,
+    "content": "This is question with radio answers",
+    "optionalAnswers": ["No","Yes","Maybe"],
+    "displayed": true
+  },
+  {
+    "idQuestion": 5,
+    "idRoom": 1,
+    "type": 1,
+    "content": "This is question with radio answers",
+    "optionalAnswers": ["No","Yes","Maybe"],
+    "displayed": true
+  },
+  {
+    "idQuestion": 1,
+    "idRoom": 1,
+    "type": 0,
+    "content": "This is some question",
+    "optionalAnswers": [],
+    "displayed": true
+  },
+  {
+    "idQuestion": 6,
+    "idRoom": 1,
+    "type": 1,
+    "content": "This is question with radio answers",
+    "optionalAnswers": ["No","Yes","Maybe"],
+    "displayed": true
+  },
+  {
+    "idQuestion": 7,
+    "idRoom": 1,
+    "type": 1,
+    "content": "This is question with radio answers",
+    "optionalAnswers": ["No","Yes","Maybe"],
+    "displayed": true
   }
 ]

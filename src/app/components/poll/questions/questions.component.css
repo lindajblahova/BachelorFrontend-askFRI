@@ -1,0 +1,15 @@
+ul:nth-child(5n+1) li {
+  background-color: rgba(83,179,255,0.6);
+}
+ul:nth-child(5n+2) li {
+  background-color: rgba(246,190,0,0.6);
+}
+ul:nth-child(5n+3) li {
+  background-color: rgba(255,78,65,0.6);
+}
+ul:nth-child(5n+4) li {
+  background-color: rgba(235,112,177,0.6);
+}
+ul:nth-child(5n+5) li {
+  background-color: rgba(112,234,80,0.6);
+}

@@ -24,8 +24,8 @@
       </div>
     </div>
     <div class="col-12 pre-scrollable ">
-      <ul class="list-group" *ngFor="let message of messages.reverse()" >
-        <li class="list-group-item d-flex justify-content-between bg-light border-secondary mt-2 mb-2 display-6">
+      <ul class="list-group" *ngFor="let message of messages.reverse()">
+        <li class="list-group-item d-flex justify-content-between border-secondary mt-2 mb-2 display-6">
           {{ message.content }}
           <div><i *ngIf="(clickedId != message.idMessage || !like)" class="far fa-heart mr-1"
                   (click)="onClick(message.idMessage)"></i>
