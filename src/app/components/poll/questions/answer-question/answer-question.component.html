@@ -1,52 +1,44 @@
-<div *ngIf="question.type==0">
-  <div *ngIf="author==false">
+<div *ngIf="question.type==0 && author==false">
     <ul class="list-group">
       <li class="list-group-item border-secondary ml-5 mr-5 mt-2 mb-2 display-6 myAnswer"
           [style.background-color]="getBackgroundColor(color+1)">
-          <form class="form-group">
+          <form [formGroup]="myForm" (change)="onSubmit()">
             <div class="row">
-              <label for="answerInput" class="ml-3 mt-2">Odpoveď</label>
-            </div>
-            <div class="row">
-              <div class="col-12 d-flex">
-              <textarea id="answerInput" type="text" class="form-control" formControlName="content"
-                        placeholder="Napíšte niečo..." required="required"></textarea>
-                <button type="submit" class="btn btn-warning mt-4 ml-1"><i class="far fa-paper-plane"></i></button>
+              <div class="col-12">
+                <mat-form-field class="full-width-form mt-2 mb-0">
+                  <mat-label>Odpoveď</mat-label>
+                  <textarea matInput type="text" formControlName="content"
+                            placeholder="Napíšte niečo..." ></textarea>
+                </mat-form-field>
               </div>
             </div>
           </form>
       </li>
     </ul>
-  </div>
 </div>
 
-<div *ngIf="question.type==1 || question.type==2">
-  <div >
-    <div *ngIf="author==false">
-      <div>
-        <ul class="list-group" *ngFor="let answer of question.optionalAnswers;">
-          <li class="list-group-item d-flex justify-content-between border-secondary ml-5 mr-5 mt-2 mb-2 display-6"
-              [style.background-color]="getBackgroundColor(color+1)">
-            <div class="form-check">
-              <div *ngIf="question.type==2">
-              <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-              <label class="form-check-label" for="flexCheckDefault">
-                {{ answer }}
-              </label>
-              </div>
+<div *ngIf="question.type==2 && author==false">
+        <form>
 
-              <div *ngIf="question.type==1">
-                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-                <label class="form-check-label" for="flexRadioDefault1">
-                  {{ answer }}
-                </label>
-              </div>
-            </div>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div>
+          <mat-card class="m-2" [style.background-color]="getBackgroundColor(color+1)">
+            <mat-card-content>
+              <section class="example-section">
+              <mat-checkbox *ngFor="let answer of question.optionalAnswers;" class="ml-1 mt-1 d-flex" value="{{ answer }}">{{ answer }}</mat-checkbox>
+              </section>
+            </mat-card-content>
+          </mat-card>
+        </form>
 </div>
 
-
+<div *ngIf="question.type==1 && author==false">
+        <form>
+          <mat-card class="m-2" [style.background-color]="getBackgroundColor(color+1)">
+            <mat-card-content>
+          <mat-radio-group>
+            <mat-radio-button *ngFor="let answer of question.optionalAnswers" class="row d-flex ml-1 mt-1" value="{{ answer }}">{{ answer }}</mat-radio-button>
+          </mat-radio-group>
+            </mat-card-content>
+          </mat-card>
+        </form>
+</div>
+<button *ngIf="author==false" type="submit" mat-raised-button class="bg-warning m-3">Odoslať</button>

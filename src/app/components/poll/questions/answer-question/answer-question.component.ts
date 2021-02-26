@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {AnswerService} from '../../../../services/answer.service';
+import {FormBuilder} from '@angular/forms';
 
 @Component({
   selector: 'app-answer-question',
@@ -12,7 +13,10 @@ export class AnswerQuestionComponent implements OnInit {
   @Input() author;
   @Input() color: string;
   answers = [];
-  constructor(private answerService: AnswerService) { }
+  myForm = this.formBuilder.group({
+    content:  ['']
+  });
+  constructor(private answerService: AnswerService, private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
     this.answerService.getQuestionAnswers(this.question.idQuestion).subscribe(data => this.answers = data);
@@ -26,7 +30,7 @@ export class AnswerQuestionComponent implements OnInit {
         color = 'rgba(83,179,255,0.3)';
         break;
       case 2:
-        color = 'rgba(246,190,0,0.3)';
+        color = 'rgba(16, 255, 218, 0.3)';
         break;
       case 3:
         color = 'rgba(255,78,65,0.3)';
@@ -38,6 +42,10 @@ export class AnswerQuestionComponent implements OnInit {
         color = 'rgba(112,234,80,0.3)';
     }
     return color;
+  }
+
+  onSubmit(): void {
+    console.log(this.myForm.get('content').value);
   }
 
 }

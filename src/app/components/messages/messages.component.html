@@ -1,38 +1,36 @@
 <div class="container bg-light text-center" *ngIf="room">
   <div class="row">
     <div class="col-12">
-      <hr class="my-2">
-      <div class="container">
-        <h1 class="display-4">{{room.roomName}} | {{room.roomPasscode}} </h1>
-      </div>
-      <hr class="my-2">
-    </div>
-    <div class="col-12">
       <div class="my-form-container">
         <form [formGroup]="newMessageForm" (ngSubmit)="onSubmit()">
-          <div class="form-group">
             <div class="row">
               <div class="col-12 d-flex">
-              <textarea id="roomName" type="text" class="form-control" formControlName="content"
-                        placeholder="Napíšte niečo..." required="required"></textarea>
-                <button type="submit" class="btn btn-warning mt-4 ml-1"><i class="far fa-paper-plane"></i></button>
+                <mat-form-field class=" full-width-form mt-2 mb-0">
+                  <mat-label>Správa</mat-label>
+                  <textarea matInput type="text" formControlName="content"
+                            placeholder="Napíšte niečo..."></textarea>
+                </mat-form-field>
+                <button mat-fab type="submit" class="bg-warning mt-2 ml-1"><i class="far fa-paper-plane"></i></button>
               </div>
             </div>
-          </div>
         </form>
-        <hr class="my-2">
+        <hr class="mt-0 mb-2">
       </div>
     </div>
-    <div class="col-12 pre-scrollable ">
-      <ul class="list-group" *ngFor="let message of messages.reverse()">
-        <li class="list-group-item d-flex justify-content-between border-secondary mt-2 mb-2 display-6">
-          {{ message.content }}
-          <div><i *ngIf="(clickedId != message.idMessage || !like)" class="far fa-heart mr-1"
-                  (click)="onClick(message.idMessage)"></i>
-            <i *ngIf="clickedId == message.idMessage && like" class="fas fa-heart mr-1"
-               (click)="onClick(message.idMessage)"></i>
-            <b *ngIf="[message.likesCount] != 0">{{ message.likesCount }}</b></div>
-        </li>
+    <div class="col-12 pre-scrollable">
+      <ul class="list-group " *ngFor="let message of messages.reverse()">
+          <mat-card class="m-2">
+              <mat-card-content class="d-flex justify-content-between">
+                <div>
+                  {{ message.content }}
+                </div>
+                <div><i *ngIf="(clickedId != message.idMessage || !like)" class="far fa-heart mr-1"
+                        (click)="onClick(message.idMessage)"></i>
+                  <i *ngIf="clickedId == message.idMessage && like" class="fas fa-heart mr-1"
+                     (click)="onClick(message.idMessage)"></i>
+                  <b *ngIf="[message.likesCount] != 0">{{ message.likesCount }}</b></div>
+              </mat-card-content>
+          </mat-card>
       </ul>
     </div>
 

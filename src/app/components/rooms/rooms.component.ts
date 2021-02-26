@@ -41,7 +41,8 @@ export class RoomsComponent implements OnInit {
     this.showActions = false;
   }
 
-  enterRoom(): void {
+  enterRoom(id: number): void {
+    this.clickedId = id;
     this.router.navigate(['/rooms', this.clickedId]);
   }
 }

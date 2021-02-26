@@ -1,3 +1,11 @@
-<a (click)="goLogIn()" class="mr-2">Login</a>
-<a (click)="goRegister()">Register</a>
-<a (click)="goParticipant()">Participant</a>
+<nav class="sticky-top">
+<mat-toolbar class="bg-warning text-white d-flex justify-content-between">
+    <div class="row">
+      <a routerLink="/" class="text-white ml-3">askFRI</a>
+    </div>
+    <div class="row">
+      <a (click)="goLogIn()" class="mr-3">Login</a>
+      <a (click)="goRegister()" class="mr-3">Register</a>
+    </div>
+</mat-toolbar>
+</nav>

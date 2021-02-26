@@ -4,18 +4,26 @@
   overflow-y: scroll;
 }
 
-ul:nth-child(5n+1) li {
+.full-width-form {
+  width: 100%;
+}
+
+.mat-display-1, .mat-typography .mat-display-1 {
+  margin: 0px;
+}
+
+ul:nth-child(5n+1) mat-card {
   background-color: rgba(83,179,255,0.8);
 }
-ul:nth-child(5n+2) li {
-  background-color: rgba(246,190,0,0.8);
+ul:nth-child(5n+2) mat-card {
+  background-color: rgba(16, 255, 218, 0.8);
 }
-ul:nth-child(5n+3) li {
+ul:nth-child(5n+3) mat-card {
   background-color: rgba(255,78,65,0.8);
 }
-ul:nth-child(5n+4) li {
+ul:nth-child(5n+4) mat-card {
   background-color: rgba(235,112,177,0.8);
 }
-ul:nth-child(5n+5) li {
+ul:nth-child(5n+5) mat-card {
   background-color: rgba(112,234,80,0.8);
 }

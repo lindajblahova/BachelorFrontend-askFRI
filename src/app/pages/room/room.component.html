@@ -1,13 +1,15 @@
 <app-navbar></app-navbar>
 <div class="container">
   <div class="row">
-    <div class="col-lg-6">
-      <div>
-      </div>
-      <app-messages [author]="true" [room]="room" ></app-messages>
-    </div>
-    <div class="col-lg-6">
-      <app-poll [room]="room" [author]="true"></app-poll>
+    <div class="col-lg-12">
+    <mat-tab-group mat-align-tabs="center" class="bg-light">
+      <mat-tab label="Konverzácia">
+          <app-messages [author]="true" [room]="room" ></app-messages>
+      </mat-tab>
+      <mat-tab label="Ankety">
+        <app-poll [room]="room" [author]="true"></app-poll>
+    </mat-tab>
+    </mat-tab-group>
     </div>
   </div>
 </div>

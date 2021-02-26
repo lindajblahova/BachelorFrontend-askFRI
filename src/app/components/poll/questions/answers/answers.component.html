@@ -1,10 +1,14 @@
 <div *ngIf="question.type==0">
   <div>
     <ul class="list-group" *ngFor="let answer of answers">
-      <div *ngIf="(displayedAnswers[answer.idQuestion]==true && author==true)">
-        <li class="list-group-item d-flex bg-light border-secondary ml-5 mr-5 mt-2 mb-2 display-6">
-          {{ answer.content }}
-        </li>
+      <div *ngIf="author==true">
+          <mat-card class="m-2" [style.background-color]="getBackgroundColor(color+1)">
+            <mat-card-content class="d-flex">
+              <div>
+                {{ answer.content }}
+              </div>
+            </mat-card-content>
+          </mat-card>
       </div>
     </ul>
   </div>
@@ -14,19 +18,20 @@
     <ul class="list-group" *ngFor="let answer of question.optionalAnswers">
       <div *ngIf="author==true">
         {{showCount(answer)}}
-        <div>
-          <li
-            class="list-group-item d-flex justify-content-between bg-light border-secondary ml-5 mr-5 mt-2 mb-2 display-6">
-            <div> {{ answer }} </div>
-            <div>{{ answersCount }}</div>
-          </li>
-          <div class="ml-5 mr-5">
+            <mat-card class="m-2" [style.background-color]="getBackgroundColor(color+1)">
+              <mat-card-content class="d-flex justify-content-between">
+                <div>
+                  {{ answer }}
+                </div>
+                <div><b>{{ answersCount }}</b></div>
+              </mat-card-content>
+            </mat-card>
+          <div class="ml-2 mr-2">
             <div [style.width.%]="(answersCount / answers.length)*100" class="bg-warning">
               {{(answersCount / answers.length) | percent}}
             </div>
           </div>
         </div>
-      </div>
     </ul>
   </div>
 </div>

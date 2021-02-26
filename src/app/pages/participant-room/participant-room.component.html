@@ -1,3 +1,17 @@
 <app-navbar></app-navbar>
-<app-messages [room]="room"></app-messages>
-<app-poll [room]="room" [author]="false"></app-poll>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12">
+      <mat-tab-group mat-align-tabs="center" class="bg-light">
+        <mat-tab label="Konverzácia">
+          <app-messages [author]="true" [room]="room" ></app-messages>
+        </mat-tab>
+        <mat-tab label="Ankety">
+          <app-poll [room]="room" [author]="false"></app-poll>
+        </mat-tab>
+      </mat-tab-group>
+
+    </div>
+  </div>
+</div>
+

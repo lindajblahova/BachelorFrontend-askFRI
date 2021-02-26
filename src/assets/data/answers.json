@@ -64,5 +64,11 @@
     "idQuestion": 2,
     "type": 0,
     "content": "No"
+  },
+  {
+    "idAnswer": 11,
+    "idQuestion": 7,
+    "type": 0,
+    "content": "No"
   }
 ]

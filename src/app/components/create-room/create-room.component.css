@@ -4,7 +4,9 @@
   margin: 0px;
 }
 
-
+.full-width-form {
+  width: 100%;
+}
 
 @media screen and (max-width: 992px) {
 

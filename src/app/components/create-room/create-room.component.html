@@ -2,34 +2,29 @@
   <div class="row">
     <div class="col-12">
       <hr class="my-2">
-      <button class="btn btn-warning m-3" (click)="onClick()"><i class="fas fa-plus"></i> Miestnosť</button>
+      <button mat-raised-button class="bg-warning m-3" (click)="onClick()"><i class="fas fa-plus"></i> Miestnosť</button>
     </div>
   </div>
   <div class="row" >
     <div class="col-12">
       <form *ngIf="showForm" [formGroup]="createRoomForm" (ngSubmit)="onSubmit()">
-        <div class="form-group d-flex justify-content-center">
+        <div class="d-flex justify-content-center">
           <div class="container my-form-container">
             <div class="row">
-              <label for="roomName" class="mt-2">Vytvorte názov miestnosti</label>
+              <mat-form-field class=" full-width-form mt-2">
+                <mat-label>Názov miestnosti</mat-label>
+                <input  matInput type="text" formControlName="roomName" placeholder="napr. INF-2-Streda16">
+              </mat-form-field>
             </div>
             <div class="row">
-              <input id="roomName" type="text" class="form-control" formControlName="roomName"
-                     placeholder="napr. INF-2-Streda16">
-            </div>
-            <div class="row">
-              <label for="roomPasscode" class="mt-2">Vytvorte prístupový kód</label>
-            </div>
-            <div class="row">
-              <input id="roomPasscode" type="text" class="form-control" formControlName="roomPasscode"
-                     placeholder="napr. 12101998">
-            </div>
-            <div class="row">
-              <small>Prístupový kód musí byť unikátny!</small>
+              <mat-form-field  class="full-width-form mt-2">
+                <mat-label>Prístupový kód</mat-label>
+                <input  matInput type="text" formControlName="roomPasscode" placeholder="napr. 12101998">
+              </mat-form-field>
             </div>
           </div>
         </div>
-        <button type="submit" class="btn btn-warning m-3"><i class="fas fa-greater-than"></i></button>
+        <button type="submit" mat-raised-button class="btn btn-warning m-3"><i class="fas fa-greater-than"></i></button>
       </form>
     </div>
   </div>

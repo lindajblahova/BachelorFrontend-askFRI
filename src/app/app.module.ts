@@ -20,7 +20,8 @@ import { CreatePollComponent } from './components/poll/create-poll/create-poll.c
 import { QuestionsComponent } from './components/poll/questions/questions.component';
 import { AnswersComponent } from './components/poll/questions/answers/answers.component';
 import { AnswerQuestionComponent } from './components/poll/questions/answer-question/answer-question.component';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MaterialModule} from './material/material.module';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,9 @@ import { AnswerQuestionComponent } from './components/poll/questions/answer-ques
         AppRoutingModule,
         HttpClientModule,
         ReactiveFormsModule,
-        FormsModule
+        FormsModule,
+        BrowserAnimationsModule,
+        MaterialModule
     ],
   providers: [],
   bootstrap: [AppComponent]

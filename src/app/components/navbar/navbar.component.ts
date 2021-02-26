@@ -20,9 +20,4 @@ export class NavbarComponent implements OnInit {
   goRegister(): void {
     this.router.navigate(['/register']);
   }
-
-  goParticipant(): void {
-    this.router.navigate(['/participant-rooms', 1]);
-  }
-
 }

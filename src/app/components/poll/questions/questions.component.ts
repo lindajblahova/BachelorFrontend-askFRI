@@ -1,9 +1,9 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {IRoom} from '../../../interfaces/IRoom';
 import {ActivatedRoute, ParamMap, Router} from '@angular/router';
 import {QuestionService} from '../../../services/question.service';
-import {IQuestion} from '../../../interfaces/IQuestion';
-import {element} from 'protractor';
+import {AnswerQuestionComponent} from './answer-question/answer-question.component';
+import {FormBuilder} from '@angular/forms';
 
 @Component({
   selector: 'app-questions',
@@ -16,9 +16,9 @@ export class QuestionsComponent implements OnInit {
   roomId;
   questions = [];
   question ;
-  questionClicked: IQuestion;
   displayedAnswersPublic = [];
   displayedAnswers = [];
+
   constructor( private route: ActivatedRoute, private questionService: QuestionService) { }
 
   ngOnInit(): void {
@@ -34,10 +34,6 @@ export class QuestionsComponent implements OnInit {
 
   showAnswers(id: number): void {
     this.displayedAnswers[id] = !this.displayedAnswers[id];
-  }
-
-  onClick(question: IQuestion): void {
-    this.questionClicked = question;
   }
 
   displayQuestionPublic(id: number): void {

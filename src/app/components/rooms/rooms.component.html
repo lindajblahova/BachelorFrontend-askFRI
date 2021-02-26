@@ -2,20 +2,40 @@
   <div class="row">
     <div class="col-12">
       <hr class="my-2">
-      <h1 class="display-4">Prehľad</h1>
+      <h1 class="mat-display-2 mt-3 mb-1 text-dark">Prehľad</h1>
       <hr class="my-2">
     </div>
     <div class="col-12">
       <div *ngFor="let room of rooms">
         <ul class="list-group">
-          <a class="text-secondary " style="text-decoration: none">
-            <li  class="list-group-item d-flex bg-light border-secondary mt-2 mb-2 display-6" (click)="onClick(room.idRoom)">
-              {{ room.roomName }}
+            <li class="list-group-item p-0 m-2">
+              <mat-accordion>
+                <mat-expansion-panel>
+                  <mat-expansion-panel-header>
+                    <mat-panel-title class="d-flex justify-content-between">
+                      <div>
+                        {{ room.roomName }}
+                      </div>
+                      <div class="float-right">
+                     | {{ room.roomPasscode }}
+                      </div>
+                    </mat-panel-title>
+                  </mat-expansion-panel-header>
+                  <hr class="mt-0">
+                  <p><b>Details</b></p>
+                  <p>Creation date:</p>
+                  <p>Messages:</p>
+                  <p>Questions:</p>
+                  <mat-action-row class="d-flex justify-content-between">
+                      <button mat-raised-button class="float-left bg-warning" (click)="enterRoom(room.idRoom)">Room</button>
+                      <button mat-raised-button class="float-right bg-danger mr-4">Delete</button>
+                  </mat-action-row>
+                </mat-expansion-panel>
+              </mat-accordion>
             </li>
-          </a>
           <div *ngIf="showActions && room.idRoom == clickedId">
-            <button class="btn btn-warning float-left" (click)="enterRoom()"><i class="fas fa-door-open"></i></button>
-            <button class="btn btn-light float-left ml-2" (click)="cancel()"><i class="fas fa-times"></i></button>
+            <button class="btn bg-warning float-left" (click)="enterRoom(room.idRoom)"><i class="fas fa-door-open"></i></button>
+            <button class="btn bg-light float-left ml-2" (click)="cancel()"><i class="fas fa-times"></i></button>
             <button class="btn btn-danger float-right" ><i class="far fa-trash-alt"></i></button>
           </div>
         </ul>
