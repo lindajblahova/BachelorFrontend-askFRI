@@ -70,5 +70,83 @@
     "idQuestion": 7,
     "type": 0,
     "content": "No"
+  },
+  {
+    "idAnswer": 12,
+    "idQuestion": 6,
+    "type": 0,
+    "content": "10"
+  },
+  {
+    "idAnswer": 13,
+    "idQuestion": 6,
+    "type": 0,
+    "content": "5"
+  },
+  {
+    "idAnswer": 14,
+    "idQuestion": 6,
+    "type": 0,
+    "content": "0"
+  },
+  {
+    "idAnswer": 15,
+    "idQuestion": 1,
+    "type": 0,
+    "content": "Second answer"
+  },
+  {
+    "idAnswer": 16,
+    "idQuestion": 1,
+    "type": 0,
+    "content": "Second answer"
+  },
+  {
+    "idAnswer": 17,
+    "idQuestion": 1,
+    "type": 0,
+    "content": "Second answer"
+  },
+  {
+    "idAnswer": 18,
+    "idQuestion": 1,
+    "type": 0,
+    "content": "Second answer"
+  },
+  {
+    "idAnswer": 19,
+    "idQuestion": 1,
+    "type": 0,
+    "content": "Second answer"
+  },
+  {
+    "idAnswer": 20,
+    "idQuestion": 1,
+    "type": 0,
+    "content": "Second answer"
+  },
+  {
+    "idAnswer": 21,
+    "idQuestion": 1,
+    "type": 0,
+    "content": "Second answer"
+  },
+  {
+    "idAnswer": 22,
+    "idQuestion": 1,
+    "type": 0,
+    "content": "Second answer"
+  },
+  {
+    "idAnswer": 23,
+    "idQuestion": 1,
+    "type": 0,
+    "content": "Second answer"
+  },
+  {
+    "idAnswer": 24,
+    "idQuestion": 1,
+    "type": 0,
+    "content": "Second answer"
   }
 ]

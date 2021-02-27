@@ -15,6 +15,8 @@ export class AnswersComponent implements OnInit {
   @Input() color: string;
   answers = [];
   answersCount: number;
+  sliderA;
+  sliderNumbers;
 
   constructor(private answerService: AnswerService) {
   }
@@ -30,6 +32,24 @@ export class AnswersComponent implements OnInit {
           this.answersCount += 1;
         }
       });
+  }
+
+  showCountSlider(answerPar: number): void {
+    this.answersCount = 0;
+    this.answers.filter(element => {
+      if (element.content === '' + answerPar) {
+        this.answersCount += 1;
+      }
+    });
+  }
+
+  sliderAnswers(): number[]{
+     this.sliderA = (this.question.optionalAnswers[1] - this.question.optionalAnswers[0]) / this.question.optionalAnswers[2];
+     this.sliderNumbers = Array();
+     for (let i = 0; i <= this.sliderA; i++) {
+       this.sliderNumbers.push(i * this.question.optionalAnswers[2]);
+    }
+     return this.sliderNumbers;
   }
 
   getBackgroundColor(id: string): string {

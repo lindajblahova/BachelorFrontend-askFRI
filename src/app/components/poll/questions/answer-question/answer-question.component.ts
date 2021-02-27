@@ -13,6 +13,7 @@ export class AnswerQuestionComponent implements OnInit {
   @Input() author;
   @Input() color: string;
   answers = [];
+  sliderValue = 0;
   myForm = this.formBuilder.group({
     content:  ['']
   });

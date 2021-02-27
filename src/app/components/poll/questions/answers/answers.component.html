@@ -1,7 +1,8 @@
 <div *ngIf="question.type==0">
   <div>
-    <ul class="list-group" *ngFor="let answer of answers">
-      <div *ngIf="author==true">
+    <cdk-virtual-scroll-viewport itemSize="">
+      <ul class="list-group" *cdkVirtualFor="let answer of answers">
+        <div *ngIf="author==true">
           <mat-card class="m-2" [style.background-color]="getBackgroundColor(color+1)">
             <mat-card-content class="d-flex">
               <div>
@@ -9,11 +10,12 @@
               </div>
             </mat-card-content>
           </mat-card>
-      </div>
-    </ul>
+        </div>
+      </ul>
+    </cdk-virtual-scroll-viewport>
   </div>
 </div>
-<div *ngIf="question.type!=0">
+<div *ngIf="question.type==1 || question.type==2">
   <div>
     <ul class="list-group" *ngFor="let answer of question.optionalAnswers">
       <div *ngIf="author==true">
@@ -32,6 +34,29 @@
             </div>
           </div>
         </div>
+    </ul>
+  </div>
+</div>
+
+<div *ngIf="question.type==3">
+  <div>
+    <ul class="list-group" *ngFor="let num of sliderAnswers()">
+      {{showCountSlider(num)}}
+      <div *ngIf="author==true && answersCount!=0">
+        <mat-card class="m-2" [style.background-color]="getBackgroundColor(color+1)">
+          <mat-card-content class="d-flex justify-content-between">
+            <div>
+              {{ num }}
+            </div>
+            <div><b>{{ answersCount }}</b></div>
+          </mat-card-content>
+        </mat-card>
+        <div class="ml-2 mr-2">
+          <div [style.width.%]="(answersCount / answers.length)*100" class="bg-warning">
+            {{(answersCount / answers.length) | percent}}
+          </div>
+        </div>
+      </div>
     </ul>
   </div>
 </div>

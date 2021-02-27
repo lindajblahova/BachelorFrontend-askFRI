@@ -21,6 +21,7 @@ import { QuestionsComponent } from './components/poll/questions/questions.compon
 import { AnswersComponent } from './components/poll/questions/answers/answers.component';
 import { AnswerQuestionComponent } from './components/poll/questions/answer-question/answer-question.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {ScrollingModule} from '@angular/cdk/scrolling';
 import { MaterialModule} from './material/material.module';
 
 @NgModule({
@@ -49,7 +50,8 @@ import { MaterialModule} from './material/material.module';
         ReactiveFormsModule,
         FormsModule,
         BrowserAnimationsModule,
-        MaterialModule
+        MaterialModule,
+        ScrollingModule
     ],
   providers: [],
   bootstrap: [AppComponent]

@@ -21,7 +21,7 @@ export class MessagesComponent implements OnInit {
   errorMsg;
   like = false;
   clickedId;
-  @Input() author = false;
+  @Input() author;
 
   newMessageForm = this.formBuilder.group({
     content: ''

@@ -42,9 +42,9 @@
   {
     "idQuestion": 6,
     "idRoom": 1,
-    "type": 1,
-    "content": "This is question with radio answers",
-    "optionalAnswers": ["No","Yes","Maybe"],
+    "type": 3,
+    "content": "This is slider question",
+    "optionalAnswers": ["0","10","1"],
     "displayed": true
   },
   {
@@ -52,7 +52,7 @@
     "idRoom": 1,
     "type": 1,
     "content": "This is question with radio answers",
-    "optionalAnswers": ["No","Yes","Maybe"],
+    "optionalAnswers": ["No","Yes","Maybe", "Sure"],
     "displayed": true
   }
 ]

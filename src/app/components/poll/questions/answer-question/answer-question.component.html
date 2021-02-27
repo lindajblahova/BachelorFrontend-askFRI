@@ -5,7 +5,7 @@
           <form [formGroup]="myForm" (change)="onSubmit()">
             <div class="row">
               <div class="col-12">
-                <mat-form-field class="full-width-form mt-2 mb-0">
+                <mat-form-field  color="accent" class="full-width-form mt-2 mb-0">
                   <mat-label>Odpoveď</mat-label>
                   <textarea matInput type="text" formControlName="content"
                             placeholder="Napíšte niečo..." ></textarea>
@@ -15,19 +15,6 @@
           </form>
       </li>
     </ul>
-</div>
-
-<div *ngIf="question.type==2 && author==false">
-        <form>
-
-          <mat-card class="m-2" [style.background-color]="getBackgroundColor(color+1)">
-            <mat-card-content>
-              <section class="example-section">
-              <mat-checkbox *ngFor="let answer of question.optionalAnswers;" class="ml-1 mt-1 d-flex" value="{{ answer }}">{{ answer }}</mat-checkbox>
-              </section>
-            </mat-card-content>
-          </mat-card>
-        </form>
 </div>
 
 <div *ngIf="question.type==1 && author==false">
@@ -41,4 +28,34 @@
           </mat-card>
         </form>
 </div>
+
+<div *ngIf="question.type==2 && author==false">
+  <form>
+    <mat-card class="m-2" [style.background-color]="getBackgroundColor(color+1)">
+      <mat-card-content>
+        <section class="example-section">
+          <mat-checkbox *ngFor="let answer of question.optionalAnswers;" class="ml-1 mt-1 d-flex" value="{{ answer }}">{{ answer }}</mat-checkbox>
+        </section>
+      </mat-card-content>
+    </mat-card>
+  </form>
+</div>
+
+<div *ngIf="question.type==3 && author==false">
+  <form>
+    <mat-card class="m-2" [style.background-color]="getBackgroundColor(color+1)">
+      <mat-card-content>
+        <mat-slider class="full-width-form"
+          [max]="question.optionalAnswers[1]"
+          [min]="question.optionalAnswers[0]"
+          [step]="question.optionalAnswers[2]"
+          [thumbLabel]="true"
+          [(value)]="sliderValue">
+        </mat-slider>
+      </mat-card-content>
+    </mat-card>
+  </form>
+</div>
+
+
 <button *ngIf="author==false" type="submit" mat-raised-button class="bg-warning m-3">Odoslať</button>

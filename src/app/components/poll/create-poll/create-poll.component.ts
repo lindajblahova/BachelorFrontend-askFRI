@@ -4,6 +4,12 @@ import {FormBuilder} from '@angular/forms';
 import {RoomService} from '../../../services/room.service';
 import {QuestionService} from '../../../services/question.service';
 import {IRoom} from '../../../interfaces/IRoom';
+import {COMMA, ENTER} from '@angular/cdk/keycodes';
+import {MatChipInputEvent} from '@angular/material/chips';
+
+export interface OptionalAnswer {
+  name: string;
+}
 
 @Component({
   selector: 'app-create-poll',
@@ -14,14 +20,24 @@ export class CreatePollComponent implements OnInit {
 
   @Input() room: IRoom;
   selectedType = -1;
+
+  max = 100;
+  min = 0;
+  step = 1;
+  value = 0;
+
   createQuestionForm = this.formBuilder.group({
     questionType: '',
     content: ''
   });
-  minVal = '0';
-  maxVal = '10';
-  value = '10';
-  optionalAnswers = [{value: ''}];
+
+  selectable = true;
+  removable = true;
+  addOnBlur = true;
+  readonly separatorKeysCodes: number[] = [ENTER];
+  optionalAnswers: OptionalAnswer[] = [
+  ];
+
 
   constructor( private questionService: QuestionService, private formBuilder: FormBuilder, private router: Router) { }
 
@@ -35,19 +51,29 @@ export class CreatePollComponent implements OnInit {
     this.createQuestionForm.reset();
     this.router.navigate(['/rooms', this.room.idRoom]);
   }
-
-  selected(value: string): void{
-    this.selectedType = Number(value);
-    console.log(this.selectedType);
+  select(type: number): void{
+    this.selectedType = type;
   }
 
-  addAnswer(): void {
-    this.optionalAnswers.push({value: ''});
+  add(event: MatChipInputEvent): void {
+    const input = event.input;
+    const value = event.value;
+
+    if ((value || '').trim()) {
+      this.optionalAnswers.push({name: value.trim()});
+    }
+
+    if (input) {
+      input.value = '';
+    }
   }
 
-  deleteAnswer(): void {
-    this.optionalAnswers.pop();
-  }
+  remove(fruit: OptionalAnswer): void {
+    const index = this.optionalAnswers.indexOf(fruit);
 
+    if (index >= 0) {
+      this.optionalAnswers.splice(index, 1);
+    }
+  }
 
 }
