@@ -12,6 +12,46 @@
   margin: 0px;
 }
 
+button:focus{
+  outline: none;
+}
+
+.myButton {
+  width: 15px;
+  height: 15px;
+}
+
+.myIcon {
+  font-size: 10px;
+  margin-top: -12px;
+  margin-left: -5px;
+}
+
+@media screen and (max-width: 800px) {
+  mat-card-content {
+    font-size: smaller;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  mat-card-content {
+    font-size: small;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  mat-card-content{
+    font-size: x-small;
+  }
+}
+
+@media screen and (max-width: 300px) {
+  mat-card-content {
+    font-size: xx-small;
+  }
+}
+
+
 ul:nth-child(5n+1) mat-card {
   background-color: rgba(83,179,255,0.8);
 }

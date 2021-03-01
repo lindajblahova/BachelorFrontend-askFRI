@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 
 @Component({
@@ -8,6 +8,9 @@ import {Router} from '@angular/router';
 })
 export class NavbarComponent implements OnInit {
 
+  @Input() participant;  // 0 = register + login, 1 = participant room, 2 = log out
+  @Input() room?;
+  isOpened = false;
   constructor(private router: Router) { }
 
   ngOnInit(): void {
@@ -19,5 +22,9 @@ export class NavbarComponent implements OnInit {
 
   goRegister(): void {
     this.router.navigate(['/register']);
+  }
+
+  goLogOut(): void {
+    this.router.navigate(['/']);
   }
 }

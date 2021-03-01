@@ -1,11 +1,11 @@
 <div class="container bg-light text-center">
   <div class="row">
-    <div class="col-12">
+    <div class="col-lg-12">
       <hr class="my-2">
       <h1 class="mat-display-2 mt-3 mb-1 text-dark">Prehľad</h1>
       <hr class="my-2">
     </div>
-    <div class="col-12">
+    <div class="col-lg-12">
       <div *ngFor="let room of rooms">
         <ul class="list-group">
             <li class="list-group-item p-0 m-2">
@@ -16,7 +16,7 @@
                       <div>
                         {{ room.roomName }}
                       </div>
-                      <div class="float-right">
+                      <div class="passcode">
                      | {{ room.roomPasscode }}
                       </div>
                     </mat-panel-title>
@@ -27,8 +27,8 @@
                   <p>Messages:</p>
                   <p>Questions:</p>
                   <mat-action-row class="d-flex justify-content-between">
-                      <button mat-raised-button class="float-left bg-warning" (click)="enterRoom(room.idRoom)">Room</button>
-                      <button mat-raised-button class="float-right bg-danger mr-4">Delete</button>
+                      <button mat-raised-button class="float-left bg-warning" (click)="enterRoom(room.idRoom)">Vstúpiť</button>
+                      <button mat-raised-button class="float-right bg-danger mr-4">Vymazať</button>
                   </mat-action-row>
                 </mat-expansion-panel>
               </mat-accordion>

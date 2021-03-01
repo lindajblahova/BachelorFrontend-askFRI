@@ -8,6 +8,14 @@
   width: 100%;
 }
 
+button:focus{
+  outline: none;
+}
+
+button:focus{
+  outline: none;
+}
+
 @media screen and (max-width: 992px) {
 
   .my-form-container {

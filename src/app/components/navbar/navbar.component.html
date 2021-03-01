@@ -1,11 +1,32 @@
-<nav class="sticky-top">
-<mat-toolbar class="bg-warning text-white d-flex justify-content-between">
-    <div class="row">
-      <a routerLink="/" class="text-white ml-3">askFRI</a>
+<mat-sidenav-container>
+  <mat-sidenav [(opened)]="isOpened" class="bg-warning" position="end">
+    <div *ngIf="isOpened" class="align-middle">
+      <h2 class="text-white mt-0 mb-0 ml-3 mr-3">
+        {{room.roomName}}
+      </h2>
+      <h2 class="text-white mt-0 mb-0 ml-3 mr-3">
+        {{room.roomPasscode}}
+      </h2>
     </div>
-    <div class="row">
-      <a (click)="goLogIn()" class="mr-3">Login</a>
-      <a (click)="goRegister()" class="mr-3">Register</a>
-    </div>
-</mat-toolbar>
-</nav>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <nav class="sticky-top">
+      <mat-toolbar class="bg-warning text-white d-flex justify-content-between">
+        <div>
+          <a routerLink="/" class="text-white ml-3">askFRI</a>
+        </div>
+        <div *ngIf="participant==0">
+          <a (click)="goLogIn()" class="mr-3">Login</a>
+          <a (click)="goRegister()" class="mr-3">Register</a>
+        </div>
+        <div *ngIf="participant==1">
+          <a class="mr-3" (click)="isOpened=!isOpened">Info</a>
+        </div>
+        <div *ngIf="participant==2">
+          <a class="mr-3" (click)="isOpened=!isOpened">Info</a>
+          <a (click)="goLogOut()" class="mr-3">Logout</a>
+        </div>
+      </mat-toolbar>
+    </nav>
+  </mat-sidenav-content>
+</mat-sidenav-container>

@@ -1,4 +1,4 @@
-<app-navbar></app-navbar>
+<app-navbar [participant]="0" ></app-navbar>
 {{errorMsg}}
 <div class="container bg-light text-center">
   <div class="row">
@@ -14,7 +14,7 @@
         <div class=" d-flex justify-content-center">
           <div class="container my-form-container">
             <mat-form-field class="full-width-form mt-2"  color="accent">
-            <mat-label  >Zadajte prístupový kód</mat-label>
+            <mat-label >Zadajte prístupový kód</mat-label>
             <input matInput formControlName="passcode"
                      placeholder="napr. 12101998">
             </mat-form-field>

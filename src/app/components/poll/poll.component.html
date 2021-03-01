@@ -1,6 +1,6 @@
 <div class="container bg-light text-center">
   <div class="row">
-    <div class="col-12">
+    <div class="col-lg-12">
       <section>
         <mat-button-toggle-group  *ngIf="author==true" class="mt-3" value="all" >
           <mat-button-toggle (click)="newQuestion()" value="new"><i class="fas fa-plus"></i> Otázka</mat-button-toggle>
@@ -8,7 +8,7 @@
         </mat-button-toggle-group>
       </section>
     </div>
-    <div class="col-12">
+    <div class="col-lg-12">
       <div *ngIf="displayed=='question' && author==true">
         <app-create-poll (submit)="showQuestions()"></app-create-poll>
       </div>

@@ -13,6 +13,10 @@
   width: 100%;
 }
 
+button:focus{
+  outline: none;
+}
+
 @media screen and (max-width: 1205px) {
   .container {
     width: 60%;

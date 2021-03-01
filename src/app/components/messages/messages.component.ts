@@ -19,8 +19,8 @@ export class MessagesComponent implements OnInit {
   roomId;
   messages = [];
   errorMsg;
-  like = false;
-  clickedId;
+  likes;
+  val = 'x';
   @Input() author;
 
   newMessageForm = this.formBuilder.group({
@@ -36,6 +36,7 @@ export class MessagesComponent implements OnInit {
     });
 
     this.messageService.getRoomMessages(this.roomId).subscribe(data => this.messages = data);
+    this.likes = new Array(this.messages.length).fill(false);
   }
 
   onSubmit(): void {
@@ -50,8 +51,12 @@ export class MessagesComponent implements OnInit {
 
   }
 
-  onClick(idMessage): void {
-    this.like = !this.like;
-    this.clickedId = idMessage;
+  likeMessage(idMessage: number): void {
+    this.likes[idMessage] = !this.likes[idMessage];
   }
+
+  deleteMessage(idMessage: number): void {
+    console.warn(idMessage);
+  }
+
 }

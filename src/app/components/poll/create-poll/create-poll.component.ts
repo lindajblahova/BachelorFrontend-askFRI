@@ -49,7 +49,7 @@ export class CreatePollComponent implements OnInit {
     // this.createQuestionForm.get('content').value);
     console.log(this.createQuestionForm.get('questionType').value, this.createQuestionForm.get('content').value);
     this.createQuestionForm.reset();
-    this.router.navigate(['/rooms', this.room.idRoom]);
+    // this.router.navigate(['/rooms', this.room.idRoom]);
   }
   select(type: number): void{
     this.selectedType = type;

@@ -13,3 +13,28 @@ ul:nth-child(5n+4) mat-expansion-panel {
 ul:nth-child(5n+5) mat-expansion-panel {
   background-color: rgba(112,234,80,0.3);
 }
+
+
+@media screen and (max-width: 800px) {
+  mat-panel-title, mat-checkbox {
+    font-size: smaller;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  mat-panel-title, mat-checkbox {
+    font-size: small;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  mat-panel-title, mat-checkbox {
+    font-size: x-small;
+  }
+}
+
+@media screen and (max-width: 300px) {
+  mat-panel-title, mat-checkbox {
+    font-size: xx-small;
+  }
+}
