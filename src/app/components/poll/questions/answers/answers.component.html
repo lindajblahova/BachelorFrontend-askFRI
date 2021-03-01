@@ -28,12 +28,11 @@
                 <div><b>{{ answersCount }}</b></div>
               </mat-card-content>
             </mat-card>
-          <div class="ml-2 mr-2">
-            <div [style.width.%]="(answersCount / answers.length)*100" class="bg-warning">
-              {{(answersCount / answers.length) | percent}}
-            </div>
-          </div>
+        <div class="progress ml-2 mr-2">
+          <div class="progress-bar bg-warning" role="progressbar"
+               [style.width.%]="(answersCount / answers.length)*100" >{{(answersCount / answers.length) | percent}}</div>
         </div>
+      </div>
     </ul>
   </div>
 </div>
@@ -51,10 +50,9 @@
             <div><b>{{ answersCount }}</b></div>
           </mat-card-content>
         </mat-card>
-        <div class="ml-2 mr-2">
-          <div [style.width.%]="(answersCount / answers.length)*100" class="bg-warning">
-            {{(answersCount / answers.length) | percent}}
-          </div>
+        <div class="progress ml-2 mr-2">
+          <div class="progress-bar bg-warning" role="progressbar"
+               [style.width.%]="(answersCount / answers.length)*100" >{{(answersCount / answers.length) | percent}}</div>
         </div>
       </div>
     </ul>
