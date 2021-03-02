@@ -26,6 +26,13 @@ export class UserService {
     );
   }
 
+  getUserById(id: number): Observable<IUser>{
+    console.log(id);
+    return this.getUsers().pipe(
+      map(findU => findU.find(user => user.idUser === id))
+    );
+  }
+
   deleteRoom(roomId): void {
   }
 

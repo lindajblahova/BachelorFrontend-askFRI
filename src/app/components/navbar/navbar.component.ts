@@ -10,6 +10,7 @@ export class NavbarComponent implements OnInit {
 
   @Input() participant;  // 0 = register + login, 1 = participant room, 2 = log out
   @Input() room?;
+  @Input() userId?;
   isOpened = false;
   constructor(private router: Router) { }
 
@@ -26,5 +27,17 @@ export class NavbarComponent implements OnInit {
 
   goLogOut(): void {
     this.router.navigate(['/']);
+  }
+
+  goHome(): void {
+    if (this.room != null) {
+      this.router.navigate(['/home', this.room.idOwner]);
+    } else {
+      this.router.navigate(['/home', this.userId]);
+    }
+  }
+
+  goProfile(): void {
+    this.router.navigate(['/profile', this.userId]);
   }
 }

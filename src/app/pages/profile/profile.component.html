@@ -1,0 +1,75 @@
+<app-navbar [participant]="2" [userId]="userId"></app-navbar>
+
+<div class="container bg-light text-center">
+  <div class="row">
+    <div class="col-lg-12">
+      <hr class="my-2">
+      <h1 class="mat-display-2 mt-3 mb-1 text-dark">Profil</h1>
+      <hr class="my-2">
+    </div>
+    <div class="col-lg-12">
+      <mat-card class="m-2" *ngIf="userData!=null">
+        <mat-card-header>
+          <div mat-card-avatar><mat-icon>face</mat-icon></div>
+          <mat-card-title>{{ userData.firstname}} {{ userData.surname}}</mat-card-title>
+          <mat-card-subtitle>{{ userData.email}}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-actions class="d-flex justify-content-between">
+          <button mat-button (click)="isHidden=!isHidden">Zmeniť heslo</button>
+          <button mat-button (click)="openDialog()">Vymazať účet</button>
+        </mat-card-actions>
+      </mat-card>
+
+      <mat-vertical-stepper [linear]="true" class="m-2" color="accent" [hidden]="isHidden">
+        <mat-step [stepControl]="firstFormGroup">
+          <form [formGroup]="firstFormGroup" class="d-flex align-content-start">
+            <div>
+              <ng-template matStepLabel>Zadajte aktuálne heslo</ng-template>
+              <mat-form-field>
+                <mat-label>Staré heslo</mat-label>
+                <input matInput placeholder="********" formControlName="oldPassword" required>
+              </mat-form-field>
+              <div>
+                <button mat-button matStepperNext>Ďalej</button>
+              </div>
+            </div>
+          </form>
+        </mat-step>
+        <mat-step [stepControl]="secondFormGroup" label="Zadajte nové heslo">
+          <form [formGroup]="secondFormGroup"  class="d-flex align-content-start">
+            <div>
+              <mat-form-field>
+                <mat-label>Nové heslo</mat-label>
+                <input matInput formControlName="newPassword" placeholder="********"
+                       required>
+              </mat-form-field>
+              <div>
+                <button mat-button matStepperPrevious>Späť</button>
+                <button mat-button matStepperNext>Ďalej</button>
+              </div>
+            </div>
+          </form>
+        </mat-step>
+        <mat-step [stepControl]="thirdFormGroup" label="Zopakujte nové heslo">
+          <form [formGroup]="thirdFormGroup"  class="d-flex align-content-start">
+            <div>
+              <mat-form-field>
+                <ng-template matStepLabel>Kontrola</ng-template>
+                <mat-label>Nové heslo</mat-label>
+                <input matInput formControlName="newPasswordConfirm" placeholder="********"
+                       required>
+              </mat-form-field>
+              <div>
+                <button mat-button matStepperPrevious>Späť</button>
+                <button mat-button matStepperNext>Zmeniť</button>
+              </div>
+            </div>
+          </form>
+        </mat-step>
+      </mat-vertical-stepper>
+
+    </div>
+  </div>
+</div>
+
+

@@ -14,13 +14,18 @@ export class AnswerQuestionComponent implements OnInit {
   @Input() color: string;
   answers = [];
   sliderValue = 0;
-  myForm = this.formBuilder.group({
+  radioForm;
+  checkForm = [];
+  checkFormChecked;
+  answerForm = this.formBuilder.group({
     content:  ['']
   });
+
   constructor(private answerService: AnswerService, private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
     this.answerService.getQuestionAnswers(this.question.idQuestion).subscribe(data => this.answers = data);
+    this.checkFormChecked = new Array(this.answers.length).fill(false);
   }
 
   getBackgroundColor(id: string): string {
@@ -46,7 +51,15 @@ export class AnswerQuestionComponent implements OnInit {
   }
 
   onSubmit(): void {
-    console.log(this.myForm.get('content').value);
+      console.log(this.answerForm.value);
+  }
+
+  onSubmitRadio(): void {
+    console.log(this.radioForm);
+  }
+
+  onSubmitCheck(): void {
+    console.log(this.checkFormChecked);
   }
 
 }

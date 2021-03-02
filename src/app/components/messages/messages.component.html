@@ -25,7 +25,7 @@
               {{ message.content }}
             </div>
             <div>
-              <button mat-icon-button type="button" style="color: black" (click)="likeMessage(message.idMessage)">
+              <button mat-icon-button type="button" style="color: white" (click)="likeMessage(message.idMessage)">
                 <i *ngIf="likes[message.idMessage]!=true" class="far fa-heart"></i>
                 <i *ngIf="likes[message.idMessage]==true" class="fas fa-heart"></i>
                 {{ message.likesCount }}

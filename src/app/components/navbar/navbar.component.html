@@ -1,32 +1,41 @@
-<mat-sidenav-container>
-  <mat-sidenav [(opened)]="isOpened" class="bg-warning" position="end">
-    <div *ngIf="isOpened" class="align-middle">
-      <h2 class="text-white mt-0 mb-0 ml-3 mr-3">
+<mat-sidenav-container class="align-middle">
+  <mat-sidenav [(opened)]="isOpened" class="bg-warning nav-link align-middle" position="start" mode="push" *ngIf="isOpened">
+      <p class="text-white h6 font-weight-light mt-0 mb-0 ml-3 mr-3">
         {{room.roomName}}
-      </h2>
-      <h2 class="text-white mt-0 mb-0 ml-3 mr-3">
+      </p>
+      <p class="text-white h6 font-weight-light mt-0 mb-0 ml-3 mr-3">
         {{room.roomPasscode}}
-      </h2>
-    </div>
+      </p>
   </mat-sidenav>
   <mat-sidenav-content>
-    <nav class="sticky-top">
-      <mat-toolbar class="bg-warning text-white d-flex justify-content-between">
-        <div>
-          <a routerLink="/" class="text-white ml-3">askFRI</a>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-warning sticky-top">
+        <a routerLink="/" class="text-white h3 font-weight-light m-0 mr-2">askFRI</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+          <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+            <li class="nav-item" *ngIf="participant==0">
+              <a class="nav-link h5 font-weight-light m-0" (click)="goLogIn()">Prihlásiť</a>
+            </li>
+            <li class="nav-item" *ngIf="participant==0">
+              <a class="nav-link h5 font-weight-light m-0"  (click)="goRegister()">Registrovať</a>
+            </li>
+            <li class="nav-item" *ngIf="participant==1 || participant==3">
+              <a class="nav-link h5 font-weight-light m-0"  (click)="isOpened=!isOpened">Info</a>
+            </li>
+            <li class="nav-item" *ngIf="participant==2 || participant==3">
+              <a class="nav-link h5 font-weight-light m-0"  (click)="goHome()">Prehľad</a>
+            </li>
+            <li class="nav-item" *ngIf="participant==2">
+              <a class="nav-link h5 font-weight-light m-0"  (click)="goProfile()">Profil</a>
+            </li>
+            <li class="nav-item" *ngIf="participant==2 || participant==3">
+              <a class="nav-link h5 font-weight-light m-0"  (click)="goLogOut()">Odhlásiť</a>
+            </li>
+          </ul>
         </div>
-        <div *ngIf="participant==0">
-          <a (click)="goLogIn()" class="mr-3">Login</a>
-          <a (click)="goRegister()" class="mr-3">Register</a>
-        </div>
-        <div *ngIf="participant==1">
-          <a class="mr-3" (click)="isOpened=!isOpened">Info</a>
-        </div>
-        <div *ngIf="participant==2">
-          <a class="mr-3" (click)="isOpened=!isOpened">Info</a>
-          <a (click)="goLogOut()" class="mr-3">Logout</a>
-        </div>
-      </mat-toolbar>
     </nav>
   </mat-sidenav-content>
 </mat-sidenav-container>
+

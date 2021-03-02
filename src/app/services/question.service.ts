@@ -28,7 +28,7 @@ export class QuestionService {
 
   displayQuestion(id: number): void {
     this.getQuestions().pipe(
-      map(findQ => findQ.find(question => question.idRoom === id).displayed = true)
+      map(findQ => findQ.find(question => question.idQuestion === id).displayedQuestion = true)
     );
   }
 

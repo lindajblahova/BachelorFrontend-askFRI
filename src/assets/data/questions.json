@@ -5,7 +5,8 @@
     "type": 2,
     "content": "This is question with optional answers",
     "optionalAnswers": ["No","Yes","Maybe"],
-    "displayed": true
+    "displayedQuestion": true,
+    "displayedAnswers": true
   },
   {
     "idQuestion": 3,
@@ -13,7 +14,8 @@
     "type": 0,
     "content": "This is the last question",
     "optionalAnswers": [],
-    "displayed": false
+    "displayedQuestion": false,
+    "displayedAnswers": false
   },
   {
     "idQuestion": 4,
@@ -21,7 +23,8 @@
     "type": 1,
     "content": "This is question with radio answers",
     "optionalAnswers": ["No","Yes","Maybe"],
-    "displayed": true
+    "displayedQuestion": true,
+    "displayedAnswers": false
   },
   {
     "idQuestion": 5,
@@ -29,7 +32,8 @@
     "type": 1,
     "content": "This is question with radio answers",
     "optionalAnswers": ["No","Yes","Maybe"],
-    "displayed": true
+    "displayedQuestion": true,
+    "displayedAnswers": false
   },
   {
     "idQuestion": 1,
@@ -37,7 +41,8 @@
     "type": 0,
     "content": "This is some question",
     "optionalAnswers": [],
-    "displayed": true
+    "displayedQuestion": true,
+    "displayedAnswers": false
   },
   {
     "idQuestion": 6,
@@ -45,7 +50,8 @@
     "type": 3,
     "content": "This is slider question",
     "optionalAnswers": ["0","10","1"],
-    "displayed": true
+    "displayedQuestion": true,
+    "displayedAnswers": false
   },
   {
     "idQuestion": 7,
@@ -53,6 +59,7 @@
     "type": 1,
     "content": "This is question with radio answers",
     "optionalAnswers": ["No","Yes","Maybe", "Sure"],
-    "displayed": true
+    "displayedQuestion": true,
+    "displayedAnswers": false
   }
 ]

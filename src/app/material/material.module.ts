@@ -15,10 +15,12 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatSliderModule} from '@angular/material/slider';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatBadgeModule} from '@angular/material/badge';
+import {MatStepperModule} from '@angular/material/stepper';
+import {MatDialogModule} from '@angular/material/dialog';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 const Material = [
   MatButtonModule,
-  MatToolbarModule,
   MatFormFieldModule,
   MatInputModule,
   MatChipsModule,
@@ -32,7 +34,10 @@ const Material = [
   MatSelectModule,
   MatSliderModule,
   MatSidenavModule,
-  MatBadgeModule
+  MatBadgeModule,
+  MatStepperModule,
+  MatDialogModule,
+  MatSlideToggleModule
 ];
 
 @NgModule({

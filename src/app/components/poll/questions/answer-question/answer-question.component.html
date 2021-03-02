@@ -1,6 +1,6 @@
 <div *ngIf="question.type==0 && author==false">
-  <form [formGroup]="myForm" (change)="onSubmit()">
-    <mat-card class="m-2" [style.background-color]="getBackgroundColor(color+1)">
+  <form [formGroup]="answerForm">
+    <mat-card class="m-2" [style.background-color]="getBackgroundColor(color+1)" (submit)="onSubmit()">
       <mat-card-content>
         <mat-form-field color="accent" class="full-width-form mt-2 mb-0">
           <mat-label>Odpoveď</mat-label>
@@ -9,49 +9,49 @@
         </mat-form-field>
       </mat-card-content>
     </mat-card>
+    <button *ngIf="author==false" type="submit" mat-raised-button class="bg-warning m-3">Odoslať</button>
   </form>
 </div>
 
 <div *ngIf="question.type==1 && author==false">
-  <form>
     <mat-card class="m-2" [style.background-color]="getBackgroundColor(color+1)">
       <mat-card-content>
-        <mat-radio-group>
-          <mat-radio-button *ngFor="let answer of question.optionalAnswers" class="d-flex ml-1 mt-1"
-                            value="{{ answer }}">{{ answer }}</mat-radio-button>
+        <mat-radio-group [(ngModel)]="radioForm">
+            <mat-radio-button *ngFor="let answer of question.optionalAnswers" class="d-flex ml-1 mt-1"
+                              [value]="answer">{{ answer }}</mat-radio-button>
         </mat-radio-group>
       </mat-card-content>
     </mat-card>
-  </form>
+    <button *ngIf="author==false" type="submit" (click)="onSubmitRadio()" mat-raised-button class="bg-warning m-3">Odoslať</button>
 </div>
 
 <div *ngIf="question.type==2 && author==false">
-  <form>
     <mat-card class="m-2" [style.background-color]="getBackgroundColor(color+1)">
       <mat-card-content>
         <section>
-          <mat-checkbox *ngFor="let answer of question.optionalAnswers;" class="ml-1 mt-1 d-flex" value="{{ answer }}">{{ answer }}</mat-checkbox>
+            <mat-checkbox *ngFor="let answer of question.optionalAnswers; let i=index" [(ngModel)]="checkFormChecked[i]"
+                          class="ml-1 mt-1 d-flex" [value]="answer" [checked]="checkFormChecked[i]">{{ answer }}</mat-checkbox>
         </section>
       </mat-card-content>
     </mat-card>
-  </form>
+    <button *ngIf="author==false" type="submit" (click)="onSubmitCheck()" mat-raised-button class="bg-warning m-3">Odoslať</button>
 </div>
 
 <div *ngIf="question.type==3 && author==false">
-  <form>
+  <form [formGroup]="answerForm" (submit)="onSubmit()">
     <mat-card class="m-2" [style.background-color]="getBackgroundColor(color+1)">
       <mat-card-content>
-        <mat-slider class="full-width-form"
-          [max]="question.optionalAnswers[1]"
-          [min]="question.optionalAnswers[0]"
-          [step]="question.optionalAnswers[2]"
-          [thumbLabel]="true"
-          [(value)]="sliderValue">
-        </mat-slider>
+          <mat-slider class="full-width-form"
+                      [max]="question.optionalAnswers[1]"
+                      [min]="question.optionalAnswers[0]"
+                      [step]="question.optionalAnswers[2]"
+                      [thumbLabel]="true"
+                      [(value)]="sliderValue">
+          </mat-slider>
       </mat-card-content>
     </mat-card>
+    <button *ngIf="author==false" type="submit" mat-raised-button class="bg-warning m-3">Odoslať</button>
   </form>
 </div>
 
 
-<button *ngIf="author==false" type="submit" mat-raised-button class="bg-warning m-3">Odoslať</button>

@@ -14,6 +14,9 @@ ul:nth-child(5n+5) mat-expansion-panel {
   background-color: rgba(112,234,80,0.3);
 }
 
+mat-checkbox-layout {
+  margin-bottom: 0px;
+}
 
 @media screen and (max-width: 800px) {
   mat-panel-title, mat-checkbox {

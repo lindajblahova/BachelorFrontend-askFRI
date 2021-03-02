@@ -23,6 +23,8 @@ import { AnswerQuestionComponent } from './components/poll/questions/answer-ques
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {ScrollingModule} from '@angular/cdk/scrolling';
 import { MaterialModule} from './material/material.module';
+import { ProfileComponent } from './pages/profile/profile.component';
+import { DialogDeleteProfileComponent } from './components/dialog/dialog-delete-profile/dialog-delete-profile.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +43,9 @@ import { MaterialModule} from './material/material.module';
     CreatePollComponent,
     QuestionsComponent,
     AnswersComponent,
-    AnswerQuestionComponent
+    AnswerQuestionComponent,
+    ProfileComponent,
+    DialogDeleteProfileComponent
   ],
     imports: [
         BrowserModule,

@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {RoomService} from '../../services/room.service';
 
@@ -10,12 +10,12 @@ import {RoomService} from '../../services/room.service';
 })
 export class EnterRoomComponent implements OnInit {
 
-  room;
-  rooms = [];
-  passcode;
-  errorMsg;
-  passcodeForm = this.formBuilder.group({
-    passcode: '',
+  private room;
+  private rooms = [];
+  private passcode;
+  private errorMsg;
+  private passcodeForm = this.formBuilder.group({
+    passcode: ['', Validators.required],
   });
   constructor(private formBuilder: FormBuilder, private roomService: RoomService,  private router: Router) { }
 
@@ -28,13 +28,21 @@ export class EnterRoomComponent implements OnInit {
   onSubmit(): void {
     if (this.passcodeForm.get('passcode').value !== '') {
       this.passcode = this.passcodeForm.get('passcode').value;
-      console.warn('The submitted code: ', this.passcode);
       this.room = this.rooms.find(room => room.roomPasscode === Number(this.passcode));
-      console.warn('The submitted code: ', this.room);
-      console.warn('The submitted code: ', this.room.idRoom);
       this.passcodeForm.reset();
-      this.router.navigate(['/participant-rooms', this.room.idRoom]);
+      if (this.room !== undefined) {
+        this.router.navigate(['/participant-rooms', this.room.idRoom]);
+      }
     }
-
   }
+
+  getPasscodeForm(): FormGroup {
+    return this.passcodeForm;
+  }
+
+  getErrorMsg(): FormGroup {
+    return this.errorMsg;
+  }
+
+
 }

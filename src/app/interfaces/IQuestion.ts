@@ -4,7 +4,8 @@ export interface IQuestion {
   type: number;
   content: string;
   optionalAnswers: string[];
-  displayed: boolean;
+  displayedQuestion: boolean;
+  displayedAnswers: boolean;
 }
 
 /*
