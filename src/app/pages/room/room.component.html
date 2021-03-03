@@ -2,12 +2,13 @@
 <div class="container">
   <div class="row">
     <div class="col-lg-12">
+      <p>{{errorMsg}}</p>
           <mat-tab-group mat-align-tabs="center" class="bg-light" color="accent">
             <mat-tab label="Konverzácia">
               <app-messages [author]="true" [room]="room"></app-messages>
             </mat-tab>
             <mat-tab label="Ankety">
-              <app-poll [room]="room" [author]="true"></app-poll>
+              <app-poll [author]="true" [room]="room"></app-poll>
             </mat-tab>
           </mat-tab-group>
     </div>

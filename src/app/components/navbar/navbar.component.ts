@@ -8,11 +8,13 @@ import {Router} from '@angular/router';
 })
 export class NavbarComponent implements OnInit {
 
-  @Input() participant;  // 0 = register + login, 1 = participant room, 2 = log out
-  @Input() room?;
-  @Input() userId?;
-  @Input() activeTab?;
-  isOpened = false;
+  private _isOpened = false;
+  /// INPUTS
+  private _participant;  // 0 = register + login, 1 = participant room, 2 = log out
+  private _room?;
+  private _userId?;
+  private _activeTab?;
+
   constructor(private router: Router) { }
 
   ngOnInit(): void {
@@ -31,14 +33,55 @@ export class NavbarComponent implements OnInit {
   }
 
   goHome(): void {
-    if (this.room != null) {
-      this.router.navigate(['/home', this.room.idOwner]);
+    if (this._room != null) {
+      this.router.navigate(['/home', this._room.idOwner]);
     } else {
-      this.router.navigate(['/home', this.userId]);
+      this.router.navigate(['/home', this._userId]);
     }
   }
 
   goProfile(): void {
-    this.router.navigate(['/profile', this.userId]);
+    this.router.navigate(['/profile', this._userId]);
   }
+
+  get isOpened(): boolean {
+    return this._isOpened;
+  }
+
+  set isOpened(value: boolean) {
+    this._isOpened = value;
+  }
+  get activeTab() {
+    return this._activeTab;
+  }
+
+  @Input()
+  set activeTab(value) {
+    this._activeTab = value;
+  }
+  get userId() {
+    return this._userId;
+  }
+
+  @Input()
+  set userId(value) {
+    this._userId = value;
+  }
+  get room() {
+    return this._room;
+  }
+
+  @Input()
+  set room(value) {
+    this._room = value;
+  }
+  get participant() {
+    return this._participant;
+  }
+
+  @Input()
+  set participant(value) {
+    this._participant = value;
+  }
+
 }

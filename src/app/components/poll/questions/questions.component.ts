@@ -12,12 +12,13 @@ import {FormBuilder} from '@angular/forms';
 })
 export class QuestionsComponent implements OnInit {
 
-  @Input() author: boolean;
-  roomId;
-  questions = [];
-  question ;
-  displayedAnswersPublic = [];
-  displayedAnswers = [];
+  private _roomId;
+  private _questions = [];
+  private _displayedAnswersPublic = [];
+  private _displayedAnswers = [];
+
+  /// INPUTS
+  private _author: boolean;
 
   constructor( private route: ActivatedRoute, private questionService: QuestionService) { }
 
@@ -42,6 +43,44 @@ export class QuestionsComponent implements OnInit {
 
   displayAnswersPublic(id: number): void {
     this.displayedAnswersPublic[id] = !this.displayedAnswersPublic[id];
+  }
+
+  /// GETTERS AND SETTERS
+  get author(): boolean {
+    return this._author;
+  }
+
+  @Input()
+  set author(value: boolean) {
+    this._author = value;
+  }
+  get displayedAnswers(): any[] {
+    return this._displayedAnswers;
+  }
+
+  set displayedAnswers(value: any[]) {
+    this._displayedAnswers = value;
+  }
+  get displayedAnswersPublic(): any[] {
+    return this._displayedAnswersPublic;
+  }
+
+  set displayedAnswersPublic(value: any[]) {
+    this._displayedAnswersPublic = value;
+  }
+  get questions(): any[] {
+    return this._questions;
+  }
+
+  set questions(value: any[]) {
+    this._questions = value;
+  }
+  get roomId() {
+    return this._roomId;
+  }
+
+  set roomId(value) {
+    this._roomId = value;
   }
 
 }

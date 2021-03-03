@@ -12,16 +12,16 @@ import {DialogDeleteProfileComponent} from '../../components/dialog/dialog-delet
 })
 export class ProfileComponent implements OnInit {
 
-  userId;
-  userData;
-  isHidden = true;
-  firstFormGroup = this.formBuilder.group({
+  private _userId;
+  private _userData;
+  private _isHidden = true;
+  private _firstFormGroup = this.formBuilder.group({
     oldPassword: ['', Validators.required]
   });
-  secondFormGroup  = this.formBuilder.group({
+  private _secondFormGroup  = this.formBuilder.group({
     newPassword: ['', Validators.required]
   });
-  thirdFormGroup = this.formBuilder.group({
+  private _thirdFormGroup = this.formBuilder.group({
     newPasswordConfirm: ['', Validators.required]
   });
 
@@ -43,6 +43,50 @@ export class ProfileComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
     });
+  }
+
+  /// GETTERS AND SETTERS
+  get thirdFormGroup(): FormGroup {
+    return this._thirdFormGroup;
+  }
+
+  set thirdFormGroup(value: FormGroup) {
+    this._thirdFormGroup = value;
+  }
+  get secondFormGroup(): FormGroup {
+    return this._secondFormGroup;
+  }
+
+  set secondFormGroup(value: FormGroup) {
+    this._secondFormGroup = value;
+  }
+  get firstFormGroup(): FormGroup {
+    return this._firstFormGroup;
+  }
+
+  set firstFormGroup(value: FormGroup) {
+    this._firstFormGroup = value;
+  }
+  get isHidden(): boolean {
+    return this._isHidden;
+  }
+
+  set isHidden(value: boolean) {
+    this._isHidden = value;
+  }
+  get userData() {
+    return this._userData;
+  }
+
+  set userData(value) {
+    this._userData = value;
+  }
+  get userId() {
+    return this._userId;
+  }
+
+  set userId(value) {
+    this._userId = value;
   }
 
 }

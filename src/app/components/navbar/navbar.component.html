@@ -1,10 +1,10 @@
 <mat-sidenav-container class="align-middle" >
   <mat-sidenav [(opened)]="isOpened" class="myNav nav-link align-middle" position="start" mode="push" *ngIf="isOpened">
       <p class="text-white h6 font-weight-light mt-0 mb-0 ml-3 mr-3">
-        {{room.roomName}}
+        {{_room.roomName}}
       </p>
       <p class="text-white h6 font-weight-light mt-0 mb-0 ml-3 mr-3">
-        {{room.roomPasscode}}
+        {{_room.roomPasscode}}
       </p>
   </mat-sidenav>
   <mat-sidenav-content>

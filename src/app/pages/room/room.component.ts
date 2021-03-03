@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ActivatedRoute, ParamMap} from '@angular/router';
 import {RoomService} from '../../services/room.service';
+import {IRoom} from '../../interfaces/IRoom';
 
 @Component({
   selector: 'app-room',
@@ -9,10 +10,11 @@ import {RoomService} from '../../services/room.service';
 })
 export class RoomComponent implements OnInit {
 
-  rooms = [];
-  room;
-  roomId;
-  errorMsg;
+  private _rooms = [];
+  private _room;
+  private _roomId;
+  private _errorMsg;
+
   constructor(private roomService: RoomService, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
@@ -29,4 +31,33 @@ export class RoomComponent implements OnInit {
     this.roomService.findRoom(this.roomId).subscribe(data => this.room = data);
   }
 
+  /// GETTERS AND SETTERS
+  get errorMsg() {
+    return this._errorMsg;
+  }
+
+  set errorMsg(value) {
+    this._errorMsg = value;
+  }
+  get roomId() {
+    return this._roomId;
+  }
+
+  set roomId(value) {
+    this._roomId = value;
+  }
+  get room() {
+    return this._room;
+  }
+
+  set room(value) {
+    this._room = value;
+  }
+  get rooms(): any[] {
+    return this._rooms;
+  }
+
+  set rooms(value: any[]) {
+    this._rooms = value;
+  }
 }

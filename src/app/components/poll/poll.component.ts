@@ -12,16 +12,16 @@ import {IRoom} from '../../interfaces/IRoom';
 })
 export class PollComponent implements OnInit {
 
-  @Input() room: IRoom;
-  @Input() author: boolean;
-  private displayed = 'questionList';
+  private _displayed = 'questionList';
 
+  /// INPUTS
+  private _room: IRoom;
+  private _author: boolean;
 
   constructor() {
   }
 
   ngOnInit(): void {
-    // this.questions = this.questionService.getQuestions();
   }
 
   newQuestion(): void {
@@ -32,8 +32,29 @@ export class PollComponent implements OnInit {
     this.displayed = 'questionList';
   }
 
-  getDisplayed(): string {
-    return this.displayed;
+  /// GETTERS AND SETTERS
+  get author(): boolean {
+    return this._author;
+  }
+
+  @Input()
+  set author(value: boolean) {
+    this._author = value;
+  }
+  get room(): IRoom {
+    return this._room;
+  }
+
+  @Input()
+  set room(value: IRoom) {
+    this._room = value;
+  }
+  get displayed(): string {
+    return this._displayed;
+  }
+
+  set displayed(value: string) {
+    this._displayed = value;
   }
 
 }

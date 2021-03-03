@@ -9,10 +9,10 @@ import {ActivatedRoute, ParamMap} from '@angular/router';
 })
 export class ParticipantRoomComponent implements OnInit {
 
-  rooms = [];
-  room;
-  roomId;
-  errorMsg;
+  private _rooms = [];
+  private _room;
+  private _roomId;
+  private _errorMsg;
   constructor(private roomService: RoomService, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
@@ -25,8 +25,38 @@ export class ParticipantRoomComponent implements OnInit {
       console.log(this.roomId);
     });
 
-    console.log(this.rooms);
+    console.log(this._rooms);
     this.roomService.findRoom(this.roomId).subscribe(data => this.room = data);
     console.log(this.room);
+  }
+
+  /// GETTERS AND SETTERS
+  get errorMsg() {
+    return this._errorMsg;
+  }
+
+  set errorMsg(value) {
+    this._errorMsg = value;
+  }
+  get roomId() {
+    return this._roomId;
+  }
+
+  set roomId(value) {
+    this._roomId = value;
+  }
+  get room() {
+    return this._room;
+  }
+
+  set room(value) {
+    this._room = value;
+  }
+  get rooms(): any[] {
+    return this._rooms;
+  }
+
+  set rooms(value: any[]) {
+    this._rooms = value;
   }
 }

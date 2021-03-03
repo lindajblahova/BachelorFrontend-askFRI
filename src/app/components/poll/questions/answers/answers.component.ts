@@ -10,13 +10,15 @@ import {Subscription} from 'rxjs';
 })
 export class AnswersComponent implements OnInit {
 
-  @Input() question;
-  @Input() author;
-  @Input() color: string;
-  answers = [];
-  answersCount: number;
-  sliderA;
-  sliderNumbers;
+  private _answers = [];
+  private _answersCount: number;
+  private _sliderA;
+  private _sliderNumbers;
+
+  /// INPUTS
+  private _question;
+  private _author;
+  private _color: string;
 
   constructor(private answerService: AnswerService) {
   }
@@ -72,6 +74,62 @@ export class AnswersComponent implements OnInit {
         color = 'rgba(112,234,80,0.3)';
     }
     return color;
+  }
+
+  /// GETTERS AND SETTERS
+  get color(): string {
+    return this._color;
+  }
+
+  @Input()
+  set color(value: string) {
+    this._color = value;
+  }
+
+  get author() {
+    return this._author;
+  }
+
+  @Input()
+  set author(value) {
+    this._author = value;
+  }
+
+  get question() {
+    return this._question;
+  }
+
+  @Input()
+  set question(value) {
+    this._question = value;
+  }
+  get sliderNumbers() {
+    return this._sliderNumbers;
+  }
+
+  set sliderNumbers(value) {
+    this._sliderNumbers = value;
+  }
+  get sliderA() {
+    return this._sliderA;
+  }
+
+  set sliderA(value) {
+    this._sliderA = value;
+  }
+  get answersCount(): number {
+    return this._answersCount;
+  }
+
+  set answersCount(value: number) {
+    this._answersCount = value;
+  }
+  get answers(): any[] {
+    return this._answers;
+  }
+
+  set answers(value: any[]) {
+    this._answers = value;
   }
 
 }

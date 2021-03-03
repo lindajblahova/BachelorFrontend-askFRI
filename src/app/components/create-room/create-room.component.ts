@@ -11,8 +11,8 @@ import {passscodeAlreadyExist} from '../../validators/regex-validation';
 })
 export class CreateRoomComponent implements OnInit {
 
-  private showForm = false;
-  private createRoomForm = this.formBuilder.group({
+  private _showForm = false;
+  private _createRoomForm = this.formBuilder.group({
     roomName: ['', [Validators.required, Validators.minLength(2)]],
     roomPasscode: ['', [Validators.required, Validators.minLength(2)]],
   });
@@ -33,11 +33,20 @@ export class CreateRoomComponent implements OnInit {
     // this.router.navigate(['/home']);
   }
 
-  getShowForm(): boolean {
-    return this.showForm;
+  /// GETTERS AND SETTERS
+  get createRoomForm(): FormGroup {
+    return this._createRoomForm;
   }
 
-  getCreateRoomForm(): FormGroup {
-    return this.createRoomForm;
-}
+  set createRoomForm(value: FormGroup) {
+    this._createRoomForm = value;
+  }
+  get showForm(): boolean {
+    return this._showForm;
+  }
+
+  set showForm(value: boolean) {
+    this._showForm = value;
+  }
+
 }

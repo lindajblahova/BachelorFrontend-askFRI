@@ -11,16 +11,17 @@ import {regexFineFunction} from '../../validators/regex-validation';
 })
 export class LoginComponent implements OnInit {
 
-  private user;
-  private users = [];
-  private errorMsg;
-  private userEmail;
-  private logInForm = this.formBuilder.group({
+  private _user;
+  private _users = [];
+  private _errorMsg;
+  private _userEmail;
+  private _logInForm = this.formBuilder.group({
     email: ['', [Validators.required,
       Validators.minLength(7), regexFineFunction(/^[\w]{1,}[\w.+-]{0,}@[\w-]{2,}([.][a-zA-Z]{2,}|[.][\w-]{2,}[.][a-zA-Z]{2,})$/)]],
     password: ['', [Validators.required,
       Validators.minLength(8), regexFineFunction(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/)]],
   });
+
   constructor(private formBuilder: FormBuilder, private router: Router, private userService: UserService) { }
 
   ngOnInit(): void {
@@ -32,19 +33,52 @@ export class LoginComponent implements OnInit {
   onSubmit(): void {
     if (this.logInForm.get('email').value !== '' &&  this.logInForm.get('password').value !== '') {
       console.warn('The submitted code: ', this.logInForm.value);
-      this.userEmail = this.logInForm.get('email').value;
+      this.userEmail = this._logInForm.get('email').value;
       console.log(this.userEmail);
       this.user = this.users.find(room => room.email === this.userEmail);
       console.log(this.user);
-      if (this.user != null) {
+      if (this._user != null) {
         this.router.navigate(['/home', this.user.idUser]);
       }
       this.logInForm.reset();
     }
   }
 
-  getLoginForm(): FormGroup {
-    return this.logInForm;
-}
+  /// GETTERS AND SETTERS
+  get logInForm(): FormGroup {
+    return this._logInForm;
+  }
+
+  set logInForm(value: FormGroup) {
+    this._logInForm = value;
+  }
+  get userEmail() {
+    return this._userEmail;
+  }
+
+  set userEmail(value) {
+    this._userEmail = value;
+  }
+  get errorMsg() {
+    return this._errorMsg;
+  }
+
+  set errorMsg(value) {
+    this._errorMsg = value;
+  }
+  get users(): any[] {
+    return this._users;
+  }
+
+  set users(value: any[]) {
+    this._users = value;
+  }
+  get user() {
+    return this._user;
+  }
+
+  set user(value) {
+    this._user = value;
+  }
 
 }

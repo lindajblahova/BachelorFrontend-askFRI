@@ -1,9 +1,9 @@
-{{getErrorMsg()}}
-<div class="container bg-light text-center" *ngIf="getRoom()">
+<p>{{errorMsg}}</p>
+<div class="container bg-light text-center" *ngIf="room">
   <div class="row">
     <div class="col-12">
       <div class="my-form-container">
-        <form [formGroup]="getMessageForm()" (ngSubmit)="onSubmit()">
+        <form [formGroup]="newMessageForm" (ngSubmit)="onSubmit()">
           <div class="row">
             <div class="col-12 d-flex">
               <mat-form-field color="accent" class=" full-width-form mt-2 mb-0">
@@ -20,23 +20,22 @@
       </div>
     </div>
     <div class="col-lg-12 pre-scrollable">
-      <ul class="pl-0 d-flex m-0" *ngFor="let message of getMessages().reverse()">
-        <mat-card class="m-2">
+      <ul class="pl-0 d-flex m-0" *ngFor="let message of messages.reverse()">
+        <mat-card class="m-2 p-0" style="border-radius: 25px">
           <mat-card-content class="d-flex justify-content-between align-items-center" >
-            <div class="text-left">
+            <div class="text-left myPadding">
               {{ message.content }}
             </div>
-            <div>
+            <div class="mr-2">
               <button mat-icon-button type="button" style="color: white" (click)="likeMessage(message.idMessage)">
-                <i *ngIf="getLikesIndex(message.idMessage)!=true" class="far fa-heart"></i>
-                <i *ngIf="getLikesIndex(message.idMessage)==true" class="fas fa-heart"></i>
+                <i *ngIf="likes[message.idMessage]!=true" class="far fa-heart"></i>
+                <i *ngIf="likes[message.idMessage]==true" class="fas fa-heart"></i>
                 {{ message.likesCount }}
               </button>
             </div>
           </mat-card-content>
         </mat-card>
-        <button *ngIf="author==true" mat-mini-fab class="bg-warning myButton m-0 p-0" (click)="deleteMessage(message.idMessage)">
-          <mat-icon class="myIcon">close</mat-icon>
+        <button *ngIf="author==true" mat-mini-fab class="bg-warning myButton m-0 p-0" (click)="deleteMessage(message.idMessage)"><mat-icon class="myIcon">close</mat-icon>
         </button>
       </ul>
     </div>

@@ -9,7 +9,7 @@ import {regexFineFunction} from '../../validators/regex-validation';
 })
 export class RegisterComponent implements OnInit {
 
-  private signUpForm = this.formBuilder.group({
+  private _signUpForm = this.formBuilder.group({
     name: ['', [Validators.required,
       Validators.minLength(2), regexFineFunction(/^[a-zA-Zäňôľščťžýáíéúĺśźćŕń ,.'-]+$/)]],
     surname: ['', [Validators.required,
@@ -18,18 +18,28 @@ export class RegisterComponent implements OnInit {
       Validators.minLength(7), regexFineFunction(/^[\w]{1,}[\w.+-]{0,}@[\w-]{2,}([.][a-zA-Z]{2,}|[.][\w-]{2,}[.][a-zA-Z]{2,})$/)]],
     password: ['', [Validators.required,
       Validators.minLength(8), regexFineFunction(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/)]],
+    passwordConfirm: ['', [Validators.required]],
   });
   constructor(private formBuilder: FormBuilder) { }
   ngOnInit(): void {
   }
 
   onSubmit(): void {
-    console.warn('The submitted code: ', this.signUpForm.value);
-    this.signUpForm.reset();
+    console.warn('The submitted code: ', this._signUpForm.value);
+    this._signUpForm.reset();
   }
 
-  getsignUpForm(): FormGroup {
-    return this.signUpForm;
+  passwordMatch(): boolean {
+    return this._signUpForm.get('password').value === this._signUpForm.get('passwordConfirm').value;
+  }
+
+  /// GETTERS AND SETTERS
+  get signUpForm(): FormGroup {
+    return this._signUpForm;
+  }
+
+  set signUpForm(value: FormGroup) {
+    this._signUpForm = value;
   }
 }
 

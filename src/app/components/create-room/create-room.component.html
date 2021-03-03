@@ -8,7 +8,7 @@
   </div>
   <div class="row">
     <div class="col-12">
-      <form *ngIf="getShowForm()" [formGroup]="getCreateRoomForm()" (ngSubmit)="onSubmit()">
+      <form *ngIf="showForm" [formGroup]="createRoomForm" (ngSubmit)="onSubmit()">
         <div class="d-flex justify-content-center">
           <div class="container my-form-container">
             <div class="row">
@@ -16,11 +16,11 @@
                 <mat-label>Názov miestnosti</mat-label>
                 <input matInput type="text" formControlName="roomName" placeholder="napr. INF-2-Streda16">
                 <mat-hint
-                  *ngIf="getCreateRoomForm().get('roomName').touched || !(getCreateRoomForm().get('roomName').pristine)">
-                  <p *ngIf="getCreateRoomForm().get('roomName').errors?.minlength" class="text-danger">Názov musí mať
+                  *ngIf="createRoomForm.get('roomName').touched || !(createRoomForm.get('roomName').pristine)">
+                  <p *ngIf="createRoomForm.get('roomName').errors?.minlength" class="text-danger">Názov musí mať
                     aspoň 2 znaky
                   </p>
-                  <p *ngIf="getCreateRoomForm().get('roomName').errors?.required" class="text-danger">Zadajte názov
+                  <p *ngIf="createRoomForm.get('roomName').errors?.required" class="text-danger">Zadajte názov
                     miestnosti
                   </p>
                 </mat-hint>
@@ -31,15 +31,15 @@
                 <mat-label>Prístupový kód</mat-label>
                 <input matInput type="text" formControlName="roomPasscode" placeholder="napr. 12101998">
                 <mat-hint>
-                  <p [class.d-none]="getCreateRoomForm().get('roomPasscode').touched ||
-                  !(getCreateRoomForm().get('roomPasscode').pristine)">Pomocou prístupového kódu sa účastníci vedia
+                  <p [class.d-none]="createRoomForm.get('roomPasscode').touched ||
+                  !(createRoomForm.get('roomPasscode').pristine)">Pomocou prístupového kódu sa účastníci vedia
                     pridať do miestnosti. Prístupový kód musí byť unikátny!</p>
                   <div
-                    *ngIf="getCreateRoomForm().get('roomPasscode').touched || !(getCreateRoomForm().get('roomPasscode').pristine)">
-                    <p *ngIf="getCreateRoomForm().get('roomPasscode').errors?.minlength" class="text-danger">Prístupový
+                    *ngIf="createRoomForm.get('roomPasscode').touched || !(createRoomForm.get('roomPasscode').pristine)">
+                    <p *ngIf="createRoomForm.get('roomPasscode').errors?.minlength" class="text-danger">Prístupový
                       kód musí mať aspoň 2 znaky
                     </p>
-                    <p *ngIf="getCreateRoomForm().get('roomPasscode').errors?.required" class="text-danger">Zadajte
+                    <p *ngIf="createRoomForm.get('roomPasscode').errors?.required" class="text-danger">Zadajte
                       prístupový kód
                     </p>
                   </div>
@@ -48,7 +48,9 @@
             </div>
           </div>
         </div>
-        <button color="accent" [disabled]="getCreateRoomForm().get('roomName').errors?.required || getCreateRoomForm().get('roomPasscode').errors?.required" type="submit" mat-raised-button class="btn btn-warning m-3"><i class="fas fa-greater-than"></i></button>
+        <button color="accent" [disabled]="createRoomForm.get('roomName').errors?.required ||
+        createRoomForm.get('roomPasscode').errors?.required" type="submit" mat-raised-button
+                class="btn btn-warning m-3"><i class="fas fa-greater-than"></i></button>
       </form>
     </div>
   </div>

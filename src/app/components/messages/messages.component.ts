@@ -15,17 +15,18 @@ import {IMessage} from '../../interfaces/IMessage';
 })
 export class MessagesComponent implements OnInit {
 
-  @Input() room: IRoom;
-  @Input() author;
+  private _roomId;
+  private _messages = [];
+  private _errorMsg;
+  private _likes;
 
-  private roomId;
-  private messages = [];
-  private errorMsg;
-  private likes;
-
-  private newMessageForm = this.formBuilder.group({
+  private _newMessageForm = this.formBuilder.group({
     content: [''],
   });
+
+  /// INPUTS
+  private _room: IRoom;
+  private _author;
 
   constructor( private route: ActivatedRoute, private roomService: RoomService, private messageService: MessageService,
                private formBuilder: FormBuilder, private router: Router) { }
@@ -35,7 +36,8 @@ export class MessagesComponent implements OnInit {
       this.roomId = Number(params.get('roomId'));
     });
 
-    this.messageService.getRoomMessages(this.roomId).subscribe(data => this.messages = data);
+    this.messageService.getRoomMessages(this.roomId).subscribe(data => this.messages = data,
+                                                                    error => this.errorMsg = error);
     this.likes = new Array(this.messages.length).fill(false);
   }
 
@@ -60,19 +62,60 @@ export class MessagesComponent implements OnInit {
     console.warn(idMessage);
   }
 
-  getErrorMsg(): string {
-    return this.errorMsg;
+  /// GETTERS AND SETTERS
+  get newMessageForm(): FormGroup {
+    return this._newMessageForm;
   }
-  getMessageForm(): FormGroup {
-    return this.newMessageForm;
+
+  set newMessageForm(value: FormGroup) {
+    this._newMessageForm = value;
   }
-  getMessages(): IMessage[] {
-    return this.messages;
+  get likes() {
+    return this._likes;
   }
-  getRoom(): IRoom {
-    return this.room;
+
+  set likes(value) {
+    this._likes = value;
   }
-  getLikesIndex(index: number): boolean {
-    return this.likes[index];
+  get errorMsg() {
+    return this._errorMsg;
   }
+
+  set errorMsg(value) {
+    this._errorMsg = value;
+  }
+  get messages(): any[] {
+    return this._messages;
+  }
+
+  set messages(value: any[]) {
+    this._messages = value;
+  }
+
+  get roomId() {
+    return this._roomId;
+  }
+
+  set roomId(value) {
+    this._roomId = value;
+  }
+
+  get author() {
+    return this._author;
+  }
+
+  @Input()
+  set author(value) {
+    this._author = value;
+  }
+
+  get room(): IRoom {
+    return this._room;
+  }
+
+  @Input()
+  set room(value: IRoom) {
+    this._room = value;
+  }
+
 }

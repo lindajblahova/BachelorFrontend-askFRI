@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {AnswerService} from '../../../../services/answer.service';
-import {FormBuilder} from '@angular/forms';
+import {FormBuilder, FormGroup} from '@angular/forms';
 
 @Component({
   selector: 'app-answer-question',
@@ -9,15 +9,17 @@ import {FormBuilder} from '@angular/forms';
 })
 export class AnswerQuestionComponent implements OnInit {
 
-  @Input() question;
-  @Input() author;
-  @Input() color: string;
-  answers = [];
-  sliderValue = 0;
-  radioForm;
-  checkForm = [];
-  checkFormChecked;
-  answerForm = this.formBuilder.group({
+  private _answers = [];
+  private _sliderValue = 0;
+  private _radioForm;
+  private _checkFormChecked;
+
+  /// INPUTS
+  private _question;
+  private _author;
+  private _color: string;
+
+  private _answerForm = this.formBuilder.group({
     content:  ['']
   });
 
@@ -51,7 +53,7 @@ export class AnswerQuestionComponent implements OnInit {
   }
 
   onSubmit(): void {
-      console.log(this.answerForm.value);
+    console.log(this.answerForm.value);
   }
 
   onSubmitRadio(): void {
@@ -62,4 +64,64 @@ export class AnswerQuestionComponent implements OnInit {
     console.log(this.checkFormChecked);
   }
 
+  /// GETTERS AND SETTERS
+  get answerForm(): FormGroup {
+    return this._answerForm;
+  }
+
+  set answerForm(value: FormGroup) {
+    this._answerForm = value;
+  }
+  get color(): string {
+    return this._color;
+  }
+
+  @Input()
+  set color(value: string) {
+    this._color = value;
+  }
+  get author() {
+    return this._author;
+  }
+
+  @Input()
+  set author(value) {
+    this._author = value;
+  }
+  get question() {
+    return this._question;
+  }
+
+  @Input()
+  set question(value) {
+    this._question = value;
+  }
+  get checkFormChecked() {
+    return this._checkFormChecked;
+  }
+
+  set checkFormChecked(value) {
+    this._checkFormChecked = value;
+  }
+  get radioForm() {
+    return this._radioForm;
+  }
+
+  set radioForm(value) {
+    this._radioForm = value;
+  }
+  get sliderValue(): number {
+    return this._sliderValue;
+  }
+
+  set sliderValue(value: number) {
+    this._sliderValue = value;
+  }
+  get answers(): any[] {
+    return this._answers;
+  }
+
+  set answers(value: any[]) {
+    this._answers = value;
+  }
 }

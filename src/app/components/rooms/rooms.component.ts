@@ -10,11 +10,11 @@ import {ActivatedRoute, ParamMap, Router} from '@angular/router';
 })
 export class RoomsComponent implements OnInit {
 
-  rooms = [];
-  userId;
-  errorMsg;
-  showActions = false;
-  clickedId = 0;
+  private _rooms = [];
+  private _userId;
+  private _errorMsg;
+  private _showActions = false;
+  private _clickedId = 0;
   constructor(private roomService: RoomService, private userService: UserService, private route: ActivatedRoute,
               private router: Router) { }
 
@@ -25,11 +25,10 @@ export class RoomsComponent implements OnInit {
 
     this.route.paramMap.subscribe((params: ParamMap) => {
       this.userId = Number(params.get('userId'));
-      console.log(this.userId);
     });
 
-    this.roomService.findUserRooms(this.userId).subscribe(data => this.rooms = data);
-    console.log(this.rooms);
+    this.roomService.findUserRooms(this.userId).subscribe(data => this.rooms = data,
+                                                           error => this.errorMsg = error);
   }
 
   onClick(roomId: number): void {
@@ -44,5 +43,42 @@ export class RoomsComponent implements OnInit {
   enterRoom(id: number): void {
     this.clickedId = id;
     this.router.navigate(['/rooms', this.clickedId]);
+  }
+
+  /// GETTERS AND SETTERS
+  get errorMsg() {
+    return this._errorMsg;
+  }
+  set errorMsg(value) {
+    this._errorMsg = value;
+  }
+
+  get clickedId(): number {
+    return this._clickedId;
+  }
+
+  set clickedId(value: number) {
+    this._clickedId = value;
+  }
+  get showActions(): boolean {
+    return this._showActions;
+  }
+
+  set showActions(value: boolean) {
+    this._showActions = value;
+  }
+  get userId() {
+    return this._userId;
+  }
+
+  set userId(value) {
+    this._userId = value;
+  }
+  get rooms(): any[] {
+    return this._rooms;
+  }
+
+  set rooms(value: any[]) {
+    this._rooms = value;
   }
 }

@@ -10,13 +10,14 @@ import {RoomService} from '../../services/room.service';
 })
 export class EnterRoomComponent implements OnInit {
 
-  private room;
-  private rooms = [];
-  private passcode;
-  private errorMsg;
-  private passcodeForm = this.formBuilder.group({
+  private _room;
+  private _rooms = [];
+  private _passcode;
+  private _errorMsg;
+  private _passcodeForm = this.formBuilder.group({
     passcode: ['', Validators.required],
   });
+
   constructor(private formBuilder: FormBuilder, private roomService: RoomService,  private router: Router) { }
 
   ngOnInit(): void {
@@ -36,13 +37,41 @@ export class EnterRoomComponent implements OnInit {
     }
   }
 
-  getPasscodeForm(): FormGroup {
-    return this.passcodeForm;
+  /// GETTERS AND SETTERS
+  get passcodeForm(): FormGroup {
+    return this._passcodeForm;
   }
 
-  getErrorMsg(): FormGroup {
-    return this.errorMsg;
+  set passcodeForm(value: FormGroup) {
+    this._passcodeForm = value;
+  }
+  get errorMsg() {
+    return this._errorMsg;
   }
 
+  set errorMsg(value) {
+    this._errorMsg = value;
+  }
+  get passcode() {
+    return this._passcode;
+  }
+
+  set passcode(value) {
+    this._passcode = value;
+  }
+  get rooms(): any[] {
+    return this._rooms;
+  }
+
+  set rooms(value: any[]) {
+    this._rooms = value;
+  }
+  get room() {
+    return this._room;
+  }
+
+  set room(value) {
+    this._room = value;
+  }
 
 }

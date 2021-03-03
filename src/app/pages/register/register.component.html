@@ -9,7 +9,7 @@
   </div>
   <div class="row">
     <div class="col-12">
-      <form [formGroup]="getsignUpForm()" (ngSubmit)="onSubmit()">
+      <form [formGroup]="signUpForm" (ngSubmit)="onSubmit()">
         <div class="d-flex justify-content-center">
           <div class="container my-form-container">
             <div class="row">
@@ -17,16 +17,16 @@
                 <mat-form-field color="accent" class=" full-width-form mt-2">
                   <mat-label>Meno</mat-label>
                   <input matInput type="text" formControlName="name">
-                  <mat-hint *ngIf="getsignUpForm().get('name').touched || !(getsignUpForm().get('name').pristine)">
-                    <p *ngIf="!(getsignUpForm().get('name').errors?.required) &&
-                     !(getsignUpForm().get('name').errors?.minlength) &&
-                     getsignUpForm().get('name').errors?.requiredRegex"
+                  <mat-hint *ngIf="signUpForm.get('name').touched || !(signUpForm.get('name').pristine)">
+                    <p *ngIf="!(signUpForm.get('name').errors?.required) &&
+                     !(signUpForm.get('name').errors?.minlength) &&
+                     signUpForm.get('name').errors?.requiredRegex"
                               class="text-danger">Meno môže obsahovať len písmená
                     </p>
-                    <p *ngIf="getsignUpForm().get('name').errors?.minlength" class="text-danger">Meno musí mať
+                    <p *ngIf="signUpForm.get('name').errors?.minlength" class="text-danger">Meno musí mať
                       aspoň 2 znaky
                     </p>
-                    <p *ngIf="getsignUpForm().get('name').errors?.required" class="text-danger">Zadajte meno
+                    <p *ngIf="signUpForm.get('name').errors?.required" class="text-danger">Zadajte meno
                     </p>
                   </mat-hint>
                 </mat-form-field>
@@ -35,16 +35,16 @@
                 <mat-form-field color="accent" class=" full-width-form mt-2">
                   <mat-label>Priezvisko</mat-label>
                   <input matInput type="text" formControlName="surname">
-                  <mat-hint *ngIf="getsignUpForm().get('surname').touched || !(getsignUpForm().get('surname').pristine)">
-                    <p *ngIf="!(getsignUpForm().get('surname').errors?.required) &&
-                     !(getsignUpForm().get('surname').errors?.minlength) &&
-                    getsignUpForm().get('surname').errors?.requiredRegex"
+                  <mat-hint *ngIf="signUpForm.get('surname').touched || !(signUpForm.get('surname').pristine)">
+                    <p *ngIf="!(signUpForm.get('surname').errors?.required) &&
+                     !(signUpForm.get('surname').errors?.minlength) &&
+                    signUpForm.get('surname').errors?.requiredRegex"
                               class="text-danger">Priezvisko môže obsahovať len písmená
                     </p>
-                    <p *ngIf="getsignUpForm().get('surname').errors?.minlength" class="text-danger">Priezvisko
+                    <p *ngIf="signUpForm.get('surname').errors?.minlength" class="text-danger">Priezvisko
                       musí mať aspoň 2 znaky
                     </p>
-                    <p *ngIf="getsignUpForm().get('surname').errors?.required" class="text-danger">Zadajte
+                    <p *ngIf="signUpForm.get('surname').errors?.required" class="text-danger">Zadajte
                       priezvisko
                     </p>
                   </mat-hint>
@@ -55,53 +55,70 @@
               <mat-form-field color="accent" class=" full-width-form mt-2">
                 <mat-label>Email</mat-label>
                 <input matInput type="email" formControlName="email" placeholder="email@example.sk">
-                <mat-hint *ngIf="getsignUpForm().get('email').touched || !(getsignUpForm().get('email').pristine)">
-                  <p *ngIf="!(getsignUpForm().get('email').errors?.required) &&
-                  !(getsignUpForm().get('email').errors?.minlength) &&
-                getsignUpForm().get('email').errors?.requiredRegex"
+                <mat-hint *ngIf="signUpForm.get('email').touched || !(signUpForm.get('email').pristine)">
+                  <p *ngIf="!(signUpForm.get('email').errors?.required) &&
+                  !(signUpForm.get('email').errors?.minlength) &&
+                signUpForm.get('email').errors?.requiredRegex"
                             class="text-danger">Tento email nie je podporovaný
                   </p>
-                  <p *ngIf="getsignUpForm().get('email').errors?.minlength" class="text-danger">Email musí mať
+                  <p *ngIf="signUpForm.get('email').errors?.minlength" class="text-danger">Email musí mať
                     aspoň 7 znakov
                   </p>
-                  <p *ngIf="getsignUpForm().get('email').errors?.required" class="text-danger">Zadajte email
+                  <p *ngIf="signUpForm.get('email').errors?.required" class="text-danger">Zadajte email
                   </p>
                 </mat-hint>
               </mat-form-field>
             </div>
             <div class="row">
-              <mat-form-field color="accent" class=" full-width-form mt-2 mb-4">
+              <mat-form-field color="accent" class=" full-width-form mt-2 mb-1">
                 <mat-label>Heslo</mat-label>
                 <input matInput type="password" formControlName="password"
                        placeholder="********">
                 <mat-hint>
                   <p
-                    [class.d-none]="!(getsignUpForm().get('password').pristine) || getsignUpForm().get('password').touched">
+                    [class.d-none]="!(signUpForm.get('password').pristine) || signUpForm.get('password').touched">
                     Heslo musí mať aspoň 8 znakov. Musí obsahovať aspoň 1 veľké písmeno, aspoň 1 malé písmeno a aspoň 1 číslo.
                   </p>
                   <div
-                    *ngIf="getsignUpForm().get('password').touched || !(getsignUpForm().get('password').pristine) ">
-                  <p *ngIf="getsignUpForm().get('password').errors?.minlength" class="text-danger">Heslo musí mať
+                    *ngIf="signUpForm.get('password').touched || !(signUpForm.get('password').pristine) ">
+                  <p *ngIf="signUpForm.get('password').errors?.minlength" class="text-danger">Heslo musí mať
                     aspoň 8 znakov.
                   </p>
-                  <p *ngIf="!(getsignUpForm().get('password').errors?.required) &&
-                   !(getsignUpForm().get('password').errors?.minlength) &&
-                   getsignUpForm().get('password').errors?.requiredRegex"
+                  <p *ngIf="!(signUpForm.get('password').errors?.required) &&
+                   !(signUpForm.get('password').errors?.minlength) &&
+                   signUpForm.get('password').errors?.requiredRegex"
                      class="text-danger"> Heslo musí obsahovať aspoň 1 veľké písmeno, aspoň 1 malé písmeno a
                     aspoň 1 číslo.
                   </p>
-                  <p *ngIf="getsignUpForm().get('password').errors?.required" class="text-danger">Zadajte heslo
+                  <p *ngIf="signUpForm.get('password').errors?.required" class="text-danger">Zadajte heslo
                   </p>
+                  </div>
+                </mat-hint>
+              </mat-form-field>
+            </div>
+            <div class="row">
+              <mat-form-field color="accent" class=" full-width-form mt-2 mb-4">
+                <mat-label>Potvrdenie hesla</mat-label>
+                <input matInput type="password" formControlName="passwordConfirm"
+                       placeholder="********">
+                <mat-hint>
+                  <div
+                    *ngIf="signUpForm.get('passwordConfirm').touched || !(signUpForm.get('passwordConfirm').pristine) ">
+                    <p *ngIf="passwordMatch() === false" class="text-danger">Heslá sa nezhodujú
+                    </p>
+                    <p *ngIf="signUpForm.get('passwordConfirm').errors?.required" class="text-danger">Zadajte heslo
+                    </p>
                   </div>
                 </mat-hint>
               </mat-form-field>
             </div>
           </div>
         </div>
-        <button [disabled]="getsignUpForm().get('name').errors?.requiredRegex ||
-                            getsignUpForm().get('surname').errors?.requiredRegex ||
-                            getsignUpForm().get('email').errors?.requiredRegex ||
-                            getsignUpForm().get('password').errors?.requiredRegex"
+        <button [disabled]="signUpForm.get('name').errors?.requiredRegex ||
+                            signUpForm.get('surname').errors?.requiredRegex ||
+                            signUpForm.get('email').errors?.requiredRegex ||
+                            signUpForm.get('password').errors?.requiredRegex ||
+                            passwordMatch() === false"
                 type="submit" mat-raised-button color="accent" class="text-white mb-3">Registrovať
         </button>
       </form>
