@@ -11,6 +11,7 @@ export class NavbarComponent implements OnInit {
   @Input() participant;  // 0 = register + login, 1 = participant room, 2 = log out
   @Input() room?;
   @Input() userId?;
+  @Input() activeTab?;
   isOpened = false;
   constructor(private router: Router) { }
 

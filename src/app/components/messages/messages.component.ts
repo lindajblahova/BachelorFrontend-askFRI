@@ -1,11 +1,12 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ActivatedRoute, ParamMap, Router} from '@angular/router';
 import {RoomService} from '../../services/room.service';
-import {FormBuilder} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MessageService} from '../../services/message.service';
 import {map} from 'rxjs/operators';
 import {IRoom} from '../../interfaces/IRoom';
 import {consoleTestResultHandler} from 'tslint/lib/test';
+import {IMessage} from '../../interfaces/IMessage';
 
 @Component({
   selector: 'app-messages',
@@ -15,16 +16,15 @@ import {consoleTestResultHandler} from 'tslint/lib/test';
 export class MessagesComponent implements OnInit {
 
   @Input() room: IRoom;
-  rooms = [];
-  roomId;
-  messages = [];
-  errorMsg;
-  likes;
-  val = 'x';
   @Input() author;
 
-  newMessageForm = this.formBuilder.group({
-    content: ''
+  private roomId;
+  private messages = [];
+  private errorMsg;
+  private likes;
+
+  private newMessageForm = this.formBuilder.group({
+    content: [''],
   });
 
   constructor( private route: ActivatedRoute, private roomService: RoomService, private messageService: MessageService,
@@ -40,15 +40,16 @@ export class MessagesComponent implements OnInit {
   }
 
   onSubmit(): void {
-    this.messageService.addMessage(this.room.idRoom, this.newMessageForm.get('content').value);
-    console.log(this.newMessageForm.get('content').value);
-    this.newMessageForm.reset();
+    // this.messageService.addMessage(this.room.idRoom, this.newMessageForm.get('content').value);
+    if (this.newMessageForm.get('content').value.trim() !== '') {
+      console.log(this.newMessageForm.get('content').value.trim());
+      this.newMessageForm.reset();
+    }
     if (this.author) {
       this.router.navigate(['/rooms', this.room.idRoom]);
     } else {
       this.router.navigate(['/participant-rooms/', this.room.idRoom]);
     }
-
   }
 
   likeMessage(idMessage: number): void {
@@ -59,4 +60,19 @@ export class MessagesComponent implements OnInit {
     console.warn(idMessage);
   }
 
+  getErrorMsg(): string {
+    return this.errorMsg;
+  }
+  getMessageForm(): FormGroup {
+    return this.newMessageForm;
+  }
+  getMessages(): IMessage[] {
+    return this.messages;
+  }
+  getRoom(): IRoom {
+    return this.room;
+  }
+  getLikesIndex(index: number): boolean {
+    return this.likes[index];
+  }
 }

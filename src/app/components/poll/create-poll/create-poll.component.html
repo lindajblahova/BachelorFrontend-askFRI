@@ -1,13 +1,13 @@
 <div class="container bg-light text-center">
   <div class="row">
     <div class="col-12">
-      <form [formGroup]="createQuestionForm" (ngSubmit)="onSubmit()">
+      <form [formGroup]="getCreateQuestionForm()" (ngSubmit)="onSubmit()">
         <div class="form-group d-flex justify-content-center">
           <div class="container my-form-container">
             <div class="row">
               <mat-form-field class="full-width-form" color="accent">
                 <mat-label>Vyberte typ otázky</mat-label>
-                <mat-select #mySelect formControlName="questionType" [(value)]="selectedType">
+                <mat-select formControlName="questionType" [(value)]="selectedType">
                   <mat-option value="0">Otvorená otázka</mat-option>
                   <mat-option value="1">Výber jednej možnosti</mat-option>
                   <mat-option value="2">Výber viacerých možností</mat-option>
@@ -20,23 +20,30 @@
                 <mat-label>Otázka</mat-label>
                 <input matInput id="content" type="text" formControlName="content"
                        placeholder="Napíšte niečo...">
+                <mat-hint
+                  *ngIf="!(getCreateQuestionForm().get('content').pristine) || getCreateQuestionForm().get('content').touched"
+                  class="text-danger">
+                  <p *ngIf="getCreateQuestionForm().get('content').errors?.required">
+                    Zadajte otázku
+                  </p>
+                </mat-hint>
               </mat-form-field>
             </div>
 
             <div *ngIf="selectedType==1 || selectedType==2">
-              <mat-form-field class="full-width-form mt-2" color="accent">
+              <mat-form-field class="full-width-form mt-2" color="accent" required>
                 <mat-label>Odpovede</mat-label>
                 <mat-chip-list #chipList class="mat-chip-list-stacked" aria-label="select">
-                  <mat-chip *ngFor="let answer of optionalAnswers" [selectable]="selectable"
-                            [removable]="removable" (removed)="remove(answer)" style="width: fit-content">
+                  <mat-chip *ngFor="let answer of getOptionalAnswers()" [selectable]="true"
+                            [removable]="true" (removed)="remove(answer)" style="width: fit-content">
                     {{answer.name}}
-                    <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                    <mat-icon matChipRemove>cancel</mat-icon>
                   </mat-chip>
                 </mat-chip-list>
                 <input matInput class="full-width-form" type="text" placeholder="Napíšte niečo..."
                        [matChipInputFor]="chipList"
                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                       [matChipInputAddOnBlur]="addOnBlur"
+                       [matChipInputAddOnBlur]="true"
                        (matChipInputTokenEnd)="add($event)">
                 <mat-hint>Stlačením tlačidla enter vytvoríte odpoveď</mat-hint>
               </mat-form-field>
@@ -45,24 +52,52 @@
             <div *ngIf="selectedType==3">
               <div class="row d-flex mb-2">
                 <section>
-                  <mat-form-field color="accent">
-                    <mat-label>Minimálna hodnota</mat-label>
-                    <input matInput type="number"  [(value)]="min">
-                  </mat-form-field>
-                  <mat-form-field color="accent">
-                    <mat-label>Maximálna hondota</mat-label>
-                    <input matInput type="number" [(value)]="max">
-                  </mat-form-field>
-                  <mat-form-field color="accent">
-                    <mat-label>Veľkosť kroku</mat-label>
-                    <input matInput type="number" [(value)]="step">
-                  </mat-form-field>
+                  <form [formGroup]="sliderForm">
+                    <mat-form-field color="accent">
+                      <mat-label>Minimálna hodnota</mat-label>
+                      <input matInput type="number" (value)="min" formControlName="min">
+                      <mat-hint *ngIf="!(getSliderForm().get('min').pristine) || getSliderForm().get('min').touched"
+                                class="text-danger">
+                        <p *ngIf="getSliderForm().get('min').value >= getSliderForm().get('max').value">
+                          Minimum nemôže byť väčšie alebo rovné ako maximum
+                        </p>
+                      </mat-hint>
+                    </mat-form-field>
+                    <mat-form-field color="accent">
+                      <mat-label>Maximálna hondota</mat-label>
+                      <input matInput type="number" (value)="max" formControlName="max">
+                      <mat-hint *ngIf="!(getSliderForm().get('max').pristine) || getSliderForm().get('max').touched"
+                                class="text-danger">
+                        <p *ngIf="getSliderForm().get('min').value >= getSliderForm().get('max').value">
+                          Maximum nemôže byť menšie alebo rovné ako minimum
+                        </p>
+                      </mat-hint>
+                    </mat-form-field>
+                    <mat-form-field color="accent">
+                      <mat-label>Veľkosť kroku</mat-label>
+                      <input matInput type="number" (value)="step" formControlName="step">
+                      <mat-hint *ngIf="!(getSliderForm().get('step').pristine) || getSliderForm().get('step').touched"
+                                class="text-danger">
+                        <p *ngIf="getSliderFormStepValidation() !== 0 ">
+                          Táto veľkosť kroku pri zadanom minime a maxime nie je povolená
+                        </p>
+                      </mat-hint>
+                    </mat-form-field>
+                  </form>
                 </section>
               </div>
             </div>
           </div>
         </div>
-        <button type="submit" class="btn btn-warning m-3">Vytvoriť</button>
+        <button [disabled]="(getCreateQuestionForm().get('questionType').errors?.required ||
+        getCreateQuestionForm().get('content').errors?.required) ||
+        (getCreateQuestionForm().get('questionType').value === '2' && getOptionalAnswers().length === 0) ||
+        (getCreateQuestionForm().get('questionType').value === '1' && getOptionalAnswers().length === 0) ||
+        ((getCreateQuestionForm().get('questionType').value === '3' && ((getSliderForm().get('min').value === null) ||
+          getSliderForm().get('max').value === null || getSliderForm().get('step').value === null)) ||
+          (getSliderForm().get('min').value >= getSliderForm().get('max').value) || getSliderFormStepValidation() !== 0 )"
+                type="submit" mat-raised-button color="accent" class="m-3">Vytvoriť
+        </button>
       </form>
     </div>
   </div>

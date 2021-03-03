@@ -14,14 +14,18 @@
         <div class=" d-flex justify-content-center">
           <div class="container my-form-container">
             <mat-form-field class="full-width-form mt-2" color="accent">
-              <mat-label>Zadajte prístupový kód</mat-label>
+              <mat-label>Prístupový kód</mat-label>
               <input matInput formControlName="passcode"
                      placeholder="napr. 12101998">
+              <mat-hint *ngIf="getPasscodeForm().get('passcode').touched || !(getPasscodeForm().get('passcode').pristine)">
+                <p *ngIf="getPasscodeForm().get('passcode').errors?.required" class="text-danger">Zadajte prístupový kód
+                </p>
+              </mat-hint>
             </mat-form-field>
           </div>
         </div>
         <button [disabled]="getPasscodeForm().get('passcode').errors?.required" type="submit" mat-raised-button
-                class="text-white bg-warning mb-3"><i class="fas fa-door-open"></i> Vstúpiť
+                color="accent" class="text-white mb-3"><i class="fas fa-door-open"></i> Vstúpiť
         </button>
       </form>
     </div>

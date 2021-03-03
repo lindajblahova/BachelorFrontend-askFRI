@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
-import {FormBuilder} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {UserService} from '../../services/user.service';
+import {regexFineFunction} from '../../validators/regex-validation';
 
 @Component({
   selector: 'app-login',
@@ -10,13 +11,15 @@ import {UserService} from '../../services/user.service';
 })
 export class LoginComponent implements OnInit {
 
-  user;
-  users = [];
-  errorMsg;
-  userEmail;
-  logInForm = this.formBuilder.group({
-    email: '',
-    password: ''
+  private user;
+  private users = [];
+  private errorMsg;
+  private userEmail;
+  private logInForm = this.formBuilder.group({
+    email: ['', [Validators.required,
+      Validators.minLength(7), regexFineFunction(/^[\w]{1,}[\w.+-]{0,}@[\w-]{2,}([.][a-zA-Z]{2,}|[.][\w-]{2,}[.][a-zA-Z]{2,})$/)]],
+    password: ['', [Validators.required,
+      Validators.minLength(8), regexFineFunction(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/)]],
   });
   constructor(private formBuilder: FormBuilder, private router: Router, private userService: UserService) { }
 
@@ -39,5 +42,9 @@ export class LoginComponent implements OnInit {
       this.logInForm.reset();
     }
   }
+
+  getLoginForm(): FormGroup {
+    return this.logInForm;
+}
 
 }

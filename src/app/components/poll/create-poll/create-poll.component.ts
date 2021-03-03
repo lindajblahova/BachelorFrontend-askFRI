@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {FormBuilder} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {RoomService} from '../../../services/room.service';
 import {QuestionService} from '../../../services/question.service';
 import {IRoom} from '../../../interfaces/IRoom';
@@ -19,24 +19,25 @@ export interface OptionalAnswer {
 export class CreatePollComponent implements OnInit {
 
   @Input() room: IRoom;
-  selectedType = -1;
+  public selectedType = -1;
 
-  max = 100;
-  min = 0;
-  step = 1;
-  value = 0;
+  public max = 100;
+  public min = 0;
+  public step = 1;
 
-  createQuestionForm = this.formBuilder.group({
-    questionType: '',
-    content: ''
+  private createQuestionForm = this.formBuilder.group({
+    questionType: ['', [Validators.required]],
+    content: ['', [Validators.required]]
   });
 
-  selectable = true;
-  removable = true;
-  addOnBlur = true;
+  private sliderForm = this.formBuilder.group({
+    min: [this.min, [Validators.required]],
+    max: [this.max, [Validators.required]],
+    step: [this.step, [Validators.required]],
+  });
+
   readonly separatorKeysCodes: number[] = [ENTER];
-  optionalAnswers: OptionalAnswer[] = [
-  ];
+  private optionalAnswers: OptionalAnswer[] = [];
 
 
   constructor( private questionService: QuestionService, private formBuilder: FormBuilder, private router: Router) { }
@@ -76,4 +77,20 @@ export class CreatePollComponent implements OnInit {
     }
   }
 
+  getCreateQuestionForm(): FormGroup {
+    return this.createQuestionForm;
+  }
+
+  getOptionalAnswers(): OptionalAnswer[] {
+    return this.optionalAnswers;
+  }
+
+  getSliderForm(): FormGroup {
+    return this.sliderForm;
+  }
+
+  getSliderFormStepValidation(): number {
+    return (Number(this.sliderForm.get('max').value) - Number(this.sliderForm.get('min').value)) %
+      Number(this.sliderForm.get('step').value);
+  }
 }

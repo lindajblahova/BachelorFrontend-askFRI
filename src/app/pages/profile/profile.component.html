@@ -1,4 +1,4 @@
-<app-navbar [participant]="2" [userId]="userId"></app-navbar>
+<app-navbar [participant]="2" [userId]="userId" [activeTab]="'Profil'"></app-navbar>
 
 <div class="container bg-light text-center">
   <div class="row">
@@ -25,9 +25,9 @@
           <form [formGroup]="firstFormGroup" class="d-flex align-content-start">
             <div>
               <ng-template matStepLabel>Zadajte aktuálne heslo</ng-template>
-              <mat-form-field>
+              <mat-form-field color="accent">
                 <mat-label>Staré heslo</mat-label>
-                <input matInput placeholder="********" formControlName="oldPassword" required>
+                <input matInput placeholder="********" formControlName="oldPassword">
               </mat-form-field>
               <div>
                 <button mat-button matStepperNext>Ďalej</button>
@@ -38,10 +38,9 @@
         <mat-step [stepControl]="secondFormGroup" label="Zadajte nové heslo">
           <form [formGroup]="secondFormGroup"  class="d-flex align-content-start">
             <div>
-              <mat-form-field>
+              <mat-form-field color="accent">
                 <mat-label>Nové heslo</mat-label>
-                <input matInput formControlName="newPassword" placeholder="********"
-                       required>
+                <input matInput formControlName="newPassword" placeholder="********">
               </mat-form-field>
               <div>
                 <button mat-button matStepperPrevious>Späť</button>
@@ -53,11 +52,10 @@
         <mat-step [stepControl]="thirdFormGroup" label="Zopakujte nové heslo">
           <form [formGroup]="thirdFormGroup"  class="d-flex align-content-start">
             <div>
-              <mat-form-field>
+              <mat-form-field color="accent">
                 <ng-template matStepLabel>Kontrola</ng-template>
                 <mat-label>Nové heslo</mat-label>
-                <input matInput formControlName="newPasswordConfirm" placeholder="********"
-                       required>
+                <input matInput formControlName="newPasswordConfirm" placeholder="********">
               </mat-form-field>
               <div>
                 <button mat-button matStepperPrevious>Späť</button>

@@ -17,14 +17,14 @@ button:focus{
 }
 
 .myButton {
-  width: 15px;
-  height: 15px;
+  width: 16px;
+  height: 16px;
 }
 
 .myIcon {
   font-size: 10px;
-  margin-top: -12px;
-  margin-left: -5px;
+  margin-top: -10px;
+  margin-left: -4px;
 }
 
 @media screen and (max-width: 800px) {

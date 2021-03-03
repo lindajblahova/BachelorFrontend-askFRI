@@ -9,11 +9,11 @@
       </section>
     </div>
     <div class="col-lg-12">
-      <div *ngIf="displayed=='question' && author==true">
+      <div *ngIf="getDisplayed()=='question' && author==true">
         <app-create-poll (submit)="showQuestions()"></app-create-poll>
       </div>
 
-      <div *ngIf="displayed=='questionList'">
+      <div *ngIf="getDisplayed()=='questionList'">
         <app-questions [author]="author"></app-questions>
       </div>
     </div>

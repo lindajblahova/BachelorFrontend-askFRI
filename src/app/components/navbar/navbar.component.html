@@ -1,5 +1,5 @@
-<mat-sidenav-container class="align-middle">
-  <mat-sidenav [(opened)]="isOpened" class="bg-warning nav-link align-middle" position="start" mode="push" *ngIf="isOpened">
+<mat-sidenav-container class="align-middle" >
+  <mat-sidenav [(opened)]="isOpened" class="myNav nav-link align-middle" position="start" mode="push" *ngIf="isOpened">
       <p class="text-white h6 font-weight-light mt-0 mb-0 ml-3 mr-3">
         {{room.roomName}}
       </p>
@@ -8,7 +8,7 @@
       </p>
   </mat-sidenav>
   <mat-sidenav-content>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-warning sticky-top">
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top myNav">
         <a routerLink="/" class="text-white h3 font-weight-light m-0 mr-2">askFRI</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02">
           <span class="navbar-toggler-icon"></span>
@@ -16,19 +16,23 @@
         <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
           <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
             <li class="nav-item" *ngIf="participant==0">
-              <a class="nav-link h5 font-weight-light m-0" (click)="goLogIn()">Prihlásiť</a>
+              <a class="nav-link h5 font-weight-light m-0"
+                 [class.active]="activeTab=='Prihlásiť'" (click)="goLogIn()">Prihlásiť</a>
             </li>
             <li class="nav-item" *ngIf="participant==0">
-              <a class="nav-link h5 font-weight-light m-0"  (click)="goRegister()">Registrovať</a>
+              <a class="nav-link h5 font-weight-light m-0"
+                 [class.active]="activeTab=='Registrovať'" (click)="goRegister()">Registrovať</a>
             </li>
             <li class="nav-item" *ngIf="participant==1 || participant==3">
               <a class="nav-link h5 font-weight-light m-0"  (click)="isOpened=!isOpened">Info</a>
             </li>
             <li class="nav-item" *ngIf="participant==2 || participant==3">
-              <a class="nav-link h5 font-weight-light m-0"  (click)="goHome()">Prehľad</a>
+              <a class="nav-link h5 font-weight-light m-0"
+                 [class.active]="activeTab=='Prehľad'" (click)="goHome()">Prehľad</a>
             </li>
             <li class="nav-item" *ngIf="participant==2">
-              <a class="nav-link h5 font-weight-light m-0"  (click)="goProfile()">Profil</a>
+              <a class="nav-link h5 font-weight-light m-0"
+                 [class.active]="activeTab=='Profil'" (click)="goProfile()">Profil</a>
             </li>
             <li class="nav-item" *ngIf="participant==2 || participant==3">
               <a class="nav-link h5 font-weight-light m-0"  (click)="goLogOut()">Odhlásiť</a>

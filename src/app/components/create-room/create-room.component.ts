@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {RoomService} from '../../services/room.service';
 import {Router} from '@angular/router';
+import {passscodeAlreadyExist} from '../../validators/regex-validation';
 
 @Component({
   selector: 'app-create-room',
@@ -10,10 +11,10 @@ import {Router} from '@angular/router';
 })
 export class CreateRoomComponent implements OnInit {
 
-  showForm = false;
-  createRoomForm = this.formBuilder.group({
-    roomName: '',
-    roomPasscode: ''
+  private showForm = false;
+  private createRoomForm = this.formBuilder.group({
+    roomName: ['', [Validators.required, Validators.minLength(2)]],
+    roomPasscode: ['', [Validators.required, Validators.minLength(2)]],
   });
   constructor(private router: Router, private roomService: RoomService, private formBuilder: FormBuilder) { }
 
@@ -31,4 +32,12 @@ export class CreateRoomComponent implements OnInit {
     this.onClick();
     // this.router.navigate(['/home']);
   }
+
+  getShowForm(): boolean {
+    return this.showForm;
+  }
+
+  getCreateRoomForm(): FormGroup {
+    return this.createRoomForm;
+}
 }

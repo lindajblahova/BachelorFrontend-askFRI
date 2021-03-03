@@ -27,17 +27,12 @@
                   <p>Messages:</p>
                   <p>Questions:</p>
                   <mat-action-row class="d-flex justify-content-between">
-                      <button mat-button class="float-left" (click)="enterRoom(room.idRoom)">Vstúpiť</button>
-                      <button mat-button class="float-right mr-4">Vymazať</button>
+                      <button color="accent" mat-button class="float-left" (click)="enterRoom(room.idRoom)">Vstúpiť</button>
+                      <button color="warn" mat-button class="float-right mr-4">Vymazať</button>
                   </mat-action-row>
                 </mat-expansion-panel>
               </mat-accordion>
             </li>
-          <div *ngIf="showActions && room.idRoom == clickedId">
-            <button class="btn bg-warning float-left" (click)="enterRoom(room.idRoom)"><i class="fas fa-door-open"></i></button>
-            <button class="btn bg-light float-left ml-2" (click)="cancel()"><i class="fas fa-times"></i></button>
-            <button class="btn btn-danger float-right" ><i class="far fa-trash-alt"></i></button>
-          </div>
         </ul>
       </div>
     </div>

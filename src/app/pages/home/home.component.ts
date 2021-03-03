@@ -8,7 +8,7 @@ import {ActivatedRoute, ParamMap} from '@angular/router';
 })
 export class HomeComponent implements OnInit {
 
-  userId;
+  private userId;
   constructor(private route: ActivatedRoute) { }
 
   ngOnInit(): void {
@@ -16,6 +16,10 @@ export class HomeComponent implements OnInit {
       this.userId = Number(params.get('userId'));
       console.log(this.userId);
     });
+  }
+
+  getUserId(): number {
+    return this.userId;
   }
 
 }
