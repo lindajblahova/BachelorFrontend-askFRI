@@ -26,7 +26,7 @@ export class CreateRoomComponent implements OnInit {
   }
 
   onSubmit(): void {
-    this.roomService.addRoom(this.createRoomForm.get('roomName').value, this.createRoomForm.get('roomPasscode').value);
+    this.roomService.addRoom(this.createRoomForm.get('roomName').value);
     this.createRoomForm.reset();
     // console.log(this.roomService.getRooms());
     this.onClick();

@@ -2,6 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import {RoomService} from '../../services/room.service';
 import {UserService} from '../../services/user.service';
 import {ActivatedRoute, ParamMap, Router} from '@angular/router';
+import {MatDialog} from '@angular/material/dialog';
+import {DialogReactivateRoomComponent} from '../dialog/dialog-reactivate-room/dialog-reactivate-room.component';
+
+export interface DialogData {
+  roomPasscode: string;
+}
 
 @Component({
   selector: 'app-rooms',
@@ -15,13 +21,11 @@ export class RoomsComponent implements OnInit {
   private _errorMsg;
   private _showActions = false;
   private _clickedId = 0;
+  private _newPasscodeValue;
   constructor(private roomService: RoomService, private userService: UserService, private route: ActivatedRoute,
-              private router: Router) { }
+              private router: Router, public dialog: MatDialog) { }
 
   ngOnInit(): void {
-    this.roomService.getRooms()
-      .subscribe(data => this.rooms = data,
-        error => this.errorMsg = error);
 
     this.route.paramMap.subscribe((params: ParamMap) => {
       this.userId = Number(params.get('userId'));
@@ -45,7 +49,49 @@ export class RoomsComponent implements OnInit {
     this.router.navigate(['/rooms', this.clickedId]);
   }
 
+  isPasscodeUsed(checkedValue: boolean, roomPasscode: string): void {
+    if (checkedValue === true) {
+      // TODO zisti ci sa passcode uz niekde nepouziva (v aktivnych roomkach)
+      // ak ano - if
+      this.newPasscodeValue = roomPasscode + this.generateNewPasscode();
+      this.openDialog();
+
+      // else ak je passcode v poriadku
+      // TODO updatni aktivitu roomky na true
+    }
+  }
+
+  generateNewPasscode(): string {
+    let text = '';
+    const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+
+    for (let i = 0; i < 3; i++) {
+      text += possible.charAt(Math.floor(Math.random() * possible.length));
+    }
+    return text;
+  }
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(DialogReactivateRoomComponent, {
+      data: {roomPasscode: this.newPasscodeValue}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+    // TODO ak je vysledok false nastav checked na false??
+    // ak je vysledok true tak zmen aktivitu roomky na true
+  }
+
   /// GETTERS AND SETTERS
+  get newPasscodeValue() {
+    return this._newPasscodeValue;
+  }
+
+  set newPasscodeValue(value) {
+    this._newPasscodeValue = value;
+  }
+
   get errorMsg() {
     return this._errorMsg;
   }

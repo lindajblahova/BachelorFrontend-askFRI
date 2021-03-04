@@ -7,35 +7,37 @@
     </div>
     <div class="col-lg-12">
       <p>{{errorMsg}}</p>
-      <div *ngFor="let room of rooms">
-        <ul class="list-group">
-            <li class="list-group-item p-0 m-2">
-              <mat-accordion>
-                <mat-expansion-panel>
-                  <mat-expansion-panel-header>
-                    <mat-panel-title class="d-flex justify-content-between text-left" >
-                      <div>
-                        {{ room.roomName }}
-                      </div>
-                      <div class="passcode text-left">
-                     | {{ room.roomPasscode }}
-                      </div>
-                    </mat-panel-title>
-                  </mat-expansion-panel-header>
-                  <hr class="mt-0">
-                  <p><b>Details</b></p>
-                  <p>Creation date:</p>
-                  <p>Messages:</p>
-                  <p>Questions:</p>
-                  <mat-action-row class="d-flex justify-content-between">
-                      <button color="accent" mat-button class="float-left" (click)="enterRoom(room.idRoom)">Vstúpiť</button>
-                      <button color="warn" mat-button class="float-right mr-4">Vymazať</button>
-                  </mat-action-row>
-                </mat-expansion-panel>
-              </mat-accordion>
-            </li>
-        </ul>
-      </div>
+      <mat-accordion>
+        <div *ngFor="let room of rooms" class="d-flex">
+          <div class="col-11 p-0 myMargin">
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title class="d-flex justify-content-between text-left">
+                  <div>
+                    {{ room.roomName }}
+                  </div>
+                  <div class="passcode text-left">
+                    | {{ room.roomPasscode }}
+                  </div>
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <hr class="mt-0">
+              <p><b>Details</b></p>
+              <p>Creation date:</p>
+              <p>Messages:</p>
+              <p>Questions:</p>
+              <mat-action-row class="d-flex justify-content-between">
+                <button color="accent" mat-button class="float-left" (click)="enterRoom(room.idRoom)">Vstúpiť</button>
+                <button color="warn" mat-button class="float-right mr-4">Vymazať</button>
+              </mat-action-row>
+            </mat-expansion-panel>
+          </div>
+          <div class="col-1 p-0 mt-1">
+            <mat-slide-toggle class="mr-2 mt-3" [checked]="room.active" #reactivateRoom
+                              (change)="isPasscodeUsed(reactivateRoom.checked,room.roomPasscode)"></mat-slide-toggle>
+          </div>
+        </div>
+      </mat-accordion>
     </div>
   </div>
 </div>

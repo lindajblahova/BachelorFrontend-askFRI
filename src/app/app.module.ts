@@ -25,6 +25,7 @@ import {ScrollingModule} from '@angular/cdk/scrolling';
 import { MaterialModule} from './material/material.module';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { DialogDeleteProfileComponent } from './components/dialog/dialog-delete-profile/dialog-delete-profile.component';
+import { DialogReactivateRoomComponent } from './components/dialog/dialog-reactivate-room/dialog-reactivate-room.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { DialogDeleteProfileComponent } from './components/dialog/dialog-delete-
     AnswersComponent,
     AnswerQuestionComponent,
     ProfileComponent,
-    DialogDeleteProfileComponent
+    DialogDeleteProfileComponent,
+    DialogReactivateRoomComponent
   ],
     imports: [
         BrowserModule,

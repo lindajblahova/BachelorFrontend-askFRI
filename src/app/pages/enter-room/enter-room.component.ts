@@ -29,11 +29,11 @@ export class EnterRoomComponent implements OnInit {
   onSubmit(): void {
     if (this.passcodeForm.get('passcode').value !== '') {
       this.passcode = this.passcodeForm.get('passcode').value;
-      this.room = this.rooms.find(room => room.roomPasscode === Number(this.passcode));
-      this.passcodeForm.reset();
+      this.room = this.rooms.find(room => room.roomPasscode === this.passcode);
       if (this.room !== undefined) {
-        this.router.navigate(['/participant-rooms', this.room.idRoom]);
+        this.router.navigate(['/participant-rooms', this._room.idRoom]);
       }
+      this.passcodeForm.reset();
     }
   }
 

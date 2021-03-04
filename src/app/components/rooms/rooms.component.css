@@ -11,6 +11,10 @@ button:focus{
   outline: none;
 }
 
+.myMargin {
+  margin: 8px;
+}
+
 @media screen and (max-width: 800px) {
   mat-panel-title {
     font-size: smaller;
@@ -26,6 +30,9 @@ button:focus{
 @media screen and (max-width: 400px) {
   mat-panel-title {
     font-size: x-small;
+  }
+  .myMargin {
+    margin: 2px;
   }
 }
 

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpErrorResponse} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse, HttpEvent} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {IQuestion} from '../interfaces/IQuestion';
 import {catchError, map} from 'rxjs/operators';
@@ -14,7 +14,13 @@ export class AnswerService {
   private url = '/assets/data/answers.json';
   constructor(private http: HttpClient) { }
 
-  addAnswer(roomName, roomPasscode): void {}
+  addAnswer(answer: IAnswer): Observable<IAnswer> {
+    return this.http.post<IAnswer>(this.url, answer).pipe(catchError(this.errorHandler));
+  }
+
+  deleteAnswer(answerId): Observable<HttpEvent<IAnswer>> {
+    return this.http.delete(this.url, answerId).pipe(catchError(this.errorHandler));
+  }
 
   getAnswers(): Observable<IAnswer[]> {
     return this.http.get<IAnswer[]>(this.url).pipe(catchError(this.errorHandler));
@@ -24,9 +30,6 @@ export class AnswerService {
     return this.getAnswers().pipe(
       map(findA => findA.filter(answer => answer.idQuestion === id))
     );
-  }
-
-  deleteAnswer(answerId): void {
   }
 
   errorHandler(error: HttpErrorResponse): Observable<any> {

@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpErrorResponse} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse, HttpEvent} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
 import {throwError as observableThrowError} from 'rxjs/internal/observable/throwError';
 import {IMessage} from '../interfaces/IMessage';
 import {IRoom} from '../interfaces/IRoom';
+import {IAnswer} from '../interfaces/IAnswer';
+import {IQuestion} from '../interfaces/IQuestion';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +16,14 @@ export class MessageService {
   private url = '/assets/data/messages.json';
   constructor(private http: HttpClient) { }
 
-  addMessage(roomName, roomPasscode): void {}
+  addMessage(message: IMessage): Observable<IMessage> {
+    return this.http.post<IMessage>(this.url, message).pipe(catchError(this.errorHandler));
+  }
+
+  deleteMessage(messageId): Observable<HttpEvent<IMessage>> {
+    return this.http.delete(this.url, messageId).pipe(catchError(this.errorHandler));
+  }
+
 
   getMessages(): Observable<IMessage[]> {
     return this.http.get<IMessage[]>(this.url).pipe(catchError(this.errorHandler));
@@ -24,9 +33,6 @@ export class MessageService {
     return this.getMessages().pipe(
       map(findM => findM.filter(message => message.idRoom === id))
     );
-  }
-
-  deleteMessage(roomId): void {
   }
 
   errorHandler(error: HttpErrorResponse): Observable<any> {

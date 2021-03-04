@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpErrorResponse} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse, HttpEvent} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
 import {IUser} from '../interfaces/IUser';
 import {throwError as observableThrowError} from 'rxjs/internal/observable/throwError';
+import {IRoom} from '../interfaces/IRoom';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,14 @@ export class UserService {
   private url = '/assets/data/users.json';
   constructor(private http: HttpClient) { }
 
-  addUser(roomName, roomPasscode): void {}
+  addUser(user: IUser): Observable<IUser> {
+    return this.http.post<IUser>(this.url, user).pipe(catchError(this.errorHandler));
+  }
+
+  deleteRoom(userId): Observable<HttpEvent<IRoom>> {
+    return this.http.delete(this.url, userId).pipe(catchError(this.errorHandler));
+  }
+
 
   getUsers(): Observable<IUser[]> {
     return this.http.get<IUser[]>(this.url).pipe(catchError(this.errorHandler));
@@ -31,9 +39,6 @@ export class UserService {
     return this.getUsers().pipe(
       map(findU => findU.find(user => user.idUser === id))
     );
-  }
-
-  deleteRoom(roomId): void {
   }
 
   errorHandler(error: HttpErrorResponse): Observable<any> {
