@@ -28,7 +28,7 @@
               <p>Questions:</p>
               <mat-action-row class="d-flex justify-content-between">
                 <button color="accent" mat-button class="float-left" (click)="enterRoom(room.idRoom)">Vstúpiť</button>
-                <button color="warn" mat-button class="float-right mr-4">Vymazať</button>
+                <button color="warn" mat-button class="float-right mr-4" (click)="openDeleteDialog()">Vymazať</button>
               </mat-action-row>
             </mat-expansion-panel>
           </div>

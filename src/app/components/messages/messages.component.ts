@@ -7,6 +7,9 @@ import {map} from 'rxjs/operators';
 import {IRoom} from '../../interfaces/IRoom';
 import {consoleTestResultHandler} from 'tslint/lib/test';
 import {IMessage} from '../../interfaces/IMessage';
+import {DialogDeleteRoomComponent} from '../dialog/dialog-delete-room/dialog-delete-room.component';
+import {MatDialog} from '@angular/material/dialog';
+import {DialogDeleteMessageComponent} from '../dialog/dialog-delete-message/dialog-delete-message.component';
 
 @Component({
   selector: 'app-messages',
@@ -29,7 +32,7 @@ export class MessagesComponent implements OnInit {
   private _author;
 
   constructor( private route: ActivatedRoute, private roomService: RoomService, private messageService: MessageService,
-               private formBuilder: FormBuilder, private router: Router) { }
+               private formBuilder: FormBuilder, private router: Router, private dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params: ParamMap) => {
@@ -41,16 +44,21 @@ export class MessagesComponent implements OnInit {
     this.likes = new Array(this.messages.length).fill(false);
   }
 
-  onSubmit(): void {
+  createMessage(): void {
     // this.messageService.addMessage(this.room.idRoom, this.newMessageForm.get('content').value);
-    if (this.newMessageForm.get('content').value.trim() !== '') {
-      console.log(this.newMessageForm.get('content').value.trim());
+    if (this.newMessageForm.get('content').value.trim() !== '' || this.room !== undefined || this.author !== undefined) {
+      this.messageService.saveMessage({idMessage: 0, idRoom: this.room.idRoom,
+        content: this.newMessageForm.get('content').value.trim(), likesCount: 0}).subscribe(
+        response => {
+          console.log(response);
+        });
+
+      if (this.author) {
+        this.router.navigate(['/rooms', this.room.idRoom]);
+      } else {
+        this.router.navigate(['/participant-rooms/', this.room.idRoom]);
+      }
       this.newMessageForm.reset();
-    }
-    if (this.author) {
-      this.router.navigate(['/rooms', this.room.idRoom]);
-    } else {
-      this.router.navigate(['/participant-rooms/', this.room.idRoom]);
     }
   }
 
@@ -60,6 +68,14 @@ export class MessagesComponent implements OnInit {
 
   deleteMessage(idMessage: number): void {
     console.warn(idMessage);
+  }
+
+  openDeleteDialog(): void {
+    const dialogRef = this.dialog.open(DialogDeleteMessageComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
   }
 
   /// GETTERS AND SETTERS

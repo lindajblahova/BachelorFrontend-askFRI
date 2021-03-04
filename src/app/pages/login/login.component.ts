@@ -33,11 +33,8 @@ export class LoginComponent implements OnInit {
 
   onSubmit(): void {
     if (this.logInForm.get('email').value !== '' &&  this.logInForm.get('password').value !== '') {
-      console.warn('The submitted code: ', this.logInForm.value);
       this.userEmail = this._logInForm.get('email').value;
-      console.log(this.userEmail);
-      this.user = this.users.find(room => room.email === this.userEmail);
-      console.log(this.user);
+      this.user = this.users.find(user => user.email === this.userEmail);
       if (this._user != null) {
         this.router.navigate(['/home', this.user.idUser]);
       }

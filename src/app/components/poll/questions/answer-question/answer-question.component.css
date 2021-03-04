@@ -9,3 +9,14 @@
 button:focus{
   outline: none;
 }
+
+::ng-deep .mat-checkbox-layout {
+  white-space: normal !important;
+  text-align: start;
+}
+
+::ng-deep .mat-radio-label-content {
+  white-space: normal !important;
+  text-align: start;
+}
+

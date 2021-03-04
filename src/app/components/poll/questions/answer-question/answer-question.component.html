@@ -16,13 +16,13 @@
 <div *ngIf="question.type==1 && author==false">
     <mat-card class="m-2" [style.background-color]="getBackgroundColor(color+1)">
       <mat-card-content>
-        <mat-radio-group [(ngModel)]="radioForm">
+        <mat-radio-group [(ngModel)]="radioValue">
             <mat-radio-button *ngFor="let answer of question.optionalAnswers" class="d-flex ml-1 mt-1"
                               [value]="answer">{{ answer }}</mat-radio-button>
         </mat-radio-group>
       </mat-card-content>
     </mat-card>
-    <button *ngIf="author==false" type="submit" (click)="onSubmitRadio()" mat-raised-button class="bg-warning m-3">Odoslať</button>
+    <button *ngIf="author==false" type="submit" (click)="createRadioAnswer()" mat-raised-button class="bg-warning m-3">Odoslať</button>
 </div>
 
 <div *ngIf="question.type==2 && author==false">
@@ -34,11 +34,11 @@
         </section>
       </mat-card-content>
     </mat-card>
-    <button *ngIf="author==false" type="submit" (click)="onSubmitCheck()" mat-raised-button class="bg-warning m-3">Odoslať</button>
+    <button *ngIf="author==false" type="submit" (click)="createCheckboxAnswer()" mat-raised-button class="bg-warning m-3">Odoslať</button>
 </div>
 
 <div *ngIf="question.type==3 && author==false">
-  <form [formGroup]="answerForm" (submit)="onSubmit()">
+  <form [formGroup]="answerForm" (submit)="createSliderAnswer()">
     <mat-card class="m-2" [style.background-color]="getBackgroundColor(color+1)">
       <mat-card-content>
           <mat-slider class="full-width-form"

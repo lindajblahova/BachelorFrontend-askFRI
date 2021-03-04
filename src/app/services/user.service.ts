@@ -14,7 +14,7 @@ export class UserService {
   private url = '/assets/data/users.json';
   constructor(private http: HttpClient) { }
 
-  addUser(user: IUser): Observable<IUser> {
+  saveUser(user: IUser): Observable<IUser> {
     return this.http.post<IUser>(this.url, user).pipe(catchError(this.errorHandler));
   }
 

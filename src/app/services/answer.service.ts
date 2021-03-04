@@ -13,7 +13,7 @@ export class AnswerService {
   private url = '/assets/data/answers.json';
   constructor(private http: HttpClient) { }
 
-  addAnswer(answer: IAnswer): Observable<IAnswer> {
+  saveAnswer(answer: IAnswer): Observable<IAnswer> {
     return this.http.post<IAnswer>(this.url, answer).pipe(catchError(this.errorHandler));
   }
 

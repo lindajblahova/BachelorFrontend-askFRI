@@ -5,6 +5,8 @@ import {ActivatedRoute, ParamMap, Router} from '@angular/router';
 import {MatDialog} from '@angular/material/dialog';
 import {DialogReactivateRoomComponent} from '../dialog/dialog-reactivate-room/dialog-reactivate-room.component';
 import {IRoom} from '../../interfaces/IRoom';
+import {DialogDeleteProfileComponent} from '../dialog/dialog-delete-profile/dialog-delete-profile.component';
+import {DialogDeleteRoomComponent} from '../dialog/dialog-delete-room/dialog-delete-room.component';
 
 export interface DialogData {
   roomPasscode: string;
@@ -18,11 +20,11 @@ export interface DialogData {
 export class RoomsComponent implements OnInit {
 
   private _rooms: IRoom[] = [];
+  private _allRooms: IRoom[];
   private _userId: number;
   private _errorMsg: string;
-  private _showActions = false;
-  private _clickedId = -1;
   private _newPasscodeValue: string;
+  private _passcodeExists;
   constructor(private roomService: RoomService, private userService: UserService, private route: ActivatedRoute,
               private router: Router, public dialog: MatDialog) { }
 
@@ -34,29 +36,22 @@ export class RoomsComponent implements OnInit {
 
     this.roomService.findUserRooms(this.userId).subscribe(data => this.rooms = data,
                                                            error => this.errorMsg = error);
-  }
 
-  onClick(roomId: number): void {
-    this.showActions = true;
-    this.clickedId = roomId;
-  }
-
-  cancel(): void {
-    this.showActions = false;
+    this.roomService.getRooms().subscribe(data => this.allRooms = data,
+      error => this.errorMsg = error);
   }
 
   enterRoom(id: number): void {
-    this.clickedId = id;
-    this.router.navigate(['/rooms', this.clickedId]);
+    this.router.navigate(['/rooms', id]);
   }
 
   isPasscodeUsed(checkedValue: boolean, roomPasscode: string): void {
     if (checkedValue === true) {
-      // TODO zisti ci sa passcode uz niekde nepouziva (v aktivnych roomkach)
-      // ak ano - if
-      this.newPasscodeValue = roomPasscode + this.generateNewPasscode();
-      this.openDialog();
-
+      this.passcodeExists = this.allRooms.find(data => data.roomPasscode === roomPasscode && data.active === true);
+      if (this.passcodeExists !== undefined) {
+        this.newPasscodeValue = roomPasscode + this.generateNewPasscode();
+        this.openReactivateDialog();
+      }
       // else ak je passcode v poriadku
       // TODO updatni aktivitu roomky na true
     }
@@ -72,7 +67,7 @@ export class RoomsComponent implements OnInit {
     return text;
   }
 
-  openDialog(): void {
+  openReactivateDialog(): void {
     const dialogRef = this.dialog.open(DialogReactivateRoomComponent, {
       data: {roomPasscode: this.newPasscodeValue}
     });
@@ -84,7 +79,31 @@ export class RoomsComponent implements OnInit {
     // ak je vysledok true tak zmen aktivitu roomky na true
   }
 
+  openDeleteDialog(): void {
+    const dialogRef = this.dialog.open(DialogDeleteRoomComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+
   /// GETTERS AND SETTERS
+  get allRooms(): IRoom[] {
+    return this._allRooms;
+  }
+
+  set allRooms(value: IRoom[]) {
+    this._allRooms = value;
+  }
+
+  get passcodeExists() {
+    return this._passcodeExists;
+  }
+
+  set passcodeExists(value) {
+    this._passcodeExists = value;
+  }
+
   get newPasscodeValue() {
     return this._newPasscodeValue;
   }
@@ -100,20 +119,6 @@ export class RoomsComponent implements OnInit {
     this._errorMsg = value;
   }
 
-  get clickedId(): number {
-    return this._clickedId;
-  }
-
-  set clickedId(value: number) {
-    this._clickedId = value;
-  }
-  get showActions(): boolean {
-    return this._showActions;
-  }
-
-  set showActions(value: boolean) {
-    this._showActions = value;
-  }
   get userId() {
     return this._userId;
   }

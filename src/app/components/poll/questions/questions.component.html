@@ -22,7 +22,7 @@
               <mat-slide-toggle class="mr-2 mt-2" (change)="displayAnswersPublic(question.idQuestion)">Zobraziť odpovede
                 všetkým
               </mat-slide-toggle>
-              <button *ngIf="author==true" mat-fab class="m-0 p-0"><mat-icon class="text-white">delete_outline</mat-icon></button>
+              <button *ngIf="author==true" mat-fab class="m-0 p-0" (click)="openDeleteDialog()"><mat-icon class="text-white">delete_outline</mat-icon></button>
             </section>
           </mat-action-row>
         </mat-expansion-panel>

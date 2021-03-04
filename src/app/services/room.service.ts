@@ -13,7 +13,7 @@ export class RoomService {
   private url = '/assets/data/rooms.json';
   constructor(private http: HttpClient) { }
 
-  addRoom(room: IRoom): Observable<IRoom> {
+  saveRoom(room: IRoom): Observable<IRoom> {
     return this.http.post<IRoom>(this.url, room).pipe(catchError(this.errorHandler));
   }
 
@@ -28,6 +28,12 @@ export class RoomService {
   findRoom(id: number): Observable<IRoom>{
     return this.getRooms().pipe(
       map(findR => findR.find(room => room.idRoom === id))
+    );
+  }
+
+  doesPasscodeExist(passcode: string): Observable<IRoom>{
+    return this.getRooms().pipe(
+      map(findR => findR.find(room => room.roomPasscode === passcode))
     );
   }
 

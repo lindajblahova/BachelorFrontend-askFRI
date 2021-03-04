@@ -45,12 +45,19 @@ export class CreatePollComponent implements OnInit {
     this.selectedType = -1;
   }
 
-  onSubmit(): void {
-    // this.questionService.addQuestion(1, this.createQuestionForm.get('questionType').value,
-    // this.createQuestionForm.get('content').value);
-    console.log(this.createQuestionForm.get('questionType').value, this.createQuestionForm.get('content').value);
-    this.createQuestionForm.reset();
-    // this.router.navigate(['/rooms', this.room.idRoom]);
+  createQuestion(): void {
+    if (this.room !== undefined) {
+      this.questionService.saveQuestion({idQuestion: 0, idRoom: this.room.idRoom,
+        type: this.createQuestionForm.get('questionType').value, content: this.createQuestionForm.get('content').value.trim(),
+        optionalAnswers: this.optionalAnswers, displayedQuestion: false, displayedAnswers: false}).subscribe(
+        response => {
+          console.log(response);
+        });
+
+      console.log(this.createQuestionForm.get('questionType').value, this.createQuestionForm.get('content').value);
+      this.createQuestionForm.reset();
+      this.router.navigate(['/rooms', this.room.idRoom]);
+    }
   }
   select(type: number): void{
     this.selectedType = type;

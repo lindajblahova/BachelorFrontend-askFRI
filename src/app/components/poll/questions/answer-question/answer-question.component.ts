@@ -12,8 +12,8 @@ import {IQuestion} from '../../../../interfaces/IQuestion';
 export class AnswerQuestionComponent implements OnInit {
 
   private _answers: IAnswer[] = [];
-  private _sliderValue: number;
-  private _radioForm: string;
+  private _sliderValue: string;
+  private _radioValue: string;
   private _checkFormChecked: boolean[];
 
   /// INPUTS
@@ -54,16 +54,32 @@ export class AnswerQuestionComponent implements OnInit {
     return color;
   }
 
-  onSubmit(): void {
-    console.log(this.answerForm.value);
+  createSliderAnswer(): void {
+    console.log(this.sliderValue);
+    this.answerService.saveAnswer({idAnswer: 0, idQuestion: this.question.idQuestion,
+      content: this.sliderValue}).subscribe(
+      response => {
+        console.log(response);
+      });
   }
 
-  onSubmitRadio(): void {
-    console.log(this.radioForm);
+  createRadioAnswer(): void {
+    console.log(this.radioValue);
+    this.answerService.saveAnswer({idAnswer: 0, idQuestion: this.question.idQuestion,
+      content: this.radioValue}).subscribe(
+      response => {
+        console.log(response);
+      });
   }
 
-  onSubmitCheck(): void {
+  createCheckboxAnswer(): void {
     console.log(this.checkFormChecked);
+    /// TODO urobit namapovanie na checkform
+    this.answerService.saveAnswer({idAnswer: 0, idQuestion: this.question.idQuestion,
+      content: this.radioValue}).subscribe(
+      response => {
+        console.log(response);
+      });
   }
 
   /// GETTERS AND SETTERS
@@ -105,18 +121,18 @@ export class AnswerQuestionComponent implements OnInit {
   set checkFormChecked(value) {
     this._checkFormChecked = value;
   }
-  get radioForm() {
-    return this._radioForm;
+  get radioValue() {
+    return this._radioValue;
   }
 
-  set radioForm(value) {
-    this._radioForm = value;
+  set radioValue(value) {
+    this._radioValue = value;
   }
-  get sliderValue(): number {
+  get sliderValue(): string {
     return this._sliderValue;
   }
 
-  set sliderValue(value: number) {
+  set sliderValue(value: string) {
     this._sliderValue = value;
   }
   get answers(): any[] {

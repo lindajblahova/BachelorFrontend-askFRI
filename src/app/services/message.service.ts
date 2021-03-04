@@ -13,7 +13,7 @@ export class MessageService {
   private url = '/assets/data/messages.json';
   constructor(private http: HttpClient) { }
 
-  addMessage(message: IMessage): Observable<IMessage> {
+  saveMessage(message: IMessage): Observable<IMessage> {
     return this.http.post<IMessage>(this.url, message).pipe(catchError(this.errorHandler));
   }
 

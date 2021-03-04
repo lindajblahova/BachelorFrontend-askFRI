@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {RoomService} from '../../services/room.service';
 import {Router} from '@angular/router';
 import {passscodeAlreadyExist} from '../../validators/regex-validation';
+import {IRoom} from '../../interfaces/IRoom';
+import {IUser} from '../../interfaces/IUser';
 
 @Component({
   selector: 'app-create-room',
@@ -11,7 +13,12 @@ import {passscodeAlreadyExist} from '../../validators/regex-validation';
 })
 export class CreateRoomComponent implements OnInit {
 
+  private _newRoom: IRoom;
   private _showForm: boolean = false;
+
+  /// INPUT
+  private _owner: number;
+
   private _createRoomForm: FormGroup = this.formBuilder.group({
     roomName: ['', [Validators.required, Validators.minLength(2)]],
     roomPasscode: ['', [Validators.required, Validators.minLength(2)]],
@@ -21,16 +28,22 @@ export class CreateRoomComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  onClick(): void {
+  showFormChange(): void {
     this.showForm = !this.showForm;
   }
 
-  onSubmit(): void {
-    this.roomService.addRoom(this.createRoomForm.get('roomName').value);
-    this.createRoomForm.reset();
-    // console.log(this.roomService.getRooms());
-    this.onClick();
-    // this.router.navigate(['/home']);
+  createRoom(): void {
+    if (this.owner !== undefined) {
+      this.roomService.saveRoom({idRoom: 0, idOwner: this.owner, roomName: this.createRoomForm.get('roomName').value,
+      roomPasscode: this.createRoomForm.get('roomPasscode').value, active: true}).subscribe(
+        response => {
+          console.log(response);
+        });
+
+      this.createRoomForm.reset();
+      this.showFormChange();
+      this.router.navigate(['/home', this.owner]);
+    }
   }
 
   /// GETTERS AND SETTERS
@@ -47,6 +60,15 @@ export class CreateRoomComponent implements OnInit {
 
   set showForm(value: boolean) {
     this._showForm = value;
+  }
+
+  get owner(): number {
+    return this._owner;
+  }
+
+  @Input()
+  set owner(value: number) {
+    this._owner = value;
   }
 
 }

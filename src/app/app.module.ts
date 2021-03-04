@@ -26,6 +26,9 @@ import { MaterialModule} from './material/material.module';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { DialogDeleteProfileComponent } from './components/dialog/dialog-delete-profile/dialog-delete-profile.component';
 import { DialogReactivateRoomComponent } from './components/dialog/dialog-reactivate-room/dialog-reactivate-room.component';
+import { DialogDeleteRoomComponent } from './components/dialog/dialog-delete-room/dialog-delete-room.component';
+import { DialogDeleteMessageComponent } from './components/dialog/dialog-delete-message/dialog-delete-message.component';
+import { DialogDeleteQuestionComponent } from './components/dialog/dialog-delete-question/dialog-delete-question.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +50,10 @@ import { DialogReactivateRoomComponent } from './components/dialog/dialog-reacti
     AnswerQuestionComponent,
     ProfileComponent,
     DialogDeleteProfileComponent,
-    DialogReactivateRoomComponent
+    DialogReactivateRoomComponent,
+    DialogDeleteRoomComponent,
+    DialogDeleteMessageComponent,
+    DialogDeleteQuestionComponent
   ],
     imports: [
         BrowserModule,

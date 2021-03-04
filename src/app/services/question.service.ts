@@ -4,6 +4,7 @@ import {Observable} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
 import {throwError as observableThrowError} from 'rxjs/internal/observable/throwError';
 import {IQuestion} from '../interfaces/IQuestion';
+import {OptionalAnswer} from '../components/poll/create-poll/create-poll.component';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class QuestionService {
   private url = '/assets/data/questions.json';
   constructor(private http: HttpClient) { }
 
-  addQuestion(question: IQuestion): Observable<IQuestion> {
+  saveQuestion(question: IQuestion): Observable<IQuestion> {
     return this.http.post<IQuestion>(this.url, question).pipe(catchError(this.errorHandler));
   }
 

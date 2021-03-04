@@ -5,6 +5,8 @@ import {QuestionService} from '../../../services/question.service';
 import {AnswerQuestionComponent} from './answer-question/answer-question.component';
 import {FormBuilder} from '@angular/forms';
 import {IQuestion} from '../../../interfaces/IQuestion';
+import {DialogDeleteMessageComponent} from '../../dialog/dialog-delete-message/dialog-delete-message.component';
+import {MatDialog} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-questions',
@@ -20,7 +22,7 @@ export class QuestionsComponent implements OnInit {
   /// INPUTS
   private _author: boolean;
 
-  constructor( private route: ActivatedRoute, private questionService: QuestionService) { }
+  constructor( private route: ActivatedRoute, private questionService: QuestionService, private dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params: ParamMap) => {
@@ -38,6 +40,14 @@ export class QuestionsComponent implements OnInit {
 
   displayAnswersPublic(id: number): void {
     this.displayedAnswersPublic[id] = !this.displayedAnswersPublic[id];
+  }
+
+  openDeleteDialog(): void {
+    const dialogRef = this.dialog.open(DialogDeleteMessageComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
   }
 
   /// GETTERS AND SETTERS

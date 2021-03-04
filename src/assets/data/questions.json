@@ -56,9 +56,18 @@
   {
     "idQuestion": 7,
     "idRoom": 1,
+    "type": 2,
+    "content": "This is question with checkbox answers",
+    "optionalAnswers": ["No","Yes","Maybe", "Sure", "This is a long long long long long answer."],
+    "displayedQuestion": true,
+    "displayedAnswers": false
+  },
+  {
+    "idQuestion": 8,
+    "idRoom": 1,
     "type": 1,
     "content": "This is question with radio answers",
-    "optionalAnswers": ["No","Yes","Maybe", "Sure"],
+    "optionalAnswers": ["No","Yes","Maybe", "Sure", "This is a long long long long long answer."],
     "displayedQuestion": true,
     "displayedAnswers": false
   }

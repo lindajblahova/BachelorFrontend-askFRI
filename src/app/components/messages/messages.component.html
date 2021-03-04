@@ -3,7 +3,7 @@
   <div class="row">
     <div class="col-12">
       <div class="my-form-container">
-        <form [formGroup]="newMessageForm" (ngSubmit)="onSubmit()">
+        <form [formGroup]="newMessageForm" (ngSubmit)="createMessage()">
           <div class="row">
             <div class="col-12 d-flex">
               <mat-form-field color="accent" class=" full-width-form mt-2 mb-0">
@@ -35,7 +35,7 @@
             </div>
           </mat-card-content>
         </mat-card>
-        <button *ngIf="author==true" mat-mini-fab class="bg-warning myButton m-0 p-0" (click)="deleteMessage(message.idMessage)"><mat-icon class="myIcon">close</mat-icon>
+        <button *ngIf="author==true" mat-mini-fab class="bg-warning myButton m-0 p-0" (click)="openDeleteDialog()"><mat-icon class="myIcon">close</mat-icon>
         </button>
       </ul>
     </div>

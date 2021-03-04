@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {regexFineFunction} from '../../validators/regex-validation';
+import {UserService} from '../../services/user.service';
 
 @Component({
   selector: 'app-register',
@@ -20,17 +21,22 @@ export class RegisterComponent implements OnInit {
       Validators.minLength(8), regexFineFunction(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/)]],
     passwordConfirm: ['', [Validators.required]],
   });
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(private formBuilder: FormBuilder, private userService: UserService) { }
   ngOnInit(): void {
   }
 
-  onSubmit(): void {
-    console.warn('The submitted code: ', this._signUpForm.value);
+  createUser(): void {
+    this.userService.saveUser({idUser: 0, firstname: this.signUpForm.get('name').value,
+      surname: this.signUpForm.get('surname').value, email: this.signUpForm.get('email').value,
+      password: this.signUpForm.get('password').value, role: 'User'}).subscribe(
+      response => {
+        console.log(response);
+      });
     this._signUpForm.reset();
   }
 
   passwordMatch(): boolean {
-    return this._signUpForm.get('password').value === this._signUpForm.get('passwordConfirm').value;
+    return this.signUpForm.get('password').value === this._signUpForm.get('passwordConfirm').value;
   }
 
   /// GETTERS AND SETTERS
