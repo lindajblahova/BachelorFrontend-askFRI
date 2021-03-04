@@ -4,9 +4,6 @@ import {Observable} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
 import {throwError as observableThrowError} from 'rxjs/internal/observable/throwError';
 import {IMessage} from '../interfaces/IMessage';
-import {IRoom} from '../interfaces/IRoom';
-import {IAnswer} from '../interfaces/IAnswer';
-import {IQuestion} from '../interfaces/IQuestion';
 
 @Injectable({
   providedIn: 'root'

@@ -1,7 +1,6 @@
 <div class="mt-2 ">
   <ul class="list-group" *ngFor="let question of questions?.reverse(); let i = index" [attr.data-index]="i">
     <a *ngIf="question.displayedQuestion==true || author==true">
-      {{showAnswers(question.idQuestion)}}
       <mat-accordion>
         <mat-expansion-panel [expanded]="author==false" class="mt-2 mb-2">
           <mat-expansion-panel-header>
@@ -23,7 +22,7 @@
               <mat-slide-toggle class="mr-2 mt-2" (change)="displayAnswersPublic(question.idQuestion)">Zobraziť odpovede
                 všetkým
               </mat-slide-toggle>
-              <button *ngIf="author==true" mat-button class="m-0 p-0">Vymazať</button>
+              <button *ngIf="author==true" mat-fab class="m-0 p-0"><mat-icon class="text-white">delete_outline</mat-icon></button>
             </section>
           </mat-action-row>
         </mat-expansion-panel>

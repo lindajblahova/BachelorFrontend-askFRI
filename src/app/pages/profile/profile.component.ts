@@ -4,6 +4,7 @@ import {UserService} from '../../services/user.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MatDialog} from '@angular/material/dialog';
 import {DialogDeleteProfileComponent} from '../../components/dialog/dialog-delete-profile/dialog-delete-profile.component';
+import {IUser} from '../../interfaces/IUser';
 
 @Component({
   selector: 'app-profile',
@@ -12,16 +13,16 @@ import {DialogDeleteProfileComponent} from '../../components/dialog/dialog-delet
 })
 export class ProfileComponent implements OnInit {
 
-  private _userId;
-  private _userData;
+  private _userId: number;
+  private _userData: IUser;
   private _isHidden = true;
-  private _firstFormGroup = this.formBuilder.group({
+  private _firstFormGroup: FormGroup = this.formBuilder.group({
     oldPassword: ['', Validators.required]
   });
-  private _secondFormGroup  = this.formBuilder.group({
+  private _secondFormGroup: FormGroup  = this.formBuilder.group({
     newPassword: ['', Validators.required]
   });
-  private _thirdFormGroup = this.formBuilder.group({
+  private _thirdFormGroup: FormGroup = this.formBuilder.group({
     newPasswordConfirm: ['', Validators.required]
   });
 

@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {RoomService} from '../../services/room.service';
+import {IRoom} from '../../interfaces/IRoom';
 
 @Component({
   selector: 'app-enter-room',
@@ -10,11 +11,11 @@ import {RoomService} from '../../services/room.service';
 })
 export class EnterRoomComponent implements OnInit {
 
-  private _room;
-  private _rooms = [];
-  private _passcode;
-  private _errorMsg;
-  private _passcodeForm = this.formBuilder.group({
+  private _room: IRoom;
+  private _rooms: IRoom[] = [];
+  private _passcode: string;
+  private _errorMsg: string;
+  private _passcodeForm: FormGroup = this.formBuilder.group({
     passcode: ['', Validators.required],
   });
 

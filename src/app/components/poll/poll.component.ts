@@ -12,7 +12,7 @@ import {IRoom} from '../../interfaces/IRoom';
 })
 export class PollComponent implements OnInit {
 
-  private _displayed = 'questionList';
+  private _displayed: string = 'questionList';
 
   /// INPUTS
   private _room: IRoom;

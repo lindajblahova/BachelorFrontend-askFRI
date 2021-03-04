@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
+import {IRoom} from '../../interfaces/IRoom';
 
 @Component({
   selector: 'app-navbar',
@@ -8,12 +9,12 @@ import {Router} from '@angular/router';
 })
 export class NavbarComponent implements OnInit {
 
-  private _isOpened = false;
+  private _isOpened: boolean = false;
   /// INPUTS
-  private _participant;  // 0 = register + login, 1 = participant room, 2 = log out
-  private _room?;
-  private _userId?;
-  private _activeTab?;
+  private _participant: number;  // 0 = register + login, 1 = participant room, 2 = log out
+  private _room?: IRoom;
+  private _userId?: number;
+  private _activeTab?: string;
 
   constructor(private router: Router) { }
 

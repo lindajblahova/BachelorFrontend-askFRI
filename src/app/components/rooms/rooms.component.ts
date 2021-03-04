@@ -4,6 +4,7 @@ import {UserService} from '../../services/user.service';
 import {ActivatedRoute, ParamMap, Router} from '@angular/router';
 import {MatDialog} from '@angular/material/dialog';
 import {DialogReactivateRoomComponent} from '../dialog/dialog-reactivate-room/dialog-reactivate-room.component';
+import {IRoom} from '../../interfaces/IRoom';
 
 export interface DialogData {
   roomPasscode: string;
@@ -16,12 +17,12 @@ export interface DialogData {
 })
 export class RoomsComponent implements OnInit {
 
-  private _rooms = [];
-  private _userId;
-  private _errorMsg;
+  private _rooms: IRoom[] = [];
+  private _userId: number;
+  private _errorMsg: string;
   private _showActions = false;
-  private _clickedId = 0;
-  private _newPasscodeValue;
+  private _clickedId = -1;
+  private _newPasscodeValue: string;
   constructor(private roomService: RoomService, private userService: UserService, private route: ActivatedRoute,
               private router: Router, public dialog: MatDialog) { }
 

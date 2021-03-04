@@ -3,6 +3,7 @@ import {Router} from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {UserService} from '../../services/user.service';
 import {regexFineFunction} from '../../validators/regex-validation';
+import {IUser} from '../../interfaces/IUser';
 
 @Component({
   selector: 'app-login',
@@ -11,11 +12,11 @@ import {regexFineFunction} from '../../validators/regex-validation';
 })
 export class LoginComponent implements OnInit {
 
-  private _user;
-  private _users = [];
-  private _errorMsg;
-  private _userEmail;
-  private _logInForm = this.formBuilder.group({
+  private _user: IUser;
+  private _users: IUser[] = [];
+  private _errorMsg: string;
+  private _userEmail: string;
+  private _logInForm: FormGroup = this.formBuilder.group({
     email: ['', [Validators.required,
       Validators.minLength(7), regexFineFunction(/^[\w]{1,}[\w.+-]{0,}@[\w-]{2,}([.][a-zA-Z]{2,}|[.][\w-]{2,}[.][a-zA-Z]{2,})$/)]],
     password: ['', [Validators.required,

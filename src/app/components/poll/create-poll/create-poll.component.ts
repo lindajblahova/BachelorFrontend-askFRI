@@ -18,7 +18,7 @@ export interface OptionalAnswer {
 })
 export class CreatePollComponent implements OnInit {
 
-  private _selectedType = -1;
+  private _selectedType: number;
   private _max = 100;
   private _min = 0;
   private _step = 1;
@@ -28,20 +28,21 @@ export class CreatePollComponent implements OnInit {
   /// INPUT
   private _room: IRoom;
 
-  private _createQuestionForm = this.formBuilder.group({
+  private _createQuestionForm: FormGroup = this.formBuilder.group({
     questionType: ['', [Validators.required]],
     content: ['', [Validators.required]]
   });
 
-  private _sliderForm = this.formBuilder.group({
-    min: [this._min, [Validators.required]],
-    max: [this._max, [Validators.required]],
-    step: [this._step, [Validators.required]],
+  private _sliderForm: FormGroup = this.formBuilder.group({
+    min: [this.min, [Validators.required]],
+    max: [this.max, [Validators.required]],
+    step: [this.step, [Validators.required]],
   });
 
   constructor( private questionService: QuestionService, private formBuilder: FormBuilder, private router: Router) { }
 
   ngOnInit(): void {
+    this.selectedType = -1;
   }
 
   onSubmit(): void {

@@ -4,6 +4,7 @@ import {ActivatedRoute, ParamMap, Router} from '@angular/router';
 import {QuestionService} from '../../../services/question.service';
 import {AnswerQuestionComponent} from './answer-question/answer-question.component';
 import {FormBuilder} from '@angular/forms';
+import {IQuestion} from '../../../interfaces/IQuestion';
 
 @Component({
   selector: 'app-questions',
@@ -12,10 +13,9 @@ import {FormBuilder} from '@angular/forms';
 })
 export class QuestionsComponent implements OnInit {
 
-  private _roomId;
-  private _questions = [];
+  private _roomId: number;
+  private _questions: IQuestion[] = [];
   private _displayedAnswersPublic = [];
-  private _displayedAnswers = [];
 
   /// INPUTS
   private _author: boolean;
@@ -29,12 +29,7 @@ export class QuestionsComponent implements OnInit {
 
     this.questionService.getRoomQuestions(this.roomId).subscribe(data => this.questions = data);
 
-    this.displayedAnswers.fill(false);
     this.displayedAnswersPublic.fill(false);
-  }
-
-  showAnswers(id: number): void {
-    this.displayedAnswers[id] = !this.displayedAnswers[id];
   }
 
   displayQuestionPublic(id: number): void {
@@ -54,13 +49,7 @@ export class QuestionsComponent implements OnInit {
   set author(value: boolean) {
     this._author = value;
   }
-  get displayedAnswers(): any[] {
-    return this._displayedAnswers;
-  }
 
-  set displayedAnswers(value: any[]) {
-    this._displayedAnswers = value;
-  }
   get displayedAnswersPublic(): any[] {
     return this._displayedAnswersPublic;
   }

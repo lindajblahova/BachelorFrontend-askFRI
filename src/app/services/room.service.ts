@@ -3,7 +3,6 @@ import {HttpClient, HttpErrorResponse, HttpEvent} from '@angular/common/http';
 import {throwError as observableThrowError, Observable} from 'rxjs';
 import {IRoom} from '../interfaces/IRoom';
 import {catchError, map} from 'rxjs/operators';
-import {IQuestion} from '../interfaces/IQuestion';
 
 
 @Injectable({

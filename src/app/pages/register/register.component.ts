@@ -9,7 +9,7 @@ import {regexFineFunction} from '../../validators/regex-validation';
 })
 export class RegisterComponent implements OnInit {
 
-  private _signUpForm = this.formBuilder.group({
+  private _signUpForm: FormGroup = this.formBuilder.group({
     name: ['', [Validators.required,
       Validators.minLength(2), regexFineFunction(/^[a-zA-Zäňôľščťžýáíéúĺśźćŕń ,.'-]+$/)]],
     surname: ['', [Validators.required,

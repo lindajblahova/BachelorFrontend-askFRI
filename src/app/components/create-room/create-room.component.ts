@@ -11,8 +11,8 @@ import {passscodeAlreadyExist} from '../../validators/regex-validation';
 })
 export class CreateRoomComponent implements OnInit {
 
-  private _showForm = false;
-  private _createRoomForm = this.formBuilder.group({
+  private _showForm: boolean = false;
+  private _createRoomForm: FormGroup = this.formBuilder.group({
     roomName: ['', [Validators.required, Validators.minLength(2)]],
     roomPasscode: ['', [Validators.required, Validators.minLength(2)]],
   });

@@ -18,6 +18,11 @@ mat-checkbox-layout {
   margin-bottom: 0px;
 }
 
+button:focus{
+  outline: none;
+}
+
+
 @media screen and (max-width: 800px) {
   mat-panel-title, mat-checkbox {
     font-size: smaller;

@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {RoomService} from '../../services/room.service';
 import {ActivatedRoute, ParamMap} from '@angular/router';
+import {IRoom} from '../../interfaces/IRoom';
 
 @Component({
   selector: 'app-participant-room',
@@ -9,10 +10,10 @@ import {ActivatedRoute, ParamMap} from '@angular/router';
 })
 export class ParticipantRoomComponent implements OnInit {
 
-  private _rooms = [];
-  private _room;
-  private _roomId;
-  private _errorMsg;
+  private _rooms: IRoom[] = [];
+  private _room: IRoom;
+  private _roomId: number;
+  private _errorMsg: string;
   constructor(private roomService: RoomService, private route: ActivatedRoute) { }
 
   ngOnInit(): void {

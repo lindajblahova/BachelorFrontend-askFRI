@@ -15,10 +15,10 @@ import {IMessage} from '../../interfaces/IMessage';
 })
 export class MessagesComponent implements OnInit {
 
-  private _roomId;
-  private _messages = [];
-  private _errorMsg;
-  private _likes;
+  private _roomId: number;
+  private _messages: IMessage[] = [];
+  private _errorMsg: string;
+  private _likes: boolean[];
 
   private _newMessageForm = this.formBuilder.group({
     content: [''],

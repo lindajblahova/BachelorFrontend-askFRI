@@ -1,6 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {AnswerService} from '../../../../services/answer.service';
 import {FormBuilder, FormGroup} from '@angular/forms';
+import {IAnswer} from '../../../../interfaces/IAnswer';
+import {IQuestion} from '../../../../interfaces/IQuestion';
 
 @Component({
   selector: 'app-answer-question',
@@ -9,17 +11,17 @@ import {FormBuilder, FormGroup} from '@angular/forms';
 })
 export class AnswerQuestionComponent implements OnInit {
 
-  private _answers = [];
-  private _sliderValue = 0;
-  private _radioForm;
-  private _checkFormChecked;
+  private _answers: IAnswer[] = [];
+  private _sliderValue: number;
+  private _radioForm: string;
+  private _checkFormChecked: boolean[];
 
   /// INPUTS
-  private _question;
-  private _author;
+  private _question: IQuestion;
+  private _author: boolean;
   private _color: string;
 
-  private _answerForm = this.formBuilder.group({
+  private _answerForm: FormGroup = this.formBuilder.group({
     content:  ['']
   });
 

@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpErrorResponse, HttpEvent} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {IMessage} from '../interfaces/IMessage';
 import {catchError, map} from 'rxjs/operators';
 import {throwError as observableThrowError} from 'rxjs/internal/observable/throwError';
 import {IQuestion} from '../interfaces/IQuestion';
