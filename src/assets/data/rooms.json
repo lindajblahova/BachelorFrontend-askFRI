@@ -4,7 +4,7 @@
     "idRoom": 1,
     "roomName": "INF room",
     "roomPasscode": "123456",
-    "active": true
+    "active": false
   },
   {
     "idRoom": 2,
@@ -19,5 +19,12 @@
     "roomName": "Conference room",
     "roomPasscode": "12101998",
     "active": false
+  },
+  {
+    "idOwner": 1,
+    "idRoom": 4,
+    "roomName": "INF room Active",
+    "roomPasscode": "123456",
+    "active": true
   }
 ]

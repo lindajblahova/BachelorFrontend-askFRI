@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {RoomService} from '../../services/room.service';
 import {UserService} from '../../services/user.service';
 import {ActivatedRoute, ParamMap, Router} from '@angular/router';
@@ -7,6 +7,7 @@ import {DialogReactivateRoomComponent} from '../dialog/dialog-reactivate-room/di
 import {IRoom} from '../../interfaces/IRoom';
 import {DialogDeleteProfileComponent} from '../dialog/dialog-delete-profile/dialog-delete-profile.component';
 import {DialogDeleteRoomComponent} from '../dialog/dialog-delete-room/dialog-delete-room.component';
+import {MatSlideToggleChange} from '@angular/material/slide-toggle';
 
 export interface DialogData {
   roomPasscode: string;
@@ -19,12 +20,14 @@ export interface DialogData {
 })
 export class RoomsComponent implements OnInit {
 
+  @ViewChild('reactivateRoom') ref: ElementRef;
   private _rooms: IRoom[] = [];
   private _allRooms: IRoom[];
   private _userId: number;
   private _errorMsg: string;
   private _newPasscodeValue: string;
   private _passcodeExists;
+  private _reactivateDialogResult: boolean;
   constructor(private roomService: RoomService, private userService: UserService, private route: ActivatedRoute,
               private router: Router, public dialog: MatDialog) { }
 
@@ -45,12 +48,12 @@ export class RoomsComponent implements OnInit {
     this.router.navigate(['/rooms', id]);
   }
 
-  isPasscodeUsed(checkedValue: boolean, roomPasscode: string): void {
+  isPasscodeUsed(checkedValue: boolean, roomPasscode: string, event: MatSlideToggleChange): void {
     if (checkedValue === true) {
       this.passcodeExists = this.allRooms.find(data => data.roomPasscode === roomPasscode && data.active === true);
       if (this.passcodeExists !== undefined) {
         this.newPasscodeValue = roomPasscode + this.generateNewPasscode();
-        this.openReactivateDialog();
+        this.openReactivateDialog(event);
       }
       // else ak je passcode v poriadku
       // TODO updatni aktivitu roomky na true
@@ -67,16 +70,18 @@ export class RoomsComponent implements OnInit {
     return text;
   }
 
-  openReactivateDialog(): void {
+  openReactivateDialog(event: MatSlideToggleChange): void {
     const dialogRef = this.dialog.open(DialogReactivateRoomComponent, {
       data: {roomPasscode: this.newPasscodeValue}
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
+      if (result === true) {
+       // TODO update room active na true a roompasscode na newRoomPasscode
+     } else {
+        event.source.checked = false;
+      }
     });
-    // TODO ak je vysledok false nastav checked na false??
-    // ak je vysledok true tak zmen aktivitu roomky na true
   }
 
   openDeleteDialog(): void {
@@ -88,6 +93,14 @@ export class RoomsComponent implements OnInit {
   }
 
   /// GETTERS AND SETTERS
+  get reactivateDialogResult(): boolean {
+    return this._reactivateDialogResult;
+  }
+
+  set reactivateDialogResult(value: boolean) {
+    this._reactivateDialogResult = value;
+  }
+
   get allRooms(): IRoom[] {
     return this._allRooms;
   }

@@ -1,12 +1,9 @@
-import {AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
-import {IRoom} from '../../../interfaces/IRoom';
-import {ActivatedRoute, ParamMap, Router} from '@angular/router';
+import { Component, Input, OnInit} from '@angular/core';
+import {ActivatedRoute, ParamMap } from '@angular/router';
 import {QuestionService} from '../../../services/question.service';
-import {AnswerQuestionComponent} from './answer-question/answer-question.component';
-import {FormBuilder} from '@angular/forms';
 import {IQuestion} from '../../../interfaces/IQuestion';
-import {DialogDeleteMessageComponent} from '../../dialog/dialog-delete-message/dialog-delete-message.component';
 import {MatDialog} from '@angular/material/dialog';
+import {DialogDeleteQuestionComponent} from '../../dialog/dialog-delete-question/dialog-delete-question.component';
 
 @Component({
   selector: 'app-questions',
@@ -43,7 +40,7 @@ export class QuestionsComponent implements OnInit {
   }
 
   openDeleteDialog(): void {
-    const dialogRef = this.dialog.open(DialogDeleteMessageComponent);
+    const dialogRef = this.dialog.open(DialogDeleteQuestionComponent);
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
