@@ -33,10 +33,14 @@ export class LoginComponent implements OnInit {
 
   onSubmit(): void {
     if (this.logInForm.get('email').value !== '' &&  this.logInForm.get('password').value !== '') {
-      this.userEmail = this._logInForm.get('email').value;
+      this.userEmail = this.logInForm.get('email').value;
       this.user = this.users.find(user => user.email === this.userEmail);
-      if (this._user != null) {
-        this.router.navigate(['/home', this.user.idUser]);
+      if (this.user != null) {
+        if (this.user.role === 'Admin') {
+          this.router.navigate(['/adminHome', this.user.idUser]);
+        } else {
+          this.router.navigate(['/home', this.user.idUser]);
+        }
       }
       this.logInForm.reset();
     }

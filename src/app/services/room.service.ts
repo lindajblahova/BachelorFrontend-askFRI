@@ -21,6 +21,10 @@ export class RoomService {
     return this.http.delete(this.url, roomId).pipe(catchError(this.errorHandler));
   }
 
+  updateRoom(room: IRoom): Observable<IRoom> {
+    return this.http.put<IRoom>(this.url, room).pipe(catchError(this.errorHandler));
+  }
+
   getRooms(): Observable<IRoom[]> {
     return this.http.get<IRoom[]>(this.url).pipe(catchError(this.errorHandler));
   }
@@ -28,12 +32,6 @@ export class RoomService {
   findRoom(id: number): Observable<IRoom>{
     return this.getRooms().pipe(
       map(findR => findR.find(room => room.idRoom === id))
-    );
-  }
-
-  doesPasscodeExist(passcode: string): Observable<IRoom>{
-    return this.getRooms().pipe(
-      map(findR => findR.find(room => room.roomPasscode === passcode))
     );
   }
 

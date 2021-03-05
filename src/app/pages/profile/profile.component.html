@@ -27,7 +27,7 @@
               <ng-template matStepLabel>Zadajte aktuálne heslo</ng-template>
               <mat-form-field color="accent">
                 <mat-label>Staré heslo</mat-label>
-                <input matInput placeholder="********" formControlName="oldPassword">
+                <input matInput type="password" placeholder="********" formControlName="oldPassword">
               </mat-form-field>
               <div>
                 <button mat-button matStepperNext>Ďalej</button>
@@ -40,7 +40,7 @@
             <div>
               <mat-form-field color="accent">
                 <mat-label>Nové heslo</mat-label>
-                <input matInput formControlName="newPassword" placeholder="********">
+                <input matInput type="password"  formControlName="newPassword" placeholder="********">
               </mat-form-field>
               <div>
                 <button mat-button matStepperPrevious>Späť</button>
@@ -55,14 +55,17 @@
               <mat-form-field color="accent">
                 <ng-template matStepLabel>Kontrola</ng-template>
                 <mat-label>Nové heslo</mat-label>
-                <input matInput formControlName="newPasswordConfirm" placeholder="********">
+                <input matInput type="password"  formControlName="newPasswordConfirm" placeholder="********">
               </mat-form-field>
               <div>
                 <button mat-button matStepperPrevious>Späť</button>
-                <button mat-button matStepperNext>Zmeniť</button>
+                <button mat-button matStepperNext (click)="isHidden=true; openSnackBar('Heslo bolo zmenené.', 'Zavrieť')">Zmeniť</button>
               </div>
             </div>
           </form>
+        </mat-step>
+        <mat-step>
+          <ng-template matStepLabel>Hotovo</ng-template>
         </mat-step>
       </mat-vertical-stepper>
 

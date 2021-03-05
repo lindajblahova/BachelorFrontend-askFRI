@@ -29,6 +29,9 @@ import { DialogReactivateRoomComponent } from './components/dialog/dialog-reacti
 import { DialogDeleteRoomComponent } from './components/dialog/dialog-delete-room/dialog-delete-room.component';
 import { DialogDeleteMessageComponent } from './components/dialog/dialog-delete-message/dialog-delete-message.component';
 import { DialogDeleteQuestionComponent } from './components/dialog/dialog-delete-question/dialog-delete-question.component';
+import { AdminPageComponent } from './admin/admin-page/admin-page.component';
+import { AllRoomsComponent } from './admin/admin-page/all-rooms/all-rooms.component';
+import { AllUsersComponent } from './admin/admin-page/all-users/all-users.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +56,10 @@ import { DialogDeleteQuestionComponent } from './components/dialog/dialog-delete
     DialogReactivateRoomComponent,
     DialogDeleteRoomComponent,
     DialogDeleteMessageComponent,
-    DialogDeleteQuestionComponent
+    DialogDeleteQuestionComponent,
+    AdminPageComponent,
+    AllRoomsComponent,
+    AllUsersComponent,
   ],
     imports: [
         BrowserModule,

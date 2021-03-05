@@ -5,6 +5,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MatDialog} from '@angular/material/dialog';
 import {DialogDeleteProfileComponent} from '../../components/dialog/dialog-delete-profile/dialog-delete-profile.component';
 import {IUser} from '../../interfaces/IUser';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-profile',
@@ -27,7 +28,7 @@ export class ProfileComponent implements OnInit {
   });
 
   constructor(private route: ActivatedRoute, private userService: UserService, private formBuilder: FormBuilder,
-              public dialog: MatDialog) { }
+              public dialog: MatDialog, private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params: ParamMap) => {
@@ -43,6 +44,12 @@ export class ProfileComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
+    });
+  }
+
+  openSnackBar(message: string, action: string):void {
+    this.snackBar.open(message, action, {
+      duration: 2000,
     });
   }
 

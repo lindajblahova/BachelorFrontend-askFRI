@@ -4,7 +4,6 @@ import {Observable} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
 import {IUser} from '../interfaces/IUser';
 import {throwError as observableThrowError} from 'rxjs/internal/observable/throwError';
-import {IRoom} from '../interfaces/IRoom';
 
 @Injectable({
   providedIn: 'root'
@@ -18,10 +17,13 @@ export class UserService {
     return this.http.post<IUser>(this.url, user).pipe(catchError(this.errorHandler));
   }
 
-  deleteRoom(userId): Observable<HttpEvent<IRoom>> {
+  deleteUser(userId): Observable<HttpEvent<IUser>> {
     return this.http.delete(this.url, userId).pipe(catchError(this.errorHandler));
   }
 
+  updateUser(user: IUser): Observable<IUser> {
+    return this.http.put<IUser>(this.url, user).pipe(catchError(this.errorHandler));
+  }
 
   getUsers(): Observable<IUser[]> {
     return this.http.get<IUser[]>(this.url).pipe(catchError(this.errorHandler));

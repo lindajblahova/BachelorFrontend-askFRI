@@ -73,8 +73,11 @@ export class AnswerQuestionComponent implements OnInit {
   }
 
   createCheckboxAnswer(): void {
-    console.log(this.checkFormChecked);
-    /// TODO urobit namapovanie na checkform
+    for (let i = 0; i < this.checkFormChecked.length; i++) {
+      if (this.checkFormChecked[i] === true) {
+        console.log(this.question.optionalAnswers[i]);
+      }
+    }
     this.answerService.saveAnswer({idAnswer: 0, idQuestion: this.question.idQuestion,
       content: this.radioValue}).subscribe(
       response => {

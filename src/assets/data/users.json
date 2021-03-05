@@ -4,27 +4,31 @@
     "firstname": "Linda",
     "surname": "Blahova",
     "email": "linda@gmail.com",
-    "password": "Linda123"
+    "password": "Linda123",
+    "role": "User"
   },
   {
     "idUser": 2,
     "firstname": "Marek",
     "surname": "Blaha",
     "email": "marek@gmail.com",
-    "password": "Marek123"
+    "password": "Marek123",
+    "role": "Admin"
   },
   {
     "idUser": 3,
     "firstname": "Lukas",
     "surname": "Blaha",
     "email": "lukas@gmail.com",
-    "password": "Lukas123"
+    "password": "Lukas123",
+    "role": "User"
   },
   {
     "idUser": 4,
     "firstname": "Maria",
     "surname": "Blahova",
     "email": "maria@gmail.com",
-    "password": "Maria123"
+    "password": "Maria123",
+    "role": "User"
   }
 ]

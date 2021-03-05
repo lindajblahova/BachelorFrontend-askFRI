@@ -30,7 +30,7 @@ export class NavbarComponent implements OnInit {
   }
 
   goLogOut(): void {
-    this.router.navigate(['/']);
+    this.router.navigate(['/login']);
   }
 
   goHome(): void {
