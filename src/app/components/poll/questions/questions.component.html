@@ -2,12 +2,15 @@
   <ul class="list-group" *ngFor="let question of questions?.reverse(); let i = index" [attr.data-index]="i">
     <a *ngIf="question.displayedQuestion==true || author==true">
       <mat-accordion>
-        <mat-expansion-panel [expanded]="author==false" class="mt-2 mb-2">
+        <mat-expansion-panel #panel [expanded]="author==false" class="mt-2 mb-2">
           <mat-expansion-panel-header>
-            <mat-panel-title class="text-left">
+            <mat-panel-title class="text-left" *ngIf="panel.expanded==false">
               {{ question.content}}
             </mat-panel-title>
           </mat-expansion-panel-header>
+          <p class="text-left mt-2" *ngIf="panel.expanded==true">
+            {{ question.content}}
+          </p>
           <div *ngIf="author==true">
             <app-answers [question]="question" [author]="author" [color]="i"></app-answers>
           </div>

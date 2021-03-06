@@ -26,18 +26,18 @@
             <li class="nav-item" *ngIf="participant==1 || participant==3">
               <a class="nav-link h5 font-weight-light m-0"  (click)="isOpened=!isOpened">Info</a>
             </li>
-            <li class="nav-item" *ngIf="participant==2 || participant==3">
-              <a class="nav-link h5 font-weight-light m-0"
-                 [class.active]="activeTab=='Prehľad'" (click)="goHome()">Prehľad</a>
+            <li class="nav-item" *ngIf="participant==1">
+              <a class="nav-link h5 font-weight-light m-0"  (click)="goInit()">Odísť</a>
             </li>
             <li class="nav-item" *ngIf="participant==2">
               <a class="nav-link h5 font-weight-light m-0"
                  [class.active]="activeTab=='Profil'" (click)="goProfile()">Profil</a>
             </li>
             <li class="nav-item" *ngIf="participant==2 || participant==3">
-              <a class="nav-link h5 font-weight-light m-0"  (click)="goLogOut()">Odhlásiť</a>
+              <a class="nav-link h5 font-weight-light m-0"
+                 [class.active]="activeTab=='Prehľad'" (click)="goHome()">Prehľad</a>
             </li>
-            <li class="nav-item" *ngIf="participant==4">
+            <li class="nav-item" *ngIf="participant==2 || participant==3 || participant==4">
               <a class="nav-link h5 font-weight-light m-0"  (click)="goLogOut()">Odhlásiť</a>
             </li>
           </ul>

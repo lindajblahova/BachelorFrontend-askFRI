@@ -22,6 +22,7 @@ export class MessagesComponent implements OnInit {
   private _messages: IMessage[] = [];
   private _errorMsg: string;
   private _likes: boolean[];
+  private _hiddenTime: boolean[];
 
   private _newMessageForm = this.formBuilder.group({
     content: [''],
@@ -42,13 +43,14 @@ export class MessagesComponent implements OnInit {
     this.messageService.getRoomMessages(this.roomId).subscribe(data => this.messages = data,
                                                                     error => this.errorMsg = error);
     this.likes = new Array(this.messages.length).fill(false);
+    this.hiddenTime = new Array(this.messages.length).fill(true);
   }
 
   createMessage(): void {
     // this.messageService.addMessage(this.room.idRoom, this.newMessageForm.get('content').value);
     if (this.newMessageForm.get('content').value.trim() !== '' || this.room !== undefined || this.author !== undefined) {
       this.messageService.saveMessage({idMessage: 0, idRoom: this.room.idRoom,
-        content: this.newMessageForm.get('content').value.trim(), likesCount: 0}).subscribe(
+        content: this.newMessageForm.get('content').value.trim(), likesCount: 0, date: Date()}).subscribe(
         response => {
           console.log(response);
         });
@@ -66,6 +68,10 @@ export class MessagesComponent implements OnInit {
     this.likes[idMessage] = !this.likes[idMessage];
   }
 
+  displayMessageTime(idMessage: number): void {
+    this.hiddenTime[idMessage] = !this.hiddenTime[idMessage];
+  }
+
   deleteMessage(idMessage: number): void {
     console.warn(idMessage);
   }
@@ -79,6 +85,14 @@ export class MessagesComponent implements OnInit {
   }
 
   /// GETTERS AND SETTERS
+  get hiddenTime(): boolean[] {
+    return this._hiddenTime;
+  }
+
+  set hiddenTime(value: boolean[]) {
+    this._hiddenTime = value;
+  }
+
   get newMessageForm(): FormGroup {
     return this._newMessageForm;
   }

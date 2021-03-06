@@ -21,6 +21,17 @@ button:focus{
   height: 16px;
 }
 
+.myHeartButton {
+  width: 35px;
+  height: 30px;
+}
+
+.mat-button-wrapper {
+  font-size: 10px;
+  margin-top: -11px;
+  margin-left: -4px;
+}
+
 .myIcon {
   font-size: 10px;
   margin-top: -11px;
@@ -33,16 +44,10 @@ button:focus{
   padding-top: 4px;
   padding-bottom: 4px;
 }
+
 @media screen and (max-width: 800px) {
   mat-card-content {
     font-size: smaller;
-  }
-
-  .myPadding {
-    padding-left: 16px;
-    padding-right: 16px;
-    padding-top: 4px;
-    padding-bottom: 4px;;
   }
 }
 
@@ -50,38 +55,17 @@ button:focus{
   mat-card-content {
     font-size: small;
   }
-
-  .myPadding {
-    padding-left: 16px;
-    padding-right: 16px;
-    padding-top: 4px;
-    padding-bottom: 4px;
-  }
-
 }
 
 @media screen and (max-width: 400px) {
   mat-card-content{
     font-size: x-small;
   }
-
-  .myPadding {
-    padding-left: 16px;
-    padding-right: 16px;
-    padding-top: 4px;
-    padding-bottom: 4px;
-  }
 }
 
 @media screen and (max-width: 300px) {
   mat-card-content {
     font-size: xx-small;
-  }
-  .myPadding {
-    padding-left: 16px;
-    padding-right: 16px;
-    padding-top: 4px;
-    padding-bottom: 4px;
   }
 }
 
