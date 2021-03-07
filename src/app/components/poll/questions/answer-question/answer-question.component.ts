@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {AnswerService} from '../../../../services/answer.service';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {IAnswer} from '../../../../interfaces/IAnswer';
@@ -20,6 +20,9 @@ export class AnswerQuestionComponent implements OnInit {
   private _question: IQuestion;
   private _author: boolean;
   private _color: string;
+
+  /// OUTPUT
+  private _questionWasAnswered = new EventEmitter<number>();
 
   private _answerForm: FormGroup = this.formBuilder.group({
     content:  ['']
@@ -55,37 +58,68 @@ export class AnswerQuestionComponent implements OnInit {
   }
 
   createSliderAnswer(): void {
-    console.log(this.sliderValue);
-    this.answerService.saveAnswer({idAnswer: 0, idQuestion: this.question.idQuestion,
-      content: this.sliderValue}).subscribe(
-      response => {
-        console.log(response);
-      });
+    if (this.sliderValue !== undefined) {
+      console.log(this.sliderValue);
+      this.answerService.saveAnswer({idAnswer: 0, idQuestion: this.question.idQuestion,
+        content: this.sliderValue}).subscribe(
+        response => {
+          console.log(response);
+        });
+      this.questionWasAnswered.emit();
+    }
   }
 
   createRadioAnswer(): void {
-    console.log(this.radioValue);
-    this.answerService.saveAnswer({idAnswer: 0, idQuestion: this.question.idQuestion,
-      content: this.radioValue}).subscribe(
-      response => {
-        console.log(response);
-      });
+    if (this.radioValue !== undefined) {
+      console.log(this.radioValue);
+      this.answerService.saveAnswer({idAnswer: 0, idQuestion: this.question.idQuestion,
+        content: this.radioValue}).subscribe(
+        response => {
+          console.log(response);
+        });
+      this.questionWasAnswered.emit();
+    }
   }
 
   createCheckboxAnswer(): void {
-    for (let i = 0; i < this.checkFormChecked.length; i++) {
-      if (this.checkFormChecked[i] === true) {
-        console.log(this.question.optionalAnswers[i]);
+    if (this.checkFormChecked.length > 0) {
+      for (let i = 0; i < this.checkFormChecked.length; i++) {
+        if (this.checkFormChecked[i] === true) {
+          console.log(this.question.optionalAnswers[i]);
+        }
       }
+      this.answerService.saveAnswer({idAnswer: 0, idQuestion: this.question.idQuestion,
+        content: this.radioValue}).subscribe(
+        response => {
+          console.log(response);
+        });
+      this.questionWasAnswered.emit();
     }
-    this.answerService.saveAnswer({idAnswer: 0, idQuestion: this.question.idQuestion,
-      content: this.radioValue}).subscribe(
-      response => {
-        console.log(response);
-      });
+  }
+
+  createCustomAnswer(): void {
+    if (this.answerForm.get('content').value.trim() !== '') {
+      console.log(this.answerForm.get('content').value);
+      this.answerService.saveAnswer({idAnswer: 0, idQuestion: this.question.idQuestion,
+        content: this.answerForm.get('content').value}).subscribe(
+        response => {
+          console.log(response);
+        });
+      this.questionWasAnswered.emit();
+    }
+
   }
 
   /// GETTERS AND SETTERS
+  @Output()
+  get questionWasAnswered(): EventEmitter<number> {
+    return this._questionWasAnswered;
+  }
+
+  set questionWasAnswered(value: EventEmitter<number>) {
+    this._questionWasAnswered = value;
+  }
+
   get answerForm(): FormGroup {
     return this._answerForm;
   }

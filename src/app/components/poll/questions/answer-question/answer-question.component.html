@@ -1,6 +1,6 @@
 <div *ngIf="question.type==0 && author==false">
-  <form [formGroup]="answerForm">
-    <mat-card class="m-2" [style.background-color]="getBackgroundColor(color+1)" (submit)="onSubmit()">
+  <form [formGroup]="answerForm" (submit)="createCustomAnswer()">
+    <mat-card class="m-2" [style.background-color]="getBackgroundColor(color+1)">
       <mat-card-content>
         <mat-form-field color="accent" class="full-width-form mt-2 mb-0">
           <mat-label>Odpoveď</mat-label>
@@ -38,7 +38,7 @@
 </div>
 
 <div *ngIf="question.type==3 && author==false">
-  <form [formGroup]="answerForm" (submit)="createSliderAnswer()">
+  <form (submit)="createSliderAnswer()">
     <mat-card class="m-2" [style.background-color]="getBackgroundColor(color+1)">
       <mat-card-content>
           <mat-slider class="full-width-form"
@@ -53,5 +53,3 @@
     <button *ngIf="author==false" type="submit" mat-raised-button class="bg-warning m-3">Odoslať</button>
   </form>
 </div>
-
-

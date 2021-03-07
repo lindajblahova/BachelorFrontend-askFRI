@@ -11,7 +11,12 @@ import {throwError as observableThrowError} from 'rxjs/internal/observable/throw
 export class UserService {
 
   private url = '/assets/data/users.json';
+  private url2 = 'https://cors-anywhere.herokuapp.com/http://api.ipify.org/?format=text';
   constructor(private http: HttpClient) { }
+
+  getIPAddress(): Observable<any> {
+    return this.http.get(this.url2);
+  }
 
   saveUser(user: IUser): Observable<IUser> {
     return this.http.post<IUser>(this.url, user).pipe(catchError(this.errorHandler));

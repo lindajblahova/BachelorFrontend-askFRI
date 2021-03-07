@@ -14,7 +14,7 @@ export class QuestionsComponent implements OnInit {
 
   private _roomId: number;
   private _questions: IQuestion[] = [];
-  private _displayedAnswersPublic = [];
+  private _isQuestionAnswered = [];
 
   /// INPUTS
   private _author: boolean;
@@ -28,15 +28,15 @@ export class QuestionsComponent implements OnInit {
 
     this.questionService.getRoomQuestions(this.roomId).subscribe(data => this.questions = data);
 
-    this.displayedAnswersPublic.fill(false);
+    this.isQuestionAnswered = new Array(this.questions.length).fill(false);
   }
 
   displayQuestionPublic(id: number): void {
     this.questionService.displayQuestion(id);
   }
 
-  displayAnswersPublic(id: number): void {
-    this.displayedAnswersPublic[id] = !this.displayedAnswersPublic[id];
+  questionAnswered(id: number): void {
+    this.isQuestionAnswered[id] = !this.isQuestionAnswered[id];
   }
 
   openDeleteDialog(): void {
@@ -57,12 +57,12 @@ export class QuestionsComponent implements OnInit {
     this._author = value;
   }
 
-  get displayedAnswersPublic(): any[] {
-    return this._displayedAnswersPublic;
+  get isQuestionAnswered(): any[] {
+    return this._isQuestionAnswered;
   }
 
-  set displayedAnswersPublic(value: any[]) {
-    this._displayedAnswersPublic = value;
+  set isQuestionAnswered(value: any[]) {
+    this._isQuestionAnswered = value;
   }
   get questions(): any[] {
     return this._questions;

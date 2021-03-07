@@ -12,17 +12,29 @@
             {{ question.content}}
           </p>
           <div *ngIf="author==true">
-            <app-answers [question]="question" [author]="author" [color]="i"></app-answers>
+            <app-answers [question]="question" [author]="author" [color]="i" ></app-answers>
           </div>
           <div *ngIf="author==false">
-            <app-answer-question [author]="author" [question]="question" [color]="i"></app-answer-question>
+            <app-answer-question [class.d-none]="isQuestionAnswered[i]==true"
+                                 [author]="author" [question]="question" [color]="i"
+                                 (questionWasAnswered)="questionAnswered(i)"></app-answer-question>
+            <div *ngIf="isQuestionAnswered[i]==true && question.displayedAnswers==true">
+              Výsledky ankety
+              <app-answers [question]="question" [author]="true" [color]="i" ></app-answers>
+            </div>
+            <div *ngIf="isQuestionAnswered[i]==true && question.displayedAnswers==false">
+              Ďakujeme za vašu odpoveď.
+              <div>
+                <mat-icon>sentiment_satisfied_alt</mat-icon>
+              </div>
+            </div>
           </div>
           <mat-action-row *ngIf="author==true" class="align-middle">
             <section>
-              <mat-slide-toggle class="mr-2 mt-2" (change)="displayQuestionPublic(question.idQuestion)">Zobraziť otázku
+              <mat-slide-toggle class="mr-2 mt-2">Zobraziť otázku
                 všetkým
               </mat-slide-toggle>
-              <mat-slide-toggle class="mr-2 mt-2" (change)="displayAnswersPublic(question.idQuestion)">Zobraziť odpovede
+              <mat-slide-toggle class="mr-2 mt-2">Zobraziť odpovede
                 všetkým
               </mat-slide-toggle>
               <button *ngIf="author==true" mat-fab class="m-0 p-0" (click)="openDeleteDialog()"><mat-icon class="text-white">delete_outline</mat-icon></button>
@@ -33,5 +45,4 @@
     </a>
   </ul>
 </div>
-
 

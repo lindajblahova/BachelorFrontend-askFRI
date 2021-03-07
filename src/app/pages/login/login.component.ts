@@ -4,6 +4,9 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {UserService} from '../../services/user.service';
 import {regexFineFunction} from '../../validators/regex-validation';
 import {IUser} from '../../interfaces/IUser';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import * as internalIp from 'internal-ip';
+import * as publicIp from 'public-ip';
 
 @Component({
   selector: 'app-login',
@@ -16,6 +19,8 @@ export class LoginComponent implements OnInit {
   private _users: IUser[] = [];
   private _errorMsg: string;
   private _userEmail: string;
+  ipPrivate;
+  ipPublic;
   private _logInForm: FormGroup = this.formBuilder.group({
     email: ['', [Validators.required,
       Validators.minLength(7), regexFineFunction(/^[\w]{1,}[\w.+-]{0,}@[\w-]{2,}([.][a-zA-Z]{2,}|[.][\w-]{2,}[.][a-zA-Z]{2,})$/)]],
@@ -23,16 +28,20 @@ export class LoginComponent implements OnInit {
       Validators.minLength(8), regexFineFunction(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/)]],
   });
 
-  constructor(private formBuilder: FormBuilder, private router: Router, private userService: UserService) { }
+  constructor(private formBuilder: FormBuilder, private router: Router, private userService: UserService,
+              private http: HttpClient) { }
 
   ngOnInit(): void {
     this.userService.getUsers()
       .subscribe(data => this.users = data,
         error => this.errorMsg = error);
+
+    this.myIp();
   }
 
   onSubmit(): void {
-    if (this.logInForm.get('email').value !== '' &&  this.logInForm.get('password').value !== '') {
+
+      if (this.logInForm.get('email').value !== '' &&  this.logInForm.get('password').value !== '') {
       this.userEmail = this.logInForm.get('email').value;
       this.user = this.users.find(user => user.email === this.userEmail);
       if (this.user != null) {
@@ -44,6 +53,28 @@ export class LoginComponent implements OnInit {
       }
       this.logInForm.reset();
     }
+  }
+
+  myIp(): void {
+    (async () => {
+
+      // private v4
+      this.ipPrivate = await internalIp.v4();
+
+      // public v4
+      this.ipPublic = await publicIp.v4();
+    })();
+
+    /* const ipify = import('ipify');
+    (async () => {
+      console.log(await ipify());
+
+      console.log(await ipify({useIPv6: false}));
+    })(); */
+
+    /*this.http.get('http://api.ipify.org/?format=json').subscribe((res: any ) => {
+          this.ip = res.ip;
+        });*/
   }
 
   /// GETTERS AND SETTERS
