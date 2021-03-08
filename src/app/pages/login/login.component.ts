@@ -47,8 +47,10 @@ export class LoginComponent implements OnInit {
       if (this.user != null) {
         if (this.user.role === 'Admin') {
           this.router.navigate(['/adminHome', this.user.idUser]);
-        } else {
+        } else if(this.user.role === 'Teacher') {
           this.router.navigate(['/home', this.user.idUser]);
+        } else {
+          this.router.navigate(['/enter-room', this.user.idUser]);
         }
       }
       this.logInForm.reset();

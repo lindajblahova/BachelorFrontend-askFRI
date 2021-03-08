@@ -19,17 +19,17 @@
               <a class="nav-link h5 font-weight-light m-0"
                  [class.active]="activeTab=='Prihlásiť'" (click)="goLogIn()">Prihlásiť</a>
             </li>
-            <li class="nav-item" *ngIf="participant==0">
-              <a class="nav-link h5 font-weight-light m-0"
-                 [class.active]="activeTab=='Registrovať'" (click)="goRegister()">Registrovať</a>
-            </li>
-            <li class="nav-item" *ngIf="participant==1 || participant==3">
+            <li class="nav-item" *ngIf="participant==3 || participant==5">
               <a class="nav-link h5 font-weight-light m-0"  (click)="isOpened=!isOpened">Info</a>
             </li>
-            <li class="nav-item" *ngIf="participant==1">
-              <a class="nav-link h5 font-weight-light m-0"  (click)="goInit()">Odísť</a>
+            <li class="nav-item" *ngIf="participant==5">
+              <a class="nav-link h5 font-weight-light m-0"  (click)="goParticipant()">Odísť</a>
             </li>
-            <li class="nav-item" *ngIf="participant==2">
+            <li class="nav-item" *ngIf="participant==2 || participant==4">
+              <a class="nav-link h5 font-weight-light m-0"
+                 [class.active]="activeTab=='Účastník'" (click)="goParticipant()">Účastník</a>
+            </li>
+            <li class="nav-item" *ngIf="participant==2 || participant==3">
               <a class="nav-link h5 font-weight-light m-0"
                  [class.active]="activeTab=='Profil'" (click)="goProfile()">Profil</a>
             </li>
@@ -37,7 +37,7 @@
               <a class="nav-link h5 font-weight-light m-0"
                  [class.active]="activeTab=='Prehľad'" (click)="goHome()">Prehľad</a>
             </li>
-            <li class="nav-item" *ngIf="participant==2 || participant==3 || participant==4">
+            <li class="nav-item" *ngIf="participant==1 || participant==2 || participant==3 || participant==4 || participant==5">
               <a class="nav-link h5 font-weight-light m-0"  (click)="goLogOut()">Odhlásiť</a>
             </li>
           </ul>
@@ -46,3 +46,10 @@
   </mat-sidenav-content>
 </mat-sidenav-container>
 
+<!--participant kódovanie-->
+<!-- initial              - 0 -> prihlasit, registrovat -->
+<!-- admin                - 1 -> odhlasit sa -->
+<!-- teacher              - 2 (prihlaseny) -> ucastnik, profil, prehlad, odhlasit sa -->
+<!-- teacher              - 3 (v roomke) ->  info, profil, prehlad, odhlasit sa -->
+<!-- student/participant  - 4 (prihlaseny) -> odhlasit sa-->
+<!-- student/participant  - 5 (v roomke) -> info, odist z miest., odhlasit sa-->

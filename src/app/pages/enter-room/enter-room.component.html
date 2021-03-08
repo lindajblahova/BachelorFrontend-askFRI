@@ -1,4 +1,4 @@
-<app-navbar [participant]="0"></app-navbar>
+<app-navbar [participant]="userData.role==='Teacher' ? 2:4" [activeTab]="'Účastník'" [userId]="userId"></app-navbar>
 {{errorMsg}}
 <div class="container bg-light text-center">
   <div class="row">

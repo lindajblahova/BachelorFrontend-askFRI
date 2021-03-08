@@ -37,6 +37,10 @@ export class NavbarComponent implements OnInit {
     this.router.navigate(['/login']);
   }
 
+  goParticipant(): void {
+    this.router.navigate(['/enter-room', this._userId]);
+  }
+
   goHome(): void {
     if (this._room != null) {
       this.router.navigate(['/home', this._room.idOwner]);
@@ -56,6 +60,7 @@ export class NavbarComponent implements OnInit {
   set isOpened(value: boolean) {
     this._isOpened = value;
   }
+
   get activeTab() {
     return this._activeTab;
   }

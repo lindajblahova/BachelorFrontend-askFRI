@@ -45,7 +45,7 @@ export class RoomsComponent implements OnInit {
   }
 
   enterRoom(id: number): void {
-    this.router.navigate(['/rooms', id]);
+    this.router.navigate(['/rooms', this.userId, id]);
   }
 
   isPasscodeUsed(checkedValue: boolean, roomPasscode: string, event: MatSlideToggleChange): void {

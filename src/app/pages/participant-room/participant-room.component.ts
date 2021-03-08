@@ -2,6 +2,8 @@ import {Component, Input, OnInit} from '@angular/core';
 import {RoomService} from '../../services/room.service';
 import {ActivatedRoute, ParamMap} from '@angular/router';
 import {IRoom} from '../../interfaces/IRoom';
+import {IUser} from '../../interfaces/IUser';
+import {UserService} from '../../services/user.service';
 
 @Component({
   selector: 'app-participant-room',
@@ -10,11 +12,12 @@ import {IRoom} from '../../interfaces/IRoom';
 })
 export class ParticipantRoomComponent implements OnInit {
 
+  private _userId: number;
   private _rooms: IRoom[] = [];
   private _room: IRoom;
   private _roomId: number;
   private _errorMsg: string;
-  constructor(private roomService: RoomService, private route: ActivatedRoute) { }
+  constructor(private roomService: RoomService, private route: ActivatedRoute, private userService: UserService) { }
 
   ngOnInit(): void {
     this.roomService.getRooms()
@@ -26,12 +29,25 @@ export class ParticipantRoomComponent implements OnInit {
       console.log(this.roomId);
     });
 
+    this.route.paramMap.subscribe((params: ParamMap) => {
+      this._userId = Number(params.get('userId'));
+      console.log(this._userId);
+    });
+
     console.log(this._rooms);
     this.roomService.findRoom(this.roomId).subscribe(data => this.room = data);
     console.log(this.room);
   }
 
   /// GETTERS AND SETTERS
+  get userId(): number {
+    return this._userId;
+  }
+
+  set userId(value: number) {
+    this._userId = value;
+  }
+
   get errorMsg() {
     return this._errorMsg;
   }

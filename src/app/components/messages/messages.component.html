@@ -17,6 +17,17 @@
           </div>
         </form>
         <hr class="mt-0 mb-2">
+        <div class="row ml-2">
+          <form [formGroup]="orderMessagesForm" (ngSubmit)="orderMessages()">
+            <mat-form-field class="full-width-form" color="accent">
+            <mat-label>Zoradenie správ</mat-label>
+            <mat-select formControlName="orderBy">
+              <mat-option value="0">Zoradiť od najobľúbenejších</mat-option>
+              <mat-option value="1">Zoradiť od najnovších</mat-option>
+            </mat-select>
+            </mat-form-field>
+          </form>
+        </div>
       </div>
     </div>
     <div class="col-lg-12 pre-scrollable">

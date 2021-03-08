@@ -10,6 +10,7 @@ import {IRoom} from '../../interfaces/IRoom';
 })
 export class RoomComponent implements OnInit {
 
+  private _userId: number;
   private _rooms: IRoom[] = [];
   private _room: IRoom;
   private _roomId: number;
@@ -27,11 +28,24 @@ export class RoomComponent implements OnInit {
       console.log(this.roomId);
     });
 
+    this.route.paramMap.subscribe((params: ParamMap) => {
+      this._userId = Number(params.get('userId'));
+      console.log(this._userId);
+    });
+
     console.log(this.rooms);
     this.roomService.findRoom(this.roomId).subscribe(data => this.room = data);
   }
 
   /// GETTERS AND SETTERS
+  get userId(): number {
+    return this._userId;
+  }
+
+  set userId(value: number) {
+    this._userId = value;
+  }
+
   get errorMsg() {
     return this._errorMsg;
   }

@@ -45,6 +45,10 @@ button:focus{
   padding-bottom: 4px;
 }
 
+::ng-deep.mat-accent .mat-option.mat-selected:not(.mat-option-disabled) {
+  color: #d0b400;
+}
+
 @media screen and (max-width: 800px) {
   mat-card-content {
     font-size: smaller;

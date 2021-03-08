@@ -5,7 +5,7 @@
     "surname": "Blahova",
     "email": "linda@gmail.com",
     "password": "Linda123",
-    "role": "User"
+    "role": "Teacher"
   },
   {
     "idUser": 2,
@@ -21,7 +21,7 @@
     "surname": "Blaha",
     "email": "lukas@gmail.com",
     "password": "Lukas123",
-    "role": "User"
+    "role": "Student"
   },
   {
     "idUser": 4,
@@ -29,6 +29,6 @@
     "surname": "Blahova",
     "email": "maria@gmail.com",
     "password": "Maria123",
-    "role": "User"
+    "role": "Visitor"
   }
 ]

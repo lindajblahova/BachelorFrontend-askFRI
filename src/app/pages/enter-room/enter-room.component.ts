@@ -1,8 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Router} from '@angular/router';
+import {ActivatedRoute, ParamMap, Router} from '@angular/router';
 import {RoomService} from '../../services/room.service';
 import {IRoom} from '../../interfaces/IRoom';
+import {IUser} from '../../interfaces/IUser';
+import {UserService} from '../../services/user.service';
 
 @Component({
   selector: 'app-enter-room',
@@ -11,6 +13,8 @@ import {IRoom} from '../../interfaces/IRoom';
 })
 export class EnterRoomComponent implements OnInit {
 
+  private _userId: number;
+  private _userData: IUser;
   private _room: IRoom;
   private _rooms: IRoom[] = [];
   private _passcode: string;
@@ -19,12 +23,20 @@ export class EnterRoomComponent implements OnInit {
     passcode: ['', Validators.required],
   });
 
-  constructor(private formBuilder: FormBuilder, private roomService: RoomService,  private router: Router) { }
+  constructor(private formBuilder: FormBuilder, private roomService: RoomService,  private router: Router,
+              private route: ActivatedRoute, private userService: UserService) { }
 
   ngOnInit(): void {
     this.roomService.getRooms()
       .subscribe(data => this.rooms = data,
                 error => this.errorMsg = error);
+
+    this.route.paramMap.subscribe((params: ParamMap) => {
+      this.userId = Number(params.get('userId'));
+      console.log(this.userId);
+    });
+
+    this.userService.getUserById(this.userId).subscribe(data => this.userData = data);
   }
 
   onSubmit(): void {
@@ -32,13 +44,29 @@ export class EnterRoomComponent implements OnInit {
       this.passcode = this.passcodeForm.get('passcode').value;
       this.room = this.rooms.find(room => room.roomPasscode === this.passcode);
       if (this.room !== undefined) {
-        this.router.navigate(['/participant-rooms', this._room.idRoom]);
+        this.router.navigate(['/participant-rooms', this._userId, this._room.idRoom]);
       }
       this.passcodeForm.reset();
     }
   }
 
   /// GETTERS AND SETTERS
+  get userData(): IUser {
+    return this._userData;
+  }
+
+  set userData(value: IUser) {
+    this._userData = value;
+  }
+
+  get userId(): number {
+    return this._userId;
+  }
+
+  set userId(value: number) {
+    this._userId = value;
+  }
+
   get passcodeForm(): FormGroup {
     return this._passcodeForm;
   }

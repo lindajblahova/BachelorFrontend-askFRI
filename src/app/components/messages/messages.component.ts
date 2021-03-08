@@ -28,6 +28,10 @@ export class MessagesComponent implements OnInit {
     content: [''],
   });
 
+  private _orderMessagesForm = this.formBuilder.group( {
+    orderBy: '',
+  });
+
   /// INPUTS
   private _room: IRoom;
   private _author;
@@ -76,6 +80,9 @@ export class MessagesComponent implements OnInit {
     console.warn(idMessage);
   }
 
+  orderMessages(): void {
+  }
+
   openDeleteDialog(): void {
     const dialogRef = this.dialog.open(DialogDeleteMessageComponent);
 
@@ -85,6 +92,14 @@ export class MessagesComponent implements OnInit {
   }
 
   /// GETTERS AND SETTERS
+  get orderMessagesForm(): FormGroup {
+    return this._orderMessagesForm;
+  }
+
+  set orderMessagesForm(value: FormGroup) {
+    this._orderMessagesForm = value;
+  }
+
   get hiddenTime(): boolean[] {
     return this._hiddenTime;
   }

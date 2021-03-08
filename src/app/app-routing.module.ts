@@ -12,12 +12,13 @@ import {AdminPageComponent} from './admin/admin-page/admin-page.component';
 
 
 const routes: Routes = [
-  {path: '', component: EnterRoomComponent},
-  {path: 'participant-rooms/:roomId', component: ParticipantRoomComponent},
+  {path: '', redirectTo: '/login', pathMatch: 'full'},
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
+  {path: 'enter-room/:userId', component: EnterRoomComponent},
   {path: 'home/:userId', component: HomeComponent},
-  {path: 'rooms/:roomId', component: RoomComponent},
+  {path: 'participant-rooms/:userId/:roomId', component: ParticipantRoomComponent},
+  {path: 'rooms/:userId/:roomId', component: RoomComponent},
   {path: 'profile/:userId', component: ProfileComponent},
   {path: 'adminHome/:userId', component: AdminPageComponent},
 ];
