@@ -32,6 +32,8 @@ import { DialogDeleteQuestionComponent } from './components/dialog/dialog-delete
 import { AdminPageComponent } from './admin/admin-page/admin-page.component';
 import { AllRoomsComponent } from './admin/admin-page/all-rooms/all-rooms.component';
 import { AllUsersComponent } from './admin/admin-page/all-users/all-users.component';
+import { CookieService } from 'ngx-cookie-service';
+import {AuthGuard} from './auth/auth.guard';
 
 @NgModule({
   declarations: [
@@ -71,7 +73,7 @@ import { AllUsersComponent } from './admin/admin-page/all-users/all-users.compon
         MaterialModule,
         ScrollingModule
     ],
-  providers: [],
+  providers: [CookieService, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
