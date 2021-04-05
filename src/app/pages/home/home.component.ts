@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, ParamMap} from '@angular/router';
+import {TokenService} from '../../services/token.service';
 
 @Component({
   selector: 'app-home',
@@ -9,13 +10,11 @@ import {ActivatedRoute, ParamMap} from '@angular/router';
 export class HomeComponent implements OnInit {
 
   private _userId: number;
-  constructor(private route: ActivatedRoute) { }
+  constructor(private tokenService: TokenService) { }
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe((params: ParamMap) => {
-      this.userId = Number(params.get('userId'));
-      console.log(this.userId);
-    });
+    this.userId = Number(this.tokenService.getUserId());
+    console.log(this.userId);
   }
 
   /// GETTERS AND SETTERS

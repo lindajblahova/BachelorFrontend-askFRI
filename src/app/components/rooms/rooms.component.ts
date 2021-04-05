@@ -8,6 +8,9 @@ import {IRoom} from '../../interfaces/IRoom';
 import {DialogDeleteProfileComponent} from '../dialog/dialog-delete-profile/dialog-delete-profile.component';
 import {DialogDeleteRoomComponent} from '../dialog/dialog-delete-room/dialog-delete-room.component';
 import {MatSlideToggleChange} from '@angular/material/slide-toggle';
+import {Token} from '@angular/compiler';
+import {TokenService} from '../../services/token.service';
+import {BehaviorSubject, Observable, Subscription} from 'rxjs';
 
 export interface DialogData {
   roomPasscode: string;
@@ -21,26 +24,27 @@ export interface DialogData {
 export class RoomsComponent implements OnInit {
 
   @ViewChild('reactivateRoom') ref: ElementRef;
-  private _rooms: IRoom[] = [];
+  private _rooms: IRoom[];
   private _allRooms: IRoom[];
   private _userId: number;
   private _errorMsg: string;
   private _newPasscodeValue: string;
   private _passcodeExists;
   private _reactivateDialogResult: boolean;
+
   constructor(private roomService: RoomService, private userService: UserService, private route: ActivatedRoute,
-              private router: Router, public dialog: MatDialog) { }
+              private router: Router, public dialog: MatDialog, private tokenService: TokenService) { }
 
   ngOnInit(): void {
 
-    this.route.paramMap.subscribe((params: ParamMap) => {
-      this.userId = Number(params.get('userId'));
+    this.roomService.refreshNeeded.subscribe( () => {
+      this.getRooms();
     });
+    this.getRooms();
+  }
 
-    this.roomService.findUserRooms(this.userId).subscribe(data => this.rooms = data,
-                                                           error => this.errorMsg = error);
-
-    this.roomService.getRooms().subscribe(data => this.allRooms = data,
+  getRooms(): Subscription {
+    return this.roomService.findUserRooms(Number(this.tokenService.getUserId())).subscribe(data => this.rooms = data,
       error => this.errorMsg = error);
   }
 

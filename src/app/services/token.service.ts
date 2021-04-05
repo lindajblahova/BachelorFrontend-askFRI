@@ -2,8 +2,7 @@ import { Injectable } from '@angular/core';
 import {CookieService} from 'ngx-cookie-service';
 import {Router} from '@angular/router';
 
-const TOKEN_KEY = 'AuthToken';
-const USERID_KEY = 'AuthUserId';
+const USERID_KEY = 'AuthUId';
 const AUTHORITIES_KEY = 'AuthRole';
 
 @Injectable({
@@ -15,19 +14,6 @@ export class TokenService {
   authorities: string;
   constructor(private router: Router,
               private cookieService: CookieService) { }
-
-  signOut(): void {
-    this.cookieService.deleteAll();
-  }
-
-  public saveToken(token: string): void  {
-    this.cookieService.delete(TOKEN_KEY);
-    this.cookieService.set(TOKEN_KEY, token);
-  }
-
-  public getToken(): string {
-    return this.cookieService.get(TOKEN_KEY);
-  }
 
   public saveUserId(userId: string): void  {
     this.cookieService.delete(USERID_KEY);
@@ -44,12 +30,10 @@ export class TokenService {
   }
 
   public getAuthorities(): string {
-    if (this.cookieService.get(TOKEN_KEY)) {
-      return this.cookieService.get(AUTHORITIES_KEY);
-    }
+    return this.cookieService.get(AUTHORITIES_KEY);
   }
 
-  public delete(): void  {
+  signOut(): void {
     this.cookieService.deleteAll();
   }
 }

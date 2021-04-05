@@ -9,6 +9,7 @@ import {RoomComponent} from './pages/room/room.component';
 import {ProfileComponent} from './pages/profile/profile.component';
 import {AdminPageComponent} from './admin/admin-page/admin-page.component';
 import {AuthGuard} from './auth/auth.guard';
+import {CreateRoomComponent} from './components/create-room/create-room.component';
 
 
 
@@ -16,8 +17,9 @@ const routes: Routes = [
   {path: '', redirectTo: '/login', pathMatch: 'full'},
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
-  {path: 'enter-room/:userId', component: EnterRoomComponent,},
-  {path: 'home/:userId', component: HomeComponent, },
+  {path: 'enter-room/:userId', component: EnterRoomComponent},
+  {path: 'home', component: HomeComponent},
+  {path: 'home/create-room', component: HomeComponent},
   {path: 'participant-rooms/:userId/:roomId', component: ParticipantRoomComponent, },
   {path: 'rooms/:userId/:roomId', component: RoomComponent, },
   {path: 'profile/:userId', component: ProfileComponent, },

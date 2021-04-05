@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {IRoom} from '../../interfaces/IRoom';
+import {TokenService} from '../../services/token.service';
 
 @Component({
   selector: 'app-navbar',
@@ -16,7 +17,7 @@ export class NavbarComponent implements OnInit {
   private _userId?: number;
   private _activeTab?: string;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private tokenService: TokenService) { }
 
   ngOnInit(): void {
   }
@@ -34,6 +35,7 @@ export class NavbarComponent implements OnInit {
   }
 
   goLogOut(): void {
+    this.tokenService.signOut();
     this.router.navigate(['/login']);
   }
 
@@ -43,9 +45,9 @@ export class NavbarComponent implements OnInit {
 
   goHome(): void {
     if (this._room != null) {
-      this.router.navigate(['/home', this._room.idOwner]);
+      this.router.navigate(['/home']);
     } else {
-      this.router.navigate(['/home', this._userId]);
+      this.router.navigate(['/home']);
     }
   }
 

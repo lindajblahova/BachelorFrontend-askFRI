@@ -5,6 +5,7 @@ import {Router} from '@angular/router';
 import {passscodeAlreadyExist} from '../../validators/regex-validation';
 import {IRoom} from '../../interfaces/IRoom';
 import {IUser} from '../../interfaces/IUser';
+import {TokenService} from '../../services/token.service';
 
 @Component({
   selector: 'app-create-room',
@@ -23,7 +24,8 @@ export class CreateRoomComponent implements OnInit {
     roomName: ['', [Validators.required, Validators.minLength(2)]],
     roomPasscode: ['', [Validators.required, Validators.minLength(2)]],
   });
-  constructor(private router: Router, private roomService: RoomService, private formBuilder: FormBuilder) { }
+  constructor(private router: Router, private roomService: RoomService, private formBuilder: FormBuilder,
+              private tokenService: TokenService) { }
 
   ngOnInit(): void {
   }
@@ -33,17 +35,24 @@ export class CreateRoomComponent implements OnInit {
   }
 
   createRoom(): void {
-    if (this.owner !== undefined) {
-      this.roomService.saveRoom({idRoom: 0, idOwner: this.owner, roomName: this.createRoomForm.get('roomName').value,
+      console.log( Number(this.tokenService.getUserId()));
+      this.roomService.saveRoom({idRoom: 0, idOwner: Number(this.tokenService.getUserId()),
+      roomName: this.createRoomForm.get('roomName').value,
       roomPasscode: this.createRoomForm.get('roomPasscode').value, active: true}).subscribe(
         response => {
           console.log(response);
+          this.router.navigate(['/home']);
+          this.createRoomForm.reset();
+          this.showFormChange();
+          this.reloadComponent();
         });
+  }
 
-      this.createRoomForm.reset();
-      this.showFormChange();
-      this.router.navigate(['/home', this.owner]);
-    }
+  reloadComponent(): void {
+    const currentUrl = this.router.url;
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+    this.router.onSameUrlNavigation = 'reload';
+    this.router.navigate([currentUrl]);
   }
 
   /// GETTERS AND SETTERS

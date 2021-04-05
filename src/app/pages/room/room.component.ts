@@ -34,7 +34,7 @@ export class RoomComponent implements OnInit {
     });
 
     console.log(this.rooms);
-    this.roomService.findRoom(this.roomId).subscribe(data => this.room = data);
+   // this.roomService.findRoom(this.roomId).subscribe(data => this.room = data);
   }
 
   /// GETTERS AND SETTERS

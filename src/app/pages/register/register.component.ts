@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {regexFineFunction} from '../../validators/regex-validation';
 import {UserService} from '../../services/user.service';
+import {Router} from '@angular/router';
+import {TokenService} from '../../services/token.service';
 
 @Component({
   selector: 'app-register',
@@ -10,6 +12,7 @@ import {UserService} from '../../services/user.service';
 })
 export class RegisterComponent implements OnInit {
 
+  errorMsg;
   private _signUpForm: FormGroup = this.formBuilder.group({
     name: ['', [Validators.required,
       Validators.minLength(2), regexFineFunction(/^[a-zA-Zäňôľščťžýáíéúĺśźćŕń ,.'-]+$/)]],
@@ -21,7 +24,11 @@ export class RegisterComponent implements OnInit {
       Validators.minLength(8), regexFineFunction(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/)]],
     passwordConfirm: ['', [Validators.required]],
   });
-  constructor(private formBuilder: FormBuilder, private userService: UserService) { }
+
+  users;
+
+  constructor(private formBuilder: FormBuilder, private userService: UserService, private router: Router,
+              private tokenService: TokenService) { }
   ngOnInit(): void {
   }
 
@@ -31,8 +38,10 @@ export class RegisterComponent implements OnInit {
       password: this.signUpForm.get('password').value, role: 'User'}).subscribe(
       response => {
         console.log(response);
+        this.tokenService.saveUserId('' + response.idUser);
+        console.log(this.tokenService.getUserId());
+        this.router.navigate(['home']);
       });
-    this._signUpForm.reset();
   }
 
   passwordMatch(): boolean {
