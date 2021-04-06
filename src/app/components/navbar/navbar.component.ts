@@ -20,6 +20,7 @@ export class NavbarComponent implements OnInit {
   constructor(private router: Router, private tokenService: TokenService) { }
 
   ngOnInit(): void {
+    this.userId = Number(this.tokenService.getUserId());
   }
 
   goLogIn(): void {
@@ -52,7 +53,7 @@ export class NavbarComponent implements OnInit {
   }
 
   goProfile(): void {
-    this.router.navigate(['/profile', this._userId]);
+    this.router.navigate(['/profile']);
   }
 
   get isOpened(): boolean {
@@ -75,7 +76,6 @@ export class NavbarComponent implements OnInit {
     return this._userId;
   }
 
-  @Input()
   set userId(value) {
     this._userId = value;
   }

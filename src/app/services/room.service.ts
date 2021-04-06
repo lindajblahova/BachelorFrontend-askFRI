@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpErrorResponse, HttpEvent} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse, HttpEvent, HttpHeaders} from '@angular/common/http';
 import {throwError as observableThrowError, Observable, Subject} from 'rxjs';
 import {IRoom} from '../interfaces/IRoom';
 import {catchError, map, tap} from 'rxjs/operators';
@@ -10,7 +10,12 @@ import {catchError, map, tap} from 'rxjs/operators';
 })
 export class RoomService {
 
- // private url = '/assets/data/rooms.json';
+  private httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type':  'application/json'
+    })
+  };
+
   private _refreshNeeded = new Subject<void>();
   constructor(private http: HttpClient) { }
 
@@ -25,13 +30,35 @@ export class RoomService {
       }));
   }
 
-  deleteRoom(roomId): Observable<HttpEvent<IRoom>> {
-    return this.http.delete('http://localhost:8080/api/rooms/delete', roomId).pipe(catchError(this.errorHandler));
+  deleteRoom(roomId: number): Observable<IRoom>  {
+    return this.http.delete('http://localhost:8080/api/rooms/delete/' + roomId).pipe(catchError(this.errorHandler))
+      .pipe( tap(() => {
+        this._refreshNeeded.next();
+      }));
   }
 
-  updateRoom(room: IRoom): Observable<IRoom> {
-    return this.http.put<IRoom>('http://localhost:8080/api/rooms/update/inactive', room).pipe(catchError(this.errorHandler));
+  isPasscodeCurrentlyUsed(passcode: string): Observable<boolean> {
+    return this.http.get<string>('http://localhost:8080/api/rooms/get/passcode/' + passcode).pipe(catchError(this.errorHandler));
   }
+
+  updateRoomPasscode(room: IRoom): Observable<IRoom> {
+    return this.http.put<IRoom>('http://localhost:8080/api/rooms/update/passcode', room).pipe(catchError(this.errorHandler))
+      .pipe( tap(() => {
+        this._refreshNeeded.next();
+      }));
+  }
+
+  updateRoomActivity(idRoom: number): Observable<IRoom> {
+    return this.http.put<number>('http://localhost:8080/api/rooms/update/activity/', idRoom).pipe(catchError(this.errorHandler))
+      .pipe( tap(() => {
+        this._refreshNeeded.next();
+      }));
+  }
+
+  getRoom(id: number): Observable<IRoom> {
+    return this.http.get<IRoom>('http://localhost:8080/api/rooms/get/room/' + id).pipe(catchError(this.errorHandler));
+  }
+
 
   getRooms(): Observable<IRoom[]> {
     return this.http.get<IRoom[]>('http://localhost:8080/api/rooms/get').pipe(catchError(this.errorHandler));
@@ -42,7 +69,7 @@ export class RoomService {
   }
 
   findUserRooms(idUser: number): Observable<IRoom[]> {
-    return this.http.post<number>('http://localhost:8080/api/rooms/get/user', idUser).pipe(catchError(this.errorHandler));
+    return this.http.get<number>('http://localhost:8080/api/rooms/get/user/' + idUser).pipe(catchError(this.errorHandler));
   }
   /*
   findRoom(id: number): Observable<IRoom>{

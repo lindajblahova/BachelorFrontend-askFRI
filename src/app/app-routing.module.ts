@@ -19,10 +19,9 @@ const routes: Routes = [
   {path: 'register', component: RegisterComponent},
   {path: 'enter-room/:userId', component: EnterRoomComponent},
   {path: 'home', component: HomeComponent},
-  {path: 'home/create-room', component: HomeComponent},
   {path: 'participant-rooms/:userId/:roomId', component: ParticipantRoomComponent, },
-  {path: 'rooms/:userId/:roomId', component: RoomComponent, },
-  {path: 'profile/:userId', component: ProfileComponent, },
+  {path: 'room', component: RoomComponent, },
+  {path: 'profile', component: ProfileComponent, },
   {path: 'adminHome/:userId', component: AdminPageComponent, },
   // canActivate: [AuthGuard]
 ];

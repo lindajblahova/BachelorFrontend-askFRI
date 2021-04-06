@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute, ParamMap} from '@angular/router';
+import {ActivatedRoute, ParamMap, Router} from '@angular/router';
 import {UserService} from '../../services/user.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MatDialog} from '@angular/material/dialog';
 import {DialogDeleteProfileComponent} from '../../components/dialog/dialog-delete-profile/dialog-delete-profile.component';
 import {IUser} from '../../interfaces/IUser';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import {TokenService} from '../../services/token.service';
 
 @Component({
   selector: 'app-profile',
@@ -27,15 +28,11 @@ export class ProfileComponent implements OnInit {
     newPasswordConfirm: ['', Validators.required]
   });
 
-  constructor(private route: ActivatedRoute, private userService: UserService, private formBuilder: FormBuilder,
-              public dialog: MatDialog, private snackBar: MatSnackBar) { }
+  constructor(private tokenService: TokenService, private userService: UserService, private formBuilder: FormBuilder,
+              public dialog: MatDialog, private snackBar: MatSnackBar, private router: Router) { }
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe((params: ParamMap) => {
-      this.userId = Number(params.get('userId'));
-      console.log(this.userId);
-    });
-
+    this._userId = Number(this.tokenService.getUserId());
     this.userService.getUserById(this.userId).subscribe(data => this.userData = data);
   }
 
@@ -43,7 +40,12 @@ export class ProfileComponent implements OnInit {
     const dialogRef = this.dialog.open(DialogDeleteProfileComponent);
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
+      if (result === true)
+      {
+        this.userService.deleteUser(this.userId).subscribe(data => console.log(data));
+        this.tokenService.signOut();
+        this.router.navigate(['/login']);
+      }
     });
   }
 
@@ -51,6 +53,21 @@ export class ProfileComponent implements OnInit {
     this.snackBar.open(message, action, {
       duration: 2000,
     });
+  }
+
+  updatePassword(): void {
+    this.userService.getUserById(this.userId).subscribe(data => {
+      this.userData = data;
+      if (this._thirdFormGroup.get('newPasswordConfirm').value ===
+          this._secondFormGroup.get('newPassword').value ) {
+        console.log(this.userData);
+        this.userData.password = this._secondFormGroup.get('newPassword').value;
+        console.log(this._secondFormGroup.get('newPassword').value);
+        console.log(this.userData);
+        this.userService.updateUser(this.userData).subscribe();
+        this.openSnackBar('Heslo bolo zmenené.', 'Zavrieť');
+      }
+    } );
   }
 
   /// GETTERS AND SETTERS

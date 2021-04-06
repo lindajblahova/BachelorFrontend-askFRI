@@ -3,6 +3,7 @@ import {CookieService} from 'ngx-cookie-service';
 import {Router} from '@angular/router';
 
 const USERID_KEY = 'AuthUId';
+const ROOMID_KEY = 'AuthRId';
 const AUTHORITIES_KEY = 'AuthRole';
 
 @Injectable({
@@ -10,7 +11,7 @@ const AUTHORITIES_KEY = 'AuthRole';
 })
 export class TokenService {
 
-  private roles: Array<string> = [];
+  // private roles: Array<string> = [];
   authorities: string;
   constructor(private router: Router,
               private cookieService: CookieService) { }
@@ -22,6 +23,15 @@ export class TokenService {
 
   public getUserId(): string {
     return this.cookieService.get(USERID_KEY);
+  }
+
+  public saveRoomId(roomId: string): void  {
+    this.cookieService.delete(ROOMID_KEY);
+    this.cookieService.set(ROOMID_KEY, roomId);
+  }
+
+  public getRoomId(): string {
+    return this.cookieService.get(ROOMID_KEY);
   }
 
   public saveAuthRole(role: string): void  {

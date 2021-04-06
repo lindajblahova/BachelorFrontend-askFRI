@@ -28,13 +28,13 @@
               <p>Questions:</p>
               <mat-action-row class="d-flex justify-content-between">
                 <button color="accent" mat-button class="float-left" (click)="enterRoom(room.idRoom)">Vstúpiť</button>
-                <button color="warn" mat-button class="float-right mr-4" (click)="openDeleteDialog()">Vymazať</button>
+                <button color="warn" mat-button class="float-right mr-4" (click)="openDeleteDialog(room.idRoom)">Vymazať</button>
               </mat-action-row>
             </mat-expansion-panel>
           </div>
           <div class="col-1 p-0 mt-1">
             <mat-slide-toggle class="mr-2 mt-3" [checked]="room.active" #reactivateRoom
-                              (change)="isPasscodeUsed(reactivateRoom.checked,room.roomPasscode, $event)"></mat-slide-toggle>
+                              (change)="isPasscodeUsed(reactivateRoom.checked,room.roomPasscode, $event, room.idRoom)"></mat-slide-toggle>
           </div>
         </div>
       </mat-accordion>

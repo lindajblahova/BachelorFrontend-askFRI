@@ -1,4 +1,4 @@
-<app-navbar [participant]="2" [userId]="userId" [activeTab]="'Profil'"></app-navbar>
+<app-navbar [participant]="2" [activeTab]="'Profil'"></app-navbar>
 
 <div class="container bg-light text-center">
   <div class="row">
@@ -59,7 +59,7 @@
               </mat-form-field>
               <div>
                 <button mat-button matStepperPrevious>Späť</button>
-                <button mat-button matStepperNext (click)="isHidden=true; openSnackBar('Heslo bolo zmenené.', 'Zavrieť')">Zmeniť</button>
+                <button mat-button matStepperNext (click)="isHidden=true; updatePassword()">Zmeniť</button>
               </div>
             </div>
           </form>

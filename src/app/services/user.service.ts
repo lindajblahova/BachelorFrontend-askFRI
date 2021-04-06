@@ -19,7 +19,7 @@ export class UserService {
   }
 
   deleteUser(userId): Observable<HttpEvent<IUser>> {
-    return this.http.delete('http://localhost:8080/api/users/delete', userId).pipe(catchError(this.errorHandler));
+    return this.http.delete('http://localhost:8080/api/users/delete/' + userId).pipe(catchError(this.errorHandler));
   }
 
   updateUser(user: IUser): Observable<IUser> {
@@ -34,18 +34,8 @@ export class UserService {
     return this.http.post<string>('http://localhost:8080/api/users/user', email).pipe(catchError(this.errorHandler));
   }
 
-  /*findUser(email: string): Observable<IUser>{
-    console.warn(email);
-    return this.getUsers().pipe(
-      map(findU => findU.find(user => user.email === email))
-    );
-  }*/
-
   getUserById(id: number): Observable<IUser>{
-    console.log(id);
-    return this.getUsers().pipe(
-      map(findU => findU.find(user => user.idUser === id))
-    );
+    return this.http.get<IUser>('http://localhost:8080/api/users/user/' + id).pipe(catchError(this.errorHandler));
   }
 
   errorHandler(error: HttpErrorResponse): Observable<any> {

@@ -26,6 +26,7 @@ export class RoomsComponent implements OnInit {
   @ViewChild('reactivateRoom') ref: ElementRef;
   private _rooms: IRoom[];
   private _allRooms: IRoom[];
+  room: IRoom;
   private _userId: number;
   private _errorMsg: string;
   private _newPasscodeValue: string;
@@ -49,18 +50,27 @@ export class RoomsComponent implements OnInit {
   }
 
   enterRoom(id: number): void {
-    this.router.navigate(['/rooms', this.userId, id]);
+    this.tokenService.saveRoomId('' + id);
+    this.router.navigate(['/room']);
   }
 
-  isPasscodeUsed(checkedValue: boolean, roomPasscode: string, event: MatSlideToggleChange): void {
+  isPasscodeUsed(checkedValue: boolean, roomPasscode: string, event: MatSlideToggleChange, idRoom: number): void {
     if (checkedValue === true) {
-      this.passcodeExists = this.allRooms.find(data => data.roomPasscode === roomPasscode && data.active === true);
-      if (this.passcodeExists !== undefined) {
-        this.newPasscodeValue = roomPasscode + this.generateNewPasscode();
-        this.openReactivateDialog(event);
-      }
-      // else ak je passcode v poriadku
-      // TODO updatni aktivitu roomky na true
+      this.roomService.isPasscodeCurrentlyUsed(roomPasscode).subscribe(
+        response => {
+          this.passcodeExists = response;
+          if (this.passcodeExists !== false) {
+            this.newPasscodeValue = roomPasscode + this.generateNewPasscode();
+            this.openReactivateDialog(event, idRoom);
+          }
+          else {
+            this.roomService.updateRoomActivity(idRoom).subscribe();
+          }
+        });
+    }
+    if (checkedValue === false)
+    {
+      this.roomService.updateRoomActivity(idRoom).subscribe();
     }
   }
 
@@ -74,25 +84,32 @@ export class RoomsComponent implements OnInit {
     return text;
   }
 
-  openReactivateDialog(event: MatSlideToggleChange): void {
+  openReactivateDialog(event: MatSlideToggleChange, idRoom: number): void {
     const dialogRef = this.dialog.open(DialogReactivateRoomComponent, {
       data: {roomPasscode: this.newPasscodeValue}
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result === true) {
-       // TODO update room active na true a roompasscode na newRoomPasscode
-     } else {
+        this.roomService.getRoom(idRoom).subscribe(
+          response => {
+            this.room = response;
+            this.room.roomPasscode = this.newPasscodeValue;
+            this.roomService.updateRoomPasscode(this.room).subscribe();
+          });
+      } else {
         event.source.checked = false;
       }
     });
   }
 
-  openDeleteDialog(): void {
+  openDeleteDialog(idRoom: number): void {
     const dialogRef = this.dialog.open(DialogDeleteRoomComponent);
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
+      if (result === true ) {
+        this.roomService.deleteRoom(idRoom).subscribe();
+      }
     });
   }
 
