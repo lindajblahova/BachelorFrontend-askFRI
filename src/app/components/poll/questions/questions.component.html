@@ -11,33 +11,35 @@
           <p class="text-left mt-2" *ngIf="panel.expanded==true">
             {{ question.content}}
           </p>
-          <div *ngIf="author==true">
-            <app-answers [question]="question" [author]="author" [color]="i" ></app-answers>
-          </div>
-          <div *ngIf="author==false">
-            <app-answer-question [class.d-none]="isQuestionAnswered[i]==true"
-                                 [author]="author" [question]="question" [color]="i"
-                                 (questionWasAnswered)="questionAnswered(i)"></app-answer-question>
-            <div *ngIf="isQuestionAnswered[i]==true && question.displayedAnswers==true">
-              Výsledky ankety
-              <app-answers [question]="question" [author]="true" [color]="i" ></app-answers>
-            </div>
-            <div *ngIf="isQuestionAnswered[i]==true && question.displayedAnswers==false">
-              Ďakujeme za vašu odpoveď.
-              <div>
-                <mat-icon>sentiment_satisfied_alt</mat-icon>
-              </div>
-            </div>
-          </div>
+<!--          <div *ngIf="author==true">-->
+<!--            <app-answers [question]="question" [author]="author" [color]="i" ></app-answers>-->
+<!--          </div>-->
+<!--          <div *ngIf="author==false">-->
+<!--            <app-answer-question [class.d-none]="isQuestionAnswered[i]==true"-->
+<!--                                 [author]="author" [question]="question" [color]="i"-->
+<!--                                 (questionWasAnswered)="questionAnswered(i)"></app-answer-question>-->
+<!--            <div *ngIf="isQuestionAnswered[i]==true && question.displayedAnswers==true">-->
+<!--              Výsledky ankety-->
+<!--              <app-answers [question]="question" [author]="true" [color]="i" ></app-answers>-->
+<!--            </div>-->
+<!--            <div *ngIf="isQuestionAnswered[i]==true && question.displayedAnswers==false">-->
+<!--              Ďakujeme za vašu odpoveď.-->
+<!--              <div>-->
+<!--                <mat-icon>sentiment_satisfied_alt</mat-icon>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
           <mat-action-row *ngIf="author==true" class="align-middle">
             <section>
-              <mat-slide-toggle class="mr-2 mt-2">Zobraziť otázku
+              <mat-slide-toggle class="mr-2 mt-2" #displayQ (toggleChange)="displayQuestionPublic(question.idQuestion)"
+                [checked]="question.questionDisplayed" [disabled]="displayA.checked==true">Zobraziť otázku
                 všetkým
               </mat-slide-toggle>
-              <mat-slide-toggle class="mr-2 mt-2">Zobraziť odpovede
+              <mat-slide-toggle class="mr-2 mt-2" #displayA (toggleChange)="displayAnswersPublic(question.idQuestion)"
+                [checked]="question.answersDisplayed" [disabled]="displayQ.checked==false" >Zobraziť odpovede
                 všetkým
               </mat-slide-toggle>
-              <button *ngIf="author==true" mat-fab class="m-0 p-0" (click)="openDeleteDialog()"><mat-icon class="text-white">delete_outline</mat-icon></button>
+              <button *ngIf="author==true" mat-fab class="m-0 p-0" (click)="openDeleteDialog(question.idQuestion)"><mat-icon class="text-white">delete_outline</mat-icon></button>
             </section>
           </mat-action-row>
         </mat-expansion-panel>

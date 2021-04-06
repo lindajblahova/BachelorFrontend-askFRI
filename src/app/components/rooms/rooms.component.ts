@@ -51,6 +51,7 @@ export class RoomsComponent implements OnInit {
 
   enterRoom(id: number): void {
     this.tokenService.saveRoomId('' + id);
+    this.tokenService.saveMsgSort('0');
     this.router.navigate(['/room']);
   }
 

@@ -6,6 +6,7 @@ import {QuestionService} from '../../../services/question.service';
 import {IRoom} from '../../../interfaces/IRoom';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import {MatChipInputEvent} from '@angular/material/chips';
+import {TokenService} from '../../../services/token.service';
 
 export interface OptionalAnswer {
   name: string;
@@ -26,7 +27,7 @@ export class CreatePollComponent implements OnInit {
   readonly separatorKeysCodes: number[] = [ENTER];
 
   /// INPUT
-  private _room: IRoom;
+  private _room: number;
 
   private _createQuestionForm: FormGroup = this.formBuilder.group({
     questionType: ['', [Validators.required]],
@@ -39,24 +40,26 @@ export class CreatePollComponent implements OnInit {
     step: [this.step, [Validators.required]],
   });
 
-  constructor( private questionService: QuestionService, private formBuilder: FormBuilder, private router: Router) { }
+  constructor( private questionService: QuestionService, private formBuilder: FormBuilder, private router: Router,
+               private tokenService: TokenService ) { }
 
   ngOnInit(): void {
     this.selectedType = -1;
+    this._room = Number(this.tokenService.getRoomId());
   }
 
   createQuestion(): void {
     if (this.room !== undefined) {
-      this.questionService.saveQuestion({idQuestion: 0, idRoom: this.room.idRoom,
+      this.questionService.saveQuestion({idQuestion: 0, idRoom: this._room,
         type: this.createQuestionForm.get('questionType').value, content: this.createQuestionForm.get('content').value.trim(),
-        optionalAnswers: this.optionalAnswers, displayedQuestion: false, displayedAnswers: false}).subscribe(
+        questionDisplayed: false, answersDisplayed: false}).subscribe(
         response => {
           console.log(response);
         });
 
       console.log(this.createQuestionForm.get('questionType').value, this.createQuestionForm.get('content').value);
       this.createQuestionForm.reset();
-      this.router.navigate(['/rooms', this.room.idRoom]);
+      this.router.navigate(['/room']);
     }
   }
   select(type: number): void{
@@ -137,12 +140,12 @@ export class CreatePollComponent implements OnInit {
   set selectedType(value: number) {
     this._selectedType = value;
   }
-  get room(): IRoom {
+  get room(): number {
     return this._room;
   }
 
   @Input()
-  set room(value: IRoom) {
+  set room(value: number) {
     this._room = value;
   }
 }

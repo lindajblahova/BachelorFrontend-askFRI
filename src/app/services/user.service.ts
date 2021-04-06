@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpErrorResponse, HttpEvent} from '@angular/common/http';
-import {Observable} from 'rxjs';
-import {catchError, map} from 'rxjs/operators';
+import {Observable, Subject} from 'rxjs';
+import {catchError, map, tap} from 'rxjs/operators';
 import {IUser} from '../interfaces/IUser';
 import {throwError as observableThrowError} from 'rxjs/internal/observable/throwError';
+import {ILikedMessage} from '../interfaces/ILikedMessage';
 
 
 @Injectable({
@@ -11,8 +12,13 @@ import {throwError as observableThrowError} from 'rxjs/internal/observable/throw
 })
 export class UserService {
 
+  private _refreshNeeded = new Subject<void>();
+
   constructor(private http: HttpClient) { }
 
+  get refreshNeeded(): Subject<void> {
+    return this._refreshNeeded;
+  }
 
   saveUser(user: IUser): Observable<IUser> {
     return this.http.post<IUser>('http://localhost:8080/api/register', user).pipe(catchError(this.errorHandler));
@@ -31,11 +37,31 @@ export class UserService {
   }
 
   findUser(email: string): Observable<IUser> {
-    return this.http.post<string>('http://localhost:8080/api/users/user', email).pipe(catchError(this.errorHandler));
+    return this.http.get<string>('http://localhost:8080/api/users/useremail/' + email).pipe(catchError(this.errorHandler));
   }
 
   getUserById(id: number): Observable<IUser>{
     return this.http.get<IUser>('http://localhost:8080/api/users/user/' + id).pipe(catchError(this.errorHandler));
+  }
+
+  likeMessage(likedMessage: ILikedMessage): Observable<ILikedMessage> {
+    return this.http.post<ILikedMessage>('http://localhost:8080/api/users/user/message/like',
+      likedMessage).pipe(catchError(this.errorHandler))
+      .pipe( tap(() => {
+        this._refreshNeeded.next();
+      }));
+  }
+
+  unlikeMessage(id: number): Observable<ILikedMessage> {
+    return this.http.delete('http://localhost:8080/api/users/user/message/unlike/'
+      + id).pipe(catchError(this.errorHandler))
+      .pipe( tap(() => {
+        this._refreshNeeded.next();
+      }));
+  }
+
+  getLikedMessages(id: number): Observable<ILikedMessage[]> {
+    return this.http.get<number>('http://localhost:8080/api/users/user/messages/liked/' + id).pipe(catchError(this.errorHandler));
   }
 
   errorHandler(error: HttpErrorResponse): Observable<any> {

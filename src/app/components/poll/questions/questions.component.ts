@@ -1,9 +1,11 @@
-import { Component, Input, OnInit} from '@angular/core';
+import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, ParamMap } from '@angular/router';
 import {QuestionService} from '../../../services/question.service';
 import {IQuestion} from '../../../interfaces/IQuestion';
 import {MatDialog} from '@angular/material/dialog';
 import {DialogDeleteQuestionComponent} from '../../dialog/dialog-delete-question/dialog-delete-question.component';
+import {TokenService} from '../../../services/token.service';
+import {MatSlideToggleChange} from '@angular/material/slide-toggle';
 
 @Component({
   selector: 'app-questions',
@@ -19,31 +21,45 @@ export class QuestionsComponent implements OnInit {
   /// INPUTS
   private _author: boolean;
 
-  constructor( private route: ActivatedRoute, private questionService: QuestionService, private dialog: MatDialog) { }
+  constructor( private route: ActivatedRoute, private questionService: QuestionService, private dialog: MatDialog,
+               private  tokenService: TokenService) { }
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe((params: ParamMap) => {
-      this.roomId = Number(params.get('roomId'));
-    });
+    this.roomId = Number(this.tokenService.getRoomId());
 
-    this.questionService.getRoomQuestions(this.roomId).subscribe(data => this.questions = data);
+    this.questionService.refreshNeeded.subscribe( () => {
+      this.getRoomQuestions();
+    });
+    this.getRoomQuestions();
 
     this.isQuestionAnswered = new Array(this.questions.length).fill(false);
   }
 
+  getRoomQuestions(): void
+  {
+    this.questionService.getRoomQuestions(this.roomId).subscribe(data => this.questions = data);
+  }
+
   displayQuestionPublic(id: number): void {
-    this.questionService.displayQuestion(id);
+    this.questionService.displayQuestion(id).subscribe();
+  }
+
+  displayAnswersPublic(id: number): void {
+    this.questionService.displayAnswers(id).subscribe();
   }
 
   questionAnswered(id: number): void {
     this.isQuestionAnswered[id] = !this.isQuestionAnswered[id];
   }
 
-  openDeleteDialog(): void {
+  openDeleteDialog(idQuestion: number): void {
     const dialogRef = this.dialog.open(DialogDeleteQuestionComponent);
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
+      if (result)
+      {
+        this.questionService.deleteQuestion(idQuestion).subscribe();
+      }
     });
   }
 

@@ -5,9 +5,8 @@ export interface IQuestion {
   idRoom: number;
   type: number;
   content: string;
-  optionalAnswers: OptionalAnswer[];
-  displayedQuestion: boolean;
-  displayedAnswers: boolean;
+  questionDisplayed: boolean;
+  answersDisplayed: boolean;
 }
 
 /*

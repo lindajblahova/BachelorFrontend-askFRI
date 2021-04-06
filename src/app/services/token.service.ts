@@ -4,6 +4,7 @@ import {Router} from '@angular/router';
 
 const USERID_KEY = 'AuthUId';
 const ROOMID_KEY = 'AuthRId';
+const MSGSORT_KEY = 'MsgSortId';
 const AUTHORITIES_KEY = 'AuthRole';
 
 @Injectable({
@@ -32,6 +33,15 @@ export class TokenService {
 
   public getRoomId(): string {
     return this.cookieService.get(ROOMID_KEY);
+  }
+
+  public saveMsgSort(msgSort: string): void  {
+    this.cookieService.delete(MSGSORT_KEY);
+    this.cookieService.set(MSGSORT_KEY, msgSort);
+  }
+
+  public getMsgSort(): string {
+    return this.cookieService.get(MSGSORT_KEY);
   }
 
   public saveAuthRole(role: string): void  {

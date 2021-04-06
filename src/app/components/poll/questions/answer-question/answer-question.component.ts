@@ -85,7 +85,6 @@ export class AnswerQuestionComponent implements OnInit {
     if (this.checkFormChecked.length > 0) {
       for (let i = 0; i < this.checkFormChecked.length; i++) {
         if (this.checkFormChecked[i] === true) {
-          console.log(this.question.optionalAnswers[i]);
         }
       }
       this.answerService.saveAnswer({idAnswer: 0, idQuestion: this.question.idQuestion,

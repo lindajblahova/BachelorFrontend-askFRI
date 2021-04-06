@@ -10,12 +10,6 @@ import {catchError, map, tap} from 'rxjs/operators';
 })
 export class RoomService {
 
-  private httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type':  'application/json'
-    })
-  };
-
   private _refreshNeeded = new Subject<void>();
   constructor(private http: HttpClient) { }
 
