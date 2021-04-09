@@ -1,5 +1,5 @@
 <app-navbar [participant]="0" [activeTab]="'Prihlásiť'"></app-navbar>
-{{errorMsg}}
+<mat-card [class.d-none]="errorMsg==null" class="mat-card-header m-5 text-white">{{errorMsg}}</mat-card>
 <div class="container bg-light text-center">
   <div class="row">
     <div class="col-12">
@@ -57,7 +57,7 @@
                             logInForm.get('password').errors?.requiredRegex"
                 type="submit" mat-raised-button color="accent" class="text-white mb-3">Prihlásiť sa</button>
       </form>
-      <small><a routerLink="/register" class="text-secondary">Nie som študent UNIZA</a></small>
+      <small><a routerLink="/register" class="text-secondary">Registrovať sa</a></small>
     </div>
   </div>
 </div>

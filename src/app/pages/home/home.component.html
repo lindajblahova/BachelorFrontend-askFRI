@@ -1,8 +1,9 @@
 <app-navbar [participant]="2" [activeTab]="'Prehľad'"></app-navbar>
+{{errorMsg}}
 <div class="container">
   <div class="row">
     <div class="col-lg-4">
-      <app-create-room [owner]="userId"></app-create-room>
+      <app-create-room></app-create-room>
     </div>
     <div class="col-lg-8">
       <app-rooms></app-rooms>

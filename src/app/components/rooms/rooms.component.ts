@@ -1,16 +1,15 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {RoomService} from '../../services/room.service';
 import {UserService} from '../../services/user.service';
-import {ActivatedRoute, ParamMap, Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {MatDialog} from '@angular/material/dialog';
 import {DialogReactivateRoomComponent} from '../dialog/dialog-reactivate-room/dialog-reactivate-room.component';
 import {IRoom} from '../../interfaces/IRoom';
-import {DialogDeleteProfileComponent} from '../dialog/dialog-delete-profile/dialog-delete-profile.component';
 import {DialogDeleteRoomComponent} from '../dialog/dialog-delete-room/dialog-delete-room.component';
 import {MatSlideToggleChange} from '@angular/material/slide-toggle';
-import {Token} from '@angular/compiler';
 import {TokenService} from '../../services/token.service';
-import {BehaviorSubject, Observable, Subscription} from 'rxjs';
+import { Subscription} from 'rxjs';
+
 
 export interface DialogData {
   roomPasscode: string;
@@ -25,7 +24,6 @@ export class RoomsComponent implements OnInit {
 
   @ViewChild('reactivateRoom') ref: ElementRef;
   private _rooms: IRoom[];
-  private _allRooms: IRoom[];
   room: IRoom;
   private _userId: number;
   private _errorMsg: string;
@@ -50,8 +48,9 @@ export class RoomsComponent implements OnInit {
   }
 
   enterRoom(id: number): void {
-    this.tokenService.saveRoomId('' + id);
-    this.tokenService.saveMsgSort('0');
+    this.tokenService.saveRoomId(id.toString());
+    this.tokenService.saveSection('' + 0);
+    this.tokenService.saveRoomAuthor('true');
     this.router.navigate(['/room']);
   }
 
@@ -121,14 +120,6 @@ export class RoomsComponent implements OnInit {
 
   set reactivateDialogResult(value: boolean) {
     this._reactivateDialogResult = value;
-  }
-
-  get allRooms(): IRoom[] {
-    return this._allRooms;
-  }
-
-  set allRooms(value: IRoom[]) {
-    this._allRooms = value;
   }
 
   get passcodeExists() {

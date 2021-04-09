@@ -5,10 +5,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { EnterRoomComponent } from './pages/enter-room/enter-room.component';
-import { HttpClientModule } from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { MessagesComponent } from './components/messages/messages.component';
-import { ParticipantRoomComponent } from './pages/participant-room/participant-room.component';
 import { LoginComponent } from './pages/login/login.component';
 import { HomeComponent } from './pages/home/home.component';
 import { RegisterComponent } from './pages/register/register.component';
@@ -34,6 +33,10 @@ import { AllRoomsComponent } from './admin/admin-page/all-rooms/all-rooms.compon
 import { AllUsersComponent } from './admin/admin-page/all-users/all-users.component';
 import { CookieService } from 'ngx-cookie-service';
 import {AuthGuard} from './auth/auth.guard';
+import {AuthInterceptorService} from './services/auth-interceptor.service';
+import {AuthService} from './services/auth.service';
+import {TeacherGuard} from './auth/teacher.guard';
+import {AdminGuard} from './auth/admin.guard';
 
 @NgModule({
   declarations: [
@@ -41,7 +44,6 @@ import {AuthGuard} from './auth/auth.guard';
     NavbarComponent,
     EnterRoomComponent,
     MessagesComponent,
-    ParticipantRoomComponent,
     LoginComponent,
     HomeComponent,
     RegisterComponent,
@@ -61,7 +63,7 @@ import {AuthGuard} from './auth/auth.guard';
     DialogDeleteQuestionComponent,
     AdminPageComponent,
     AllRoomsComponent,
-    AllUsersComponent,
+    AllUsersComponent
   ],
     imports: [
         BrowserModule,
@@ -73,7 +75,8 @@ import {AuthGuard} from './auth/auth.guard';
         MaterialModule,
         ScrollingModule
     ],
-  providers: [CookieService, AuthGuard],
+  providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true}, CookieService,
+    AdminGuard, TeacherGuard , AuthGuard, AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

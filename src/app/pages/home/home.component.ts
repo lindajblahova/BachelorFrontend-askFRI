@@ -9,6 +9,7 @@ import {TokenService} from '../../services/token.service';
 })
 export class HomeComponent implements OnInit {
 
+  private _errorMsg: string;
   private _userId: number;
   constructor(private tokenService: TokenService) { }
 
@@ -24,6 +25,14 @@ export class HomeComponent implements OnInit {
 
   set userId(value) {
     this._userId = value;
+  }
+
+  get errorMsg(): string {
+    return this._errorMsg;
+  }
+
+  set errorMsg(value: string) {
+    this._errorMsg = value;
   }
 
 }

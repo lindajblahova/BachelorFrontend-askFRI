@@ -1,16 +1,19 @@
-import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {AnswerService} from '../../../../services/answer.service';
 import {IAnswer} from '../../../../interfaces/IAnswer';
-import {Subscription} from 'rxjs';
+import {IOptionalAnswer} from '../../../../interfaces/IOptionalAnswer';
+import {QuestionService} from '../../../../services/question.service';
 
 @Component({
   selector: 'app-answers',
   templateUrl: './answers.component.html',
   styleUrls: ['./answers.component.css']
 })
-export class AnswersComponent implements OnInit {
+export class AnswersComponent implements OnInit, OnDestroy {
 
-  private _answers = [];
+  private _errorMsg: string;
+  private _answers: IAnswer[] = [];
+  private _optionalAnswers: IOptionalAnswer[] = [];
   private _answersCount: number;
   private _sliderA;
   private _sliderNumbers;
@@ -19,12 +22,50 @@ export class AnswersComponent implements OnInit {
   private _question;
   private _author;
   private _color: string;
+  private interval;
 
-  constructor(private answerService: AnswerService) {
+  constructor(private questionService: QuestionService, private answerService: AnswerService) {
   }
 
   ngOnInit(): void {
-    this.answerService.getQuestionAnswers(this.question.idQuestion).subscribe(data => this.answers = data);
+    this.answerService.refreshNeeded.subscribe( () => {
+      this.getQuestionAnswers();
+    });
+    this.getQuestionAnswers();
+    this.getOptionalAnswers();
+
+    this.interval = setInterval(() => {this.getQuestionAnswers(); }, 5000);
+  }
+
+  ngOnDestroy(): void {
+    if (this.interval) {
+      clearInterval(this.interval);
+    }
+  }
+
+  getQuestionAnswers(): void {
+    this.answerService.getQuestionAnswers(this.question.idQuestion).subscribe(data => this.answers = data,
+        error => this.errorMsg = error);
+    console.log(this.answers);
+  }
+
+  getOptionalAnswers(): void {
+    this.questionService.getOptionalAnswers(this.question.idQuestion).subscribe(data => {
+      this._optionalAnswers = data;
+      this._optionalAnswers.sort((a, b) => {
+        if (a.content > b.content) {
+          return 1;
+        }
+        if (a.content < b.content) {
+          return -1;
+        }
+        return 0;
+      });
+      if (this.question.type === 3)
+      {
+        this.sliderAnswers();
+      }
+    }, error => this.errorMsg = error );
   }
 
   showCount(answerPar: string): void {
@@ -45,13 +86,14 @@ export class AnswersComponent implements OnInit {
     });
   }
 
-  sliderAnswers(): number[]{
-     this.sliderA = (this.question.optionalAnswers[1] - this.question.optionalAnswers[0]) / this.question.optionalAnswers[2];
+  sliderAnswers(): void {
+     this.sliderA = (Number(this._optionalAnswers[2].content) - Number(this._optionalAnswers[0].content)) /
+       Number(this._optionalAnswers[1].content);
+     console.log(this.sliderA);
      this.sliderNumbers = Array();
      for (let i = 0; i <= this.sliderA; i++) {
-       this.sliderNumbers.push(i * this.question.optionalAnswers[2]);
+       this.sliderNumbers.push(i * Number(this._optionalAnswers[1].content));
     }
-     return this.sliderNumbers;
   }
 
   getBackgroundColor(id: string): string {
@@ -77,6 +119,22 @@ export class AnswersComponent implements OnInit {
   }
 
   /// GETTERS AND SETTERS
+  get optionalAnswers(): IOptionalAnswer[] {
+    return this._optionalAnswers;
+  }
+
+  set optionalAnswers(value: IOptionalAnswer[]) {
+    this._optionalAnswers = value;
+  }
+
+  get errorMsg(): string {
+    return this._errorMsg;
+  }
+
+  set errorMsg(value: string) {
+    this._errorMsg = value;
+  }
+
   get color(): string {
     return this._color;
   }

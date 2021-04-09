@@ -4,11 +4,10 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {UserService} from '../../services/user.service';
 import {regexFineFunction} from '../../validators/regex-validation';
 import {IUser} from '../../interfaces/IUser';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import * as internalIp from 'internal-ip';
-import * as publicIp from 'public-ip';
-import {consoleTestResultHandler} from 'tslint/lib/test';
 import {TokenService} from '../../services/token.service';
+import {HttpErrorResponse} from '@angular/common/http';
+import {ILoginResponse} from '../../interfaces/ILoginResponse';
+import {AuthService} from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -17,11 +16,9 @@ import {TokenService} from '../../services/token.service';
 })
 export class LoginComponent implements OnInit {
 
-  private _user: IUser;
+  private _user: ILoginResponse;
   private _errorMsg: string;
   private _userEmail: string;
-  ipPrivate;
-  ipPublic;
   private _logInForm: FormGroup = this.formBuilder.group({
     email: ['', [Validators.required,
       Validators.minLength(7), regexFineFunction(/^[\w]{1,}[\w.+-]{0,}@[\w-]{2,}([.][a-zA-Z]{2,}|[.][\w-]{2,}[.][a-zA-Z]{2,})$/)]],
@@ -30,7 +27,7 @@ export class LoginComponent implements OnInit {
   });
 
   constructor(private formBuilder: FormBuilder, private router: Router, private userService: UserService,
-              private tokenService: TokenService) { }
+              private tokenService: TokenService, private authService: AuthService) { }
 
   ngOnInit(): void {
 
@@ -40,18 +37,24 @@ export class LoginComponent implements OnInit {
 
       if (this.logInForm.get('email').value !== '' &&  this.logInForm.get('password').value !== '') {
       this.userEmail = this.logInForm.get('email').value;
-      console.log(this.userEmail);
-      this.userService.findUser(this.userEmail).subscribe(data => {
+
+      this.authService.loginUser({email: this.userEmail, password: this.logInForm.get('password').value }).subscribe(data => {
         this.user = data;
         if (this.user != null) {
-          this.tokenService.saveUserId('' + this.user.idUser);
+          this.tokenService.saveUserId(this.user.id.toString());
+          this.tokenService.saveAuthToken(this.user.token);
+          this.tokenService.saveAuthRole(this.user.role);
           if (this.user.role === 'Admin') {
-            this.router.navigate(['/adminHome', this.user.idUser]);
-          } else if(this.user.role === 'User') {
+            this.router.navigate(['/adminHome']);
+          } else if(this.user.role === 'Vyucujuci') {
             this.router.navigate(['/home']);
           } else {
-            this.router.navigate(['/enter-room', this.user.idUser]);
+            this.router.navigate(['/enter-room']);
           }
+        }
+      }, error => {
+        if (error === 401) {
+          this.errorMsg = 'Zadané údaje boli nesprávne!';
         }
       } );
     }

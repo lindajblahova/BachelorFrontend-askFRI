@@ -1,10 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {Router} from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {RoomService} from '../../../services/room.service';
 import {QuestionService} from '../../../services/question.service';
-import {IRoom} from '../../../interfaces/IRoom';
-import {COMMA, ENTER} from '@angular/cdk/keycodes';
+import {ENTER} from '@angular/cdk/keycodes';
 import {MatChipInputEvent} from '@angular/material/chips';
 import {TokenService} from '../../../services/token.service';
 
@@ -25,7 +23,6 @@ export class CreatePollComponent implements OnInit {
   private _step = 1;
   private _optionalAnswers: OptionalAnswer[] = [];
   readonly separatorKeysCodes: number[] = [ENTER];
-
   /// INPUT
   private _room: number;
 
@@ -49,18 +46,26 @@ export class CreatePollComponent implements OnInit {
   }
 
   createQuestion(): void {
-    if (this.room !== undefined) {
       this.questionService.saveQuestion({idQuestion: 0, idRoom: this._room,
         type: this.createQuestionForm.get('questionType').value, content: this.createQuestionForm.get('content').value.trim(),
         questionDisplayed: false, answersDisplayed: false}).subscribe(
         response => {
-          console.log(response);
+          if (response.type === 3)
+          {
+            this.optionalAnswers.push({name: '' + Number(this.sliderForm.get('min').value)});
+            this.optionalAnswers.push({name: '' +  Number(this.sliderForm.get('max').value )});
+            this.optionalAnswers.push({name: '' +  Number(this.sliderForm.get('step').value)});
+          }
+          this.optionalAnswers.forEach( ans => {
+            this.questionService.saveOptionalAnswer({idOptionalAnswer: 0, idQuestion: response.idQuestion,
+              content: ans.name}).subscribe( response1 => console.log(response1));
+          });
         });
+
 
       console.log(this.createQuestionForm.get('questionType').value, this.createQuestionForm.get('content').value);
       this.createQuestionForm.reset();
       this.router.navigate(['/room']);
-    }
   }
   select(type: number): void{
     this.selectedType = type;
@@ -78,8 +83,8 @@ export class CreatePollComponent implements OnInit {
     }
   }
 
-  remove(fruit: OptionalAnswer): void {
-    const index = this.optionalAnswers.indexOf(fruit);
+  remove(item: OptionalAnswer): void {
+    const index = this.optionalAnswers.indexOf(item);
 
     if (index >= 0) {
       this.optionalAnswers.splice(index, 1);

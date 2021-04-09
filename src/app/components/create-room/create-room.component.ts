@@ -2,10 +2,10 @@ import {Component, Input, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {RoomService} from '../../services/room.service';
 import {Router} from '@angular/router';
-import {passscodeAlreadyExist} from '../../validators/regex-validation';
 import {IRoom} from '../../interfaces/IRoom';
 import {IUser} from '../../interfaces/IUser';
 import {TokenService} from '../../services/token.service';
+import {debounce} from 'lodash-es';
 
 @Component({
   selector: 'app-create-room',
@@ -14,11 +14,10 @@ import {TokenService} from '../../services/token.service';
 })
 export class CreateRoomComponent implements OnInit {
 
-  private _newRoom: IRoom;
+  private _passcodeMessage: string;
+  private successMsg: string;
+  private _errorMsg: string;
   private _showForm: boolean = false;
-
-  /// INPUT
-  private _owner: number;
 
   private _createRoomForm: FormGroup = this.formBuilder.group({
     roomName: ['', [Validators.required, Validators.minLength(2)]],
@@ -40,13 +39,35 @@ export class CreateRoomComponent implements OnInit {
       roomName: this.createRoomForm.get('roomName').value,
       roomPasscode: this.createRoomForm.get('roomPasscode').value, active: true}).subscribe(
         response => {
-          console.log(response);
-          this.router.navigate(['/home']);
+          this.successMsg = 'Miestnosť ' + response.roomName + ' bola vytvorená';
+          // this.router.navigate(['/home']);
           this.createRoomForm.reset();
           this.showFormChange();
           this.reloadComponent();
+        }, error => {
+          if (error === 406)
+          {
+            this._errorMsg = 'Tento kód aktuálne nie je dostupný!';
+          }
         });
   }
+
+  isPasscodeTaken = debounce((passcode: string): void =>
+  {
+    if (passcode !== '')
+    {
+      this.roomService.isPasscodeCurrentlyUsed(passcode).subscribe(response => {
+        if (response === true)
+        {
+          this._passcodeMessage = 'Tento kód aktuálne nie je možné použiť';
+        }
+        else
+        {
+          this._passcodeMessage = 'Tento kód je voľný';
+        }
+      }, error => this.errorMsg = error);
+    }
+  }, 500);
 
   reloadComponent(): void {
     const currentUrl = this.router.url;
@@ -56,6 +77,14 @@ export class CreateRoomComponent implements OnInit {
   }
 
   /// GETTERS AND SETTERS
+  get errorMsg(): string {
+    return this._errorMsg;
+  }
+
+  set errorMsg(value: string) {
+    this._errorMsg = value;
+  }
+
   get createRoomForm(): FormGroup {
     return this._createRoomForm;
   }
@@ -71,13 +100,11 @@ export class CreateRoomComponent implements OnInit {
     this._showForm = value;
   }
 
-  get owner(): number {
-    return this._owner;
+  get passcodeMessage(): string {
+    return this._passcodeMessage;
   }
 
-  @Input()
-  set owner(value: number) {
-    this._owner = value;
+  set passcodeMessage(value: string) {
+    this._passcodeMessage = value;
   }
-
 }

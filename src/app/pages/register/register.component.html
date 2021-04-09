@@ -1,5 +1,5 @@
 <app-navbar [participant]="0"  [activeTab]="'Registrovať'"></app-navbar>
-{{errorMsg}}
+<mat-card [class.d-none]="errorMsg==null" class="mat-card-header m-5 text-white">{{errorMsg}}</mat-card>
 <div class="container bg-light text-center">
   <div class="row">
     <div class="col-12">

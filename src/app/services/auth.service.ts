@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpResponse} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {CookieService} from 'ngx-cookie-service';
 import {Observable} from 'rxjs';
 import {ILogin} from '../interfaces/ILogin';
-import {IJwtResponse} from '../interfaces/IJwtResponse';
+import {ILoginResponse} from '../interfaces/ILoginResponse';
+import {catchError} from 'rxjs/operators';
+import {throwError as observableThrowError} from 'rxjs/internal/observable/throwError';
 
 @Injectable({
   providedIn: 'root'
@@ -14,11 +16,25 @@ export class AuthService {
               private cookieService: CookieService) { }
 
   isUserLoggedIn(): boolean {
-    const user = this.cookieService.get('AuthToken');
+    const user = this.cookieService.get('AuthTok');
     return !(user === '');
   }
 
-  tryLogin(credentials: ILogin): Observable<HttpResponse<IJwtResponse>> {
-    return this.http.post<IJwtResponse>('', credentials, {observe: 'response'});
+  isUserTeacher(): boolean {
+    const role = this.cookieService.get('AuthRole');
+    return (role === 'Vyucujuci');
+  }
+
+  isUserAdmin(): boolean {
+    const role = this.cookieService.get('AuthRole');
+    return (role === 'Admin');
+  }
+
+  loginUser(user: ILogin): Observable<ILoginResponse> {
+    return this.http.post<ILoginResponse>('http://localhost:8080/api/login', user).pipe(catchError(this.errorHandler));;
+  }
+
+  errorHandler(error: HttpErrorResponse): Observable<any> {
+    return observableThrowError(error.status || 'Server error');
   }
 }

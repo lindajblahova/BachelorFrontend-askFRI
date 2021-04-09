@@ -8,6 +8,10 @@
   width: 100%;
 }
 
+.mat-card-header {
+  background-color: #e24747;
+}
+
 button:focus{
   outline: none;
 }

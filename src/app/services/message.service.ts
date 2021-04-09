@@ -41,6 +41,6 @@ export class MessageService {
   }
 
   errorHandler(error: HttpErrorResponse): Observable<any> {
-    return observableThrowError(error.message || 'Server error');
+    return observableThrowError(error.status || 'Server error');
   }
 }

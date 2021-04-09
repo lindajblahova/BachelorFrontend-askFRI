@@ -4,7 +4,10 @@ import {Observable, Subject} from 'rxjs';
 import {catchError, map, tap} from 'rxjs/operators';
 import {IUser} from '../interfaces/IUser';
 import {throwError as observableThrowError} from 'rxjs/internal/observable/throwError';
-import {ILikedMessage} from '../interfaces/ILikedMessage';
+import {IAnsweredQuestion} from '../interfaces/IAnsweredQuestion';
+import {ILogin} from '../interfaces/ILogin';
+import {ILoginResponse} from '../interfaces/ILoginResponse';
+import {IUserPassword} from '../interfaces/IUserPassword';
 
 
 @Injectable({
@@ -25,11 +28,14 @@ export class UserService {
   }
 
   deleteUser(userId): Observable<HttpEvent<IUser>> {
-    return this.http.delete('http://localhost:8080/api/users/delete/' + userId).pipe(catchError(this.errorHandler));
+    return this.http.delete('http://localhost:8080/api/users/delete/' + userId).pipe(catchError(this.errorHandler))
+      .pipe( tap(() => {
+        this._refreshNeeded.next();
+      }));
   }
 
-  updateUser(user: IUser): Observable<IUser> {
-    return this.http.put<IUser>('http://localhost:8080/api/users/update', user).pipe(catchError(this.errorHandler));
+  updateUser(user: IUserPassword): Observable<IUserPassword> {
+    return this.http.put<IUserPassword>('http://localhost:8080/api/users/update', user).pipe(catchError(this.errorHandler));
   }
 
   getUsers(): Observable<IUser[]> {
@@ -44,27 +50,19 @@ export class UserService {
     return this.http.get<IUser>('http://localhost:8080/api/users/user/' + id).pipe(catchError(this.errorHandler));
   }
 
-  likeMessage(likedMessage: ILikedMessage): Observable<ILikedMessage> {
-    return this.http.post<ILikedMessage>('http://localhost:8080/api/users/user/message/like',
-      likedMessage).pipe(catchError(this.errorHandler))
+  answerQuestion(answeredQuestion: IAnsweredQuestion): Observable<IAnsweredQuestion> {
+    return this.http.post<IAnsweredQuestion>('http://localhost:8080/api/users/user/answered/add',
+      answeredQuestion).pipe(catchError(this.errorHandler))
       .pipe( tap(() => {
         this._refreshNeeded.next();
       }));
   }
 
-  unlikeMessage(id: number): Observable<ILikedMessage> {
-    return this.http.delete('http://localhost:8080/api/users/user/message/unlike/'
-      + id).pipe(catchError(this.errorHandler))
-      .pipe( tap(() => {
-        this._refreshNeeded.next();
-      }));
-  }
-
-  getLikedMessages(id: number): Observable<ILikedMessage[]> {
-    return this.http.get<number>('http://localhost:8080/api/users/user/messages/liked/' + id).pipe(catchError(this.errorHandler));
+  getAnsweredQuestions(id: number): Observable<IAnsweredQuestion[]> {
+    return this.http.get<number>('http://localhost:8080/api/users/user/answered/all/' + id).pipe(catchError(this.errorHandler));
   }
 
   errorHandler(error: HttpErrorResponse): Observable<any> {
-    return observableThrowError(error.message || 'Server error');
+    return observableThrowError(error.status || 'Server error');
   }
 }

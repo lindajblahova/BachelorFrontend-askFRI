@@ -1,6 +1,7 @@
+{{errorMsg}}
 <div class="mt-2 ">
   <ul class="list-group" *ngFor="let question of questions?.reverse(); let i = index" [attr.data-index]="i">
-    <a *ngIf="question.displayedQuestion==true || author==true">
+    <a *ngIf="question.questionDisplayed==true || author==true">
       <mat-accordion>
         <mat-expansion-panel #panel [expanded]="author==false" class="mt-2 mb-2">
           <mat-expansion-panel-header>
@@ -11,24 +12,24 @@
           <p class="text-left mt-2" *ngIf="panel.expanded==true">
             {{ question.content}}
           </p>
-<!--          <div *ngIf="author==true">-->
-<!--            <app-answers [question]="question" [author]="author" [color]="i" ></app-answers>-->
-<!--          </div>-->
-<!--          <div *ngIf="author==false">-->
-<!--            <app-answer-question [class.d-none]="isQuestionAnswered[i]==true"-->
-<!--                                 [author]="author" [question]="question" [color]="i"-->
-<!--                                 (questionWasAnswered)="questionAnswered(i)"></app-answer-question>-->
-<!--            <div *ngIf="isQuestionAnswered[i]==true && question.displayedAnswers==true">-->
-<!--              Výsledky ankety-->
-<!--              <app-answers [question]="question" [author]="true" [color]="i" ></app-answers>-->
-<!--            </div>-->
-<!--            <div *ngIf="isQuestionAnswered[i]==true && question.displayedAnswers==false">-->
-<!--              Ďakujeme za vašu odpoveď.-->
-<!--              <div>-->
-<!--                <mat-icon>sentiment_satisfied_alt</mat-icon>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </div>-->
+          <div *ngIf="author==true">
+            <app-answers [question]="question" [author]="author" [color]="i" ></app-answers>
+          </div>
+          <div *ngIf="author==false">
+            <app-answer-question [class.d-none]="answeredQuestions.indexOf(question.idQuestion) !== -1"
+                                 [author]="author" [question]="question" [color]="i"
+                                 (questionWasAnswered)="questionAnswered($event)"></app-answer-question>
+            <div *ngIf="answeredQuestions.indexOf(question.idQuestion) !== -1 && question.answersDisplayed==true">
+              Výsledky ankety
+              <app-answers [question]="question" [author]="true" [color]="i" ></app-answers>
+            </div>
+            <div *ngIf="answeredQuestions.indexOf(question.idQuestion) !== -1 && question.answersDisplayed==false">
+              Ďakujeme za vašu odpoveď.
+              <div>
+                <mat-icon>sentiment_satisfied_alt</mat-icon>
+              </div>
+            </div>
+          </div>
           <mat-action-row *ngIf="author==true" class="align-middle">
             <section>
               <mat-slide-toggle class="mr-2 mt-2" #displayQ (toggleChange)="displayQuestionPublic(question.idQuestion)"

@@ -1,8 +1,9 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {AnswerService} from '../../../../services/answer.service';
 import {FormBuilder, FormGroup} from '@angular/forms';
-import {IAnswer} from '../../../../interfaces/IAnswer';
 import {IQuestion} from '../../../../interfaces/IQuestion';
+import {QuestionService} from '../../../../services/question.service';
+import {IOptionalAnswer} from '../../../../interfaces/IOptionalAnswer';
 
 @Component({
   selector: 'app-answer-question',
@@ -11,7 +12,11 @@ import {IQuestion} from '../../../../interfaces/IQuestion';
 })
 export class AnswerQuestionComponent implements OnInit {
 
-  private _answers: IAnswer[] = [];
+  private _errorMsg: string;
+  private _optionalAnswers: IOptionalAnswer[] = [];
+  private _min: number;
+  private _max: number;
+  private _step: number;
   private _sliderValue: string;
   private _radioValue: string;
   private _checkFormChecked: boolean[];
@@ -28,11 +33,33 @@ export class AnswerQuestionComponent implements OnInit {
     content:  ['']
   });
 
-  constructor(private answerService: AnswerService, private formBuilder: FormBuilder) { }
+  constructor(private questionService: QuestionService, private answerService: AnswerService,
+              private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
-    this.answerService.getQuestionAnswers(this.question.idQuestion).subscribe(data => this.answers = data);
-    this.checkFormChecked = new Array(this.answers.length).fill(false);
+    this.getOptionalAnswers();
+    this.checkFormChecked = new Array(this._optionalAnswers.length).fill(false);
+  }
+
+  getOptionalAnswers(): void {
+    this.questionService.getOptionalAnswers(this.question.idQuestion).subscribe(data => {
+      this._optionalAnswers = data;
+      this._optionalAnswers.sort((a, b) => {
+        if (a.content > b.content) {
+          return 1;
+        }
+        if (a.content < b.content) {
+          return -1;
+        }
+        return 0;
+      });
+      if (this.question.type === 3)
+      {
+        this._min = Number(this._optionalAnswers[0].content);
+        this._max = Number(this._optionalAnswers[2].content);
+        this._step = Number(this._optionalAnswers[1].content);
+      }
+    }, error => this.errorMsg = error );
   }
 
   getBackgroundColor(id: string): string {
@@ -58,26 +85,23 @@ export class AnswerQuestionComponent implements OnInit {
   }
 
   createSliderAnswer(): void {
-    if (this.sliderValue !== undefined) {
+    if (this.sliderValue !== null) {
       console.log(this.sliderValue);
       this.answerService.saveAnswer({idAnswer: 0, idQuestion: this.question.idQuestion,
         content: this.sliderValue}).subscribe(
         response => {
-          console.log(response);
-        });
+        }, error => this.errorMsg = error );
       this.questionWasAnswered.emit();
     }
   }
 
   createRadioAnswer(): void {
-    if (this.radioValue !== undefined) {
-      console.log(this.radioValue);
+    if (this.radioValue !== null) {
       this.answerService.saveAnswer({idAnswer: 0, idQuestion: this.question.idQuestion,
         content: this.radioValue}).subscribe(
         response => {
-          console.log(response);
-        });
-      this.questionWasAnswered.emit();
+        }, error => this.errorMsg = error );
+      this.questionWasAnswered.emit(this.question.idQuestion);
     }
   }
 
@@ -85,14 +109,13 @@ export class AnswerQuestionComponent implements OnInit {
     if (this.checkFormChecked.length > 0) {
       for (let i = 0; i < this.checkFormChecked.length; i++) {
         if (this.checkFormChecked[i] === true) {
+          this.answerService.saveAnswer({idAnswer: 0, idQuestion: this.question.idQuestion,
+            content: this._optionalAnswers[i].content}).subscribe(
+            response => {
+            }, error => this.errorMsg = error );
         }
       }
-      this.answerService.saveAnswer({idAnswer: 0, idQuestion: this.question.idQuestion,
-        content: this.radioValue}).subscribe(
-        response => {
-          console.log(response);
-        });
-      this.questionWasAnswered.emit();
+      this.questionWasAnswered.emit(this.question.idQuestion);
     }
   }
 
@@ -102,14 +125,50 @@ export class AnswerQuestionComponent implements OnInit {
       this.answerService.saveAnswer({idAnswer: 0, idQuestion: this.question.idQuestion,
         content: this.answerForm.get('content').value}).subscribe(
         response => {
-          console.log(response);
-        });
-      this.questionWasAnswered.emit();
+        }, error => this.errorMsg = error );
+      this.questionWasAnswered.emit(this.question.idQuestion);
     }
 
   }
 
   /// GETTERS AND SETTERS
+  get errorMsg(): string {
+    return this._errorMsg;
+  }
+
+  set errorMsg(value: string) {
+    this._errorMsg = value;
+  }
+
+  get step(): number {
+    return this._step;
+  }
+
+  set step(value: number) {
+    this._step = value;
+  }
+  get max(): number {
+    return this._max;
+  }
+
+  set max(value: number) {
+    this._max = value;
+  }
+  get min(): number {
+    return this._min;
+  }
+
+  set min(value: number) {
+    this._min = value;
+  }
+  get optionalAnswers(): IOptionalAnswer[] {
+    return this._optionalAnswers;
+  }
+
+  set optionalAnswers(value: IOptionalAnswer[]) {
+    this._optionalAnswers = value;
+  }
+
   @Output()
   get questionWasAnswered(): EventEmitter<number> {
     return this._questionWasAnswered;
@@ -171,11 +230,5 @@ export class AnswerQuestionComponent implements OnInit {
   set sliderValue(value: string) {
     this._sliderValue = value;
   }
-  get answers(): any[] {
-    return this._answers;
-  }
 
-  set answers(value: any[]) {
-    this._answers = value;
-  }
 }

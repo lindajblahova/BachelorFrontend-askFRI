@@ -6,6 +6,7 @@
       </button>
     </div>
   </div>
+  <mat-card [class.d-none]="errorMsg==null" class="mat-card-header m-5 text-white">{{errorMsg}}</mat-card>
   <div class="row">
     <div class="col-12">
       <form *ngIf="showForm" [formGroup]="createRoomForm" (ngSubmit)="createRoom()">
@@ -29,7 +30,8 @@
             <div class="row">
               <mat-form-field color="accent" class="full-width-form mt-2 mb-2">
                 <mat-label>Prístupový kód</mat-label>
-                <input matInput type="text" formControlName="roomPasscode" placeholder="napr. 12101998">
+                <input matInput type="text" formControlName="roomPasscode" #passInput placeholder="napr. 12101998"
+                       (input)="isPasscodeTaken(passInput.value)">
                 <mat-hint>
                   <p [class.d-none]="createRoomForm.get('roomPasscode').touched ||
                   !(createRoomForm.get('roomPasscode').pristine)">Pomocou prístupového kódu sa účastníci vedia
@@ -41,6 +43,8 @@
                     </p>
                     <p *ngIf="createRoomForm.get('roomPasscode').errors?.required" class="text-danger">Zadajte
                       prístupový kód
+                    </p>
+                    <p class="text-danger">{{passcodeMessage}}
                     </p>
                   </div>
                 </mat-hint>

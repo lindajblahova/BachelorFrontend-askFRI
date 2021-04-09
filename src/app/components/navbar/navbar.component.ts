@@ -11,16 +11,19 @@ import {TokenService} from '../../services/token.service';
 export class NavbarComponent implements OnInit {
 
   private _isOpened: boolean = false;
+  private _userId: number;
+  private _role: string;
+
   /// INPUTS
   private _participant: number;  // 0 = register + login, 1 = participant room, 2 = log out
   private _room?: IRoom;
-  private _userId?: number;
   private _activeTab?: string;
 
   constructor(private router: Router, private tokenService: TokenService) { }
 
   ngOnInit(): void {
     this.userId = Number(this.tokenService.getUserId());
+    this.role = this.tokenService.getAuthorities();
   }
 
   goLogIn(): void {
@@ -41,7 +44,7 @@ export class NavbarComponent implements OnInit {
   }
 
   goParticipant(): void {
-    this.router.navigate(['/enter-room', this._userId]);
+    this.router.navigate(['/enter-room']);
   }
 
   goHome(): void {
@@ -66,6 +69,14 @@ export class NavbarComponent implements OnInit {
 
   get activeTab() {
     return this._activeTab;
+  }
+
+  get role(): string {
+    return this._role;
+  }
+
+  set role(value: string) {
+    this._role = value;
   }
 
   @Input()

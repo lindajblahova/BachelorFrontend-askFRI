@@ -15,6 +15,7 @@ import {TokenService} from '../../services/token.service';
 })
 export class ProfileComponent implements OnInit {
 
+  private _errorMsg: string;
   private _userId: number;
   private _userData: IUser;
   private _isHidden = true;
@@ -33,7 +34,11 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this._userId = Number(this.tokenService.getUserId());
-    this.userService.getUserById(this.userId).subscribe(data => this.userData = data);
+    this.userService.getUserById(this.userId).subscribe(data => this.userData = data, error => {
+      if (error === 401) {
+        this.errorMsg = 'Používateľ neboj nájdený!';
+      }
+    });
   }
 
   openDialog(): void {
@@ -42,32 +47,30 @@ export class ProfileComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result === true)
       {
-        this.userService.deleteUser(this.userId).subscribe(data => console.log(data));
+        this.userService.deleteUser(this.userId).subscribe(data => {}, error => {
+          if (error === 401) {
+            this.errorMsg = 'Používateľa sa nepodarilo vymazať!';
+          }
+        });
         this.tokenService.signOut();
         this.router.navigate(['/login']);
       }
     });
   }
 
-  openSnackBar(message: string, action: string):void {
+  openSnackBar(message: string, action: string): void {
     this.snackBar.open(message, action, {
       duration: 2000,
     });
   }
 
   updatePassword(): void {
-    this.userService.getUserById(this.userId).subscribe(data => {
-      this.userData = data;
-      if (this._thirdFormGroup.get('newPasswordConfirm').value ===
-          this._secondFormGroup.get('newPassword').value ) {
-        console.log(this.userData);
-        this.userData.password = this._secondFormGroup.get('newPassword').value;
-        console.log(this._secondFormGroup.get('newPassword').value);
-        console.log(this.userData);
-        this.userService.updateUser(this.userData).subscribe();
-        this.openSnackBar('Heslo bolo zmenené.', 'Zavrieť');
-      }
-    } );
+    if (this._thirdFormGroup.get('newPasswordConfirm').value ===
+      this._secondFormGroup.get('newPassword').value ) {
+      this.userService.updateUser({idUser: this.userId, oldPassword: this._firstFormGroup.get('oldPassword').value,
+      newPassword: this._secondFormGroup.get('newPassword').value}).subscribe(data1 => {}, error => this.errorMsg = error);
+      this.openSnackBar('Heslo bolo zmenené.', 'Zavrieť');
+    }
   }
 
   /// GETTERS AND SETTERS
@@ -112,6 +115,14 @@ export class ProfileComponent implements OnInit {
 
   set userId(value) {
     this._userId = value;
+  }
+
+  get errorMsg(): string {
+    return this._errorMsg;
+  }
+
+  set errorMsg(value: string) {
+    this._errorMsg = value;
   }
 
 }

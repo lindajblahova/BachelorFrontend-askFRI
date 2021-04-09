@@ -5,6 +5,7 @@ import {catchError, map, tap} from 'rxjs/operators';
 import {throwError as observableThrowError} from 'rxjs/internal/observable/throwError';
 import {IQuestion} from '../interfaces/IQuestion';
 import {OptionalAnswer} from '../components/poll/create-poll/create-poll.component';
+import {IOptionalAnswer} from '../interfaces/IOptionalAnswer';
 
 @Injectable({
   providedIn: 'root'
@@ -32,6 +33,15 @@ export class QuestionService {
       }));
   }
 
+  saveOptionalAnswer(optionalAnswer: IOptionalAnswer): Observable<IOptionalAnswer> {
+    return this.http.post<IOptionalAnswer>('http://localhost:8080/api/questions/options/add',
+      optionalAnswer).pipe(catchError(this.errorHandler));
+  }
+
+  getOptionalAnswers(idQuestion: number): Observable<IOptionalAnswer[]> {
+    return this.http.get<number>('http://localhost:8080/api/questions/options/get/' + idQuestion).pipe(catchError(this.errorHandler));
+  }
+
   getRoomQuestions(id: number): Observable<IQuestion[]> {
     return this.http.get<IQuestion[]>('http://localhost:8080/api/questions/room/' + id).pipe(catchError(this.errorHandler));
   }
@@ -46,6 +56,6 @@ export class QuestionService {
 
 
   errorHandler(error: HttpErrorResponse): Observable<any> {
-    return observableThrowError(error.message || 'Server error');
+    return observableThrowError(error.status || 'Server error');
   }
 }

@@ -10,6 +10,7 @@ export function regexFineFunction(forbiddenRegex: RegExp): ValidatorFn {
   };
 }
 
+/*
 export function passscodeAlreadyExist(roomPasscode: string, existingPasscodes: IRoom[]): ValidatorFn {
   return (control: AbstractControl): {[key: string]: any} | null => {
     const forbidden = existingPasscodes.find(room => {
@@ -17,4 +18,4 @@ export function passscodeAlreadyExist(roomPasscode: string, existingPasscodes: I
     });
     return forbidden === null ? null : { passcodeForbidden: {value: control.value}} ;
   };
-}
+}*/

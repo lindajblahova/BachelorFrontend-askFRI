@@ -15,7 +15,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
           <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-            <li class="nav-item" *ngIf="participant==0">
+            <li class="nav-item" *ngIf="role==null">
               <a class="nav-link h5 font-weight-light m-0"
                  [class.active]="activeTab=='Prihlásiť'" (click)="goLogIn()">Prihlásiť</a>
             </li>
@@ -25,19 +25,19 @@
             <li class="nav-item" *ngIf="participant==5">
               <a class="nav-link h5 font-weight-light m-0"  (click)="goParticipant()">Odísť</a>
             </li>
-            <li class="nav-item" *ngIf="participant==2 || participant==4">
+            <li class="nav-item" *ngIf="role=='Student' || role=='Vyucujuci'">
               <a class="nav-link h5 font-weight-light m-0"
                  [class.active]="activeTab=='Účastník'" (click)="goParticipant()">Účastník</a>
             </li>
-            <li class="nav-item" *ngIf="participant==2 || participant==3">
+            <li class="nav-item" *ngIf="role=='Student' || role=='Vyucujuci'">
               <a class="nav-link h5 font-weight-light m-0"
                  [class.active]="activeTab=='Profil'" (click)="goProfile()">Profil</a>
             </li>
-            <li class="nav-item" *ngIf="participant==2 || participant==3">
+            <li class="nav-item" *ngIf="role=='Vyucujuci'">
               <a class="nav-link h5 font-weight-light m-0"
                  [class.active]="activeTab=='Prehľad'" (click)="goHome()">Prehľad</a>
             </li>
-            <li class="nav-item" *ngIf="participant==1 || participant==2 || participant==3 || participant==4 || participant==5">
+            <li class="nav-item" *ngIf="role=='Student' || role=='Vyucujuci'">
               <a class="nav-link h5 font-weight-light m-0"  (click)="goLogOut()">Odhlásiť</a>
             </li>
           </ul>

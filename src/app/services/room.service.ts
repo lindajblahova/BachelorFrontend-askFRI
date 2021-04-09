@@ -35,6 +35,10 @@ export class RoomService {
     return this.http.get<string>('http://localhost:8080/api/rooms/get/passcode/' + passcode).pipe(catchError(this.errorHandler));
   }
 
+  getActiveRoomByPasscode(passcode: string): Observable<IRoom> {
+    return this.http.get<string>('http://localhost:8080/api/rooms/get/room-passcode/' + passcode).pipe(catchError(this.errorHandler));
+  }
+
   updateRoomPasscode(room: IRoom): Observable<IRoom> {
     return this.http.put<IRoom>('http://localhost:8080/api/rooms/update/passcode', room).pipe(catchError(this.errorHandler))
       .pipe( tap(() => {
@@ -58,9 +62,9 @@ export class RoomService {
     return this.http.get<IRoom[]>('http://localhost:8080/api/rooms/get').pipe(catchError(this.errorHandler));
   }
 
-  findRoom(idRoom: number): Observable<IRoom> {
+  /*findRoom(idRoom: number): Observable<IRoom> {
     return this.http.post<number>('http://localhost:8080/api/rooms/get', idRoom).pipe(catchError(this.errorHandler));
-  }
+  }*/
 
   findUserRooms(idUser: number): Observable<IRoom[]> {
     return this.http.get<number>('http://localhost:8080/api/rooms/get/user/' + idUser).pipe(catchError(this.errorHandler));
@@ -79,6 +83,6 @@ export class RoomService {
   }*/
 
   errorHandler(error: HttpErrorResponse): Observable<any> {
-    return observableThrowError(error.message || 'Server error');
+    return observableThrowError(error.status || 'Server error');
   }
 }

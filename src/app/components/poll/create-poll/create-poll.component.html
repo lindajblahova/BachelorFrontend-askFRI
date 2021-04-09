@@ -63,8 +63,9 @@
                         </p>
                       </mat-hint>
                     </mat-form-field>
+                    {{_min}}
                     <mat-form-field color="accent" class="mb-2">
-                      <mat-label>Maximálna hondota</mat-label>
+                      <mat-label>Maximálna hodnota</mat-label>
                       <input matInput type="number" (value)="_max" formControlName="max">
                       <mat-hint *ngIf="!(sliderForm.get('max').pristine) || sliderForm.get('max').touched"
                                 class="text-danger">
@@ -73,6 +74,7 @@
                         </p>
                       </mat-hint>
                     </mat-form-field>
+                    {{_max}}
                     <mat-form-field color="accent" class="mb-2">
                       <mat-label>Veľkosť kroku</mat-label>
                       <input matInput type="number" (value)="_step" formControlName="step">
@@ -83,6 +85,7 @@
                         </p>
                       </mat-hint>
                     </mat-form-field>
+                    {{_step}}
                   </form>
                 </section>
               </div>

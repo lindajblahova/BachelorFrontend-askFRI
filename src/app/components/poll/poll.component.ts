@@ -15,7 +15,6 @@ export class PollComponent implements OnInit {
   private _displayed: string = 'questionList';
 
   /// INPUTS
-  private _room: IRoom;
   private _author: boolean;
 
   constructor() {
@@ -41,14 +40,7 @@ export class PollComponent implements OnInit {
   set author(value: boolean) {
     this._author = value;
   }
-  get room(): IRoom {
-    return this._room;
-  }
 
-  @Input()
-  set room(value: IRoom) {
-    this._room = value;
-  }
   get displayed(): string {
     return this._displayed;
   }

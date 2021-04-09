@@ -12,7 +12,8 @@ import {TokenService} from '../../services/token.service';
 })
 export class RegisterComponent implements OnInit {
 
-  errorMsg;
+  private _errorMsg;
+  private role = 'Student';
   private _signUpForm: FormGroup = this.formBuilder.group({
     name: ['', [Validators.required,
       Validators.minLength(2), regexFineFunction(/^[a-zA-Zäňôľščťžýáíéúĺśźćŕń ,.'-]+$/)]],
@@ -25,22 +26,23 @@ export class RegisterComponent implements OnInit {
     passwordConfirm: ['', [Validators.required]],
   });
 
-  users;
-
-  constructor(private formBuilder: FormBuilder, private userService: UserService, private router: Router,
-              private tokenService: TokenService) { }
+  constructor(private formBuilder: FormBuilder, private userService: UserService, private router: Router) { }
   ngOnInit(): void {
   }
 
   createUser(): void {
+    if (this.signUpForm.get('email').value.includes('@fri.uniza.sk')) {
+      this.role = 'Vyucujuci';
+    }
     this.userService.saveUser({idUser: 0, firstname: this.signUpForm.get('name').value,
       surname: this.signUpForm.get('surname').value, email: this.signUpForm.get('email').value,
-      password: this.signUpForm.get('password').value, role: 'User'}).subscribe(
+      password: this.signUpForm.get('password').value, role: this.role}).subscribe(
       response => {
-        console.log(response);
-        this.tokenService.saveUserId('' + response.idUser);
-        console.log(this.tokenService.getUserId());
-        this.router.navigate(['home']);
+        this.router.navigate(['login']);
+      }, error => {
+        if (error === 406) {
+          this.errorMsg = 'Zadaný email je už registrovaný!';
+        }
       });
   }
 
@@ -55,6 +57,14 @@ export class RegisterComponent implements OnInit {
 
   set signUpForm(value: FormGroup) {
     this._signUpForm = value;
+  }
+
+  get errorMsg() {
+    return this._errorMsg;
+  }
+
+  set errorMsg(value) {
+    this._errorMsg = value;
   }
 }
 

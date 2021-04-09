@@ -1,0 +1,43 @@
+p {
+  text-align: left;
+  margin-left: 15px;
+}
+
+.passcode {
+  float: right;
+}
+
+button:focus{
+  outline: none;
+}
+
+.myMargin {
+  margin: 8px;
+}
+
+@media screen and (max-width: 800px) {
+  mat-panel-title {
+    font-size: smaller;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  mat-panel-title {
+    font-size: small;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  mat-panel-title {
+    font-size: x-small;
+  }
+  .myMargin {
+    margin: 2px;
+  }
+}
+
+@media screen and (max-width: 300px) {
+  mat-panel-title {
+    font-size: xx-small;
+  }
+}
