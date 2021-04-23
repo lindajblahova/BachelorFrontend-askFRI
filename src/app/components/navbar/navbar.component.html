@@ -1,21 +1,23 @@
-<mat-sidenav-container class="align-middle" >
-  <mat-sidenav [(opened)]="isOpened" class="myNav nav-link align-middle" position="start" mode="push" *ngIf="isOpened">
-      <p class="text-white h6 font-weight-light mt-0 mb-0 ml-3 mr-3">
-        {{_room.roomName}}
-      </p>
-      <p class="text-white h6 font-weight-light mt-0 mb-0 ml-3 mr-3">
-        {{_room.roomPasscode}}
-      </p>
+<mat-sidenav-container>
+  <mat-sidenav [(opened)]="isOpened" class="myNav nav-link" position="start" mode="push" *ngIf="isOpened">
+      <div class="container-fluid custom">
+        <p class="text-white h6 font-weight-light mt-0 mb-0 ml-3 mr-3">
+          Miestnosť: {{_room.roomName}}
+        </p>
+        <p class="text-white h6 font-weight-light mt-0 mb-0 ml-3 mr-3">
+          Prístupový kód: {{_room.roomPasscode}}
+        </p>
+      </div>
   </mat-sidenav>
   <mat-sidenav-content>
     <nav class="navbar navbar-expand-lg navbar-dark sticky-top myNav">
-        <a routerLink="/" class="text-white h3 font-weight-light m-0 mr-2">askFRI</a>
+        <a routerLink="#" class="text-white h3 font-weight-light m-0 mr-2">askFRI</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
           <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-            <li class="nav-item" *ngIf="role==null">
+            <li class="nav-item" *ngIf="isLoggedIn==false">
               <a class="nav-link h5 font-weight-light m-0"
                  [class.active]="activeTab=='Prihlásiť'" (click)="goLogIn()">Prihlásiť</a>
             </li>
@@ -29,7 +31,11 @@
               <a class="nav-link h5 font-weight-light m-0"
                  [class.active]="activeTab=='Účastník'" (click)="goParticipant()">Účastník</a>
             </li>
-            <li class="nav-item" *ngIf="role=='Student' || role=='Vyucujuci'">
+            <li class="nav-item" *ngIf="role=='Admin'">
+              <a class="nav-link h5 font-weight-light m-0"
+                 [class.active]="activeTab=='Administrácia'" (click)="goAdmin()">Administrácia</a>
+            </li>
+            <li class="nav-item" *ngIf="role=='Student' || role=='Vyucujuci' || role=='Admin'">
               <a class="nav-link h5 font-weight-light m-0"
                  [class.active]="activeTab=='Profil'" (click)="goProfile()">Profil</a>
             </li>
@@ -37,7 +43,7 @@
               <a class="nav-link h5 font-weight-light m-0"
                  [class.active]="activeTab=='Prehľad'" (click)="goHome()">Prehľad</a>
             </li>
-            <li class="nav-item" *ngIf="role=='Student' || role=='Vyucujuci'">
+            <li class="nav-item" *ngIf="role=='Student' || role=='Vyucujuci' || role=='Admin'">
               <a class="nav-link h5 font-weight-light m-0"  (click)="goLogOut()">Odhlásiť</a>
             </li>
           </ul>

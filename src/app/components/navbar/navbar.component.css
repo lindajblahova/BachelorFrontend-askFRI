@@ -9,3 +9,12 @@ button:focus {
 .myNav {
   background-color: #ffd500;
 }
+
+.custom {
+}
+
+@media screen and (max-width: 991px) {
+  .custom {
+   margin-top: 50%;
+  }
+}

@@ -1,8 +1,15 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {RoomService} from '../../services/room.service';
 import {IRoom} from '../../interfaces/IRoom';
 import {TokenService} from '../../services/token.service';
+import {AuthService} from '../../services/auth.service';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
+/** Component pre miestnost obsahuje v template (html) podkomponenty - messages a poll
+ * @author Linda Blahova
+ * @version 1.0
+ * @since   2021-04-21
+ */
 @Component({
   selector: 'app-room',
   templateUrl: './room.component.html',
@@ -10,32 +17,49 @@ import {TokenService} from '../../services/token.service';
 })
 export class RoomComponent implements OnInit {
 
+  private _isLoggedIn: boolean = false;
   private _room: IRoom;
-  private _roomId: number;
-  private _errorMsg: string;
   private _sectionToDisplay: number;
   private _author: boolean;
 
-  constructor(private roomService: RoomService, private tokenService: TokenService) { }
+  constructor(private roomService: RoomService, private tokenService: TokenService, private authService: AuthService,
+              private cdr: ChangeDetectorRef, private snackBar: MatSnackBar) { }
 
+  /** Pri vrtupec do miestnosti je zaznamenane, ci je pouzivatel autorom miestnosti
+   * a aku sekciu (konverzacia/ankety) ma aktualne zobrazenu, defaultne je to konverzacia.
+   * Pokial pozadovana miestnost nebola najdena, zobrazi sa upozornenie
+   */
   ngOnInit(): void {
-
+    this.isLoggedIn = this.authService.isUserLoggedIn();
     this._sectionToDisplay = Number(this.tokenService.getSection());
     this.tokenService.isRoomAuthor() === 'true' ? this._author = true : this._author = false;
-    this.roomId = Number(this.tokenService.getRoomId());
-    this.roomService.getRoom(this.roomId).subscribe( response => this.room = response, error => {
-      if (error === 401) {
-        this.errorMsg = 'Miestnosť nebola nájdená!';
+    this.roomService.getRoom(Number(this.tokenService.getRoomId())).subscribe( response => this.room = response, error => {
+      if (error === 404) {
+        this.snackBar.open('Miestnosť nebola nájdená!', 'x', {
+          duration: 2000,
+          panelClass: ['mat-toolbar', 'mat-warn']
+        });
       }
     });
   }
 
-
+  /** Metoda pre nastavenie aktualne zobrazenej sekcie (konverzacie/ankety)
+   * @param num
+   */
   setSection(num: number): void {
     this.tokenService.saveSection('' + num);
-    console.log(num) ;
+    this.cdr.detectChanges();
   }
-  /// GETTERS AND SETTERS
+
+  /// GETTRE A SETTRE
+  get isLoggedIn(): boolean {
+    return this._isLoggedIn;
+  }
+
+  set isLoggedIn(value: boolean) {
+    this._isLoggedIn = value;
+  }
+
   get author(): boolean {
     return this._author;
   }
@@ -44,20 +68,6 @@ export class RoomComponent implements OnInit {
     this._author = value;
   }
 
-  get errorMsg() {
-    return this._errorMsg;
-  }
-
-  set errorMsg(value) {
-    this._errorMsg = value;
-  }
-  get roomId() {
-    return this._roomId;
-  }
-
-  set roomId(value) {
-    this._roomId = value;
-  }
   get room() {
     return this._room;
   }

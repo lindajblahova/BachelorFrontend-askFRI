@@ -1,6 +1,5 @@
 <app-navbar [participant]="2" [activeTab]="'Prehľad'"></app-navbar>
-{{errorMsg}}
-<div class="container">
+<div class="container" *ngIf="isLoggedIn===true">
   <div class="row">
     <div class="col-lg-4">
       <app-create-room></app-create-room>

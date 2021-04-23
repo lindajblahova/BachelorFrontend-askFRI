@@ -1,5 +1,10 @@
-import {OptionalAnswer} from '../components/poll/create-poll/create-poll.component';
-
+/** Predloha pre odosielanie a prijem dat otazky
+ * typy otazok:
+ * otvorena = 0
+ * vyber jednej = 1
+ * vyber niekolkych = 2
+ * posuvac = 3
+ */
 export interface IQuestion {
   idQuestion: number;
   idRoom: number;
@@ -10,10 +15,6 @@ export interface IQuestion {
 }
 
 /*
-type:
-  open = 0
-  choice = 1
-  checkbox = 2
-  slider = 3
+
 }*/
 

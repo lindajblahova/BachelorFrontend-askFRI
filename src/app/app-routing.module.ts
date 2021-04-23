@@ -9,6 +9,8 @@ import {ProfileComponent} from './pages/profile/profile.component';
 import {AdminPageComponent} from './admin/admin-page/admin-page.component';
 import {AuthGuard} from './auth/auth.guard';
 import {TeacherGuard} from './auth/teacher.guard';
+import {AdminGuard} from './auth/admin.guard';
+import {RoomInfoComponent} from './pages/room-info/room-info.component';
 
 
 
@@ -18,9 +20,10 @@ const routes: Routes = [
   {path: 'register', component: RegisterComponent},
   {path: 'enter-room', component: EnterRoomComponent, canActivate: [AuthGuard]},
   {path: 'home', component: HomeComponent, canActivate: [AuthGuard, TeacherGuard]},
+  {path: 'info/:roomName/:roomPasscode', component: RoomInfoComponent},
   {path: 'room', component: RoomComponent, canActivate: [AuthGuard] },
   {path: 'profile', component: ProfileComponent, canActivate: [AuthGuard]},
-  {path: 'adminHome', component: AdminPageComponent, canActivate: [AuthGuard] },
+  {path: 'adminHome', component: AdminPageComponent, canActivate: [AuthGuard, AdminGuard] },
 ];
 
 @NgModule({

@@ -1,57 +1,83 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {RoomService} from '../../services/room.service';
-import {Router} from '@angular/router';
-import {IRoom} from '../../interfaces/IRoom';
-import {IUser} from '../../interfaces/IUser';
+
 import {TokenService} from '../../services/token.service';
 import {debounce} from 'lodash-es';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
+/** Component pre vytvorenie novej miestnosti
+ * @author Linda Blahova
+ * @version 1.0
+ * @since   2021-04-21
+ */
 @Component({
   selector: 'app-create-room',
   templateUrl: './create-room.component.html',
   styleUrls: ['./create-room.component.css']
 })
-export class CreateRoomComponent implements OnInit {
+export class CreateRoomComponent {
 
   private _passcodeMessage: string;
-  private successMsg: string;
-  private _errorMsg: string;
   private _showForm: boolean = false;
 
   private _createRoomForm: FormGroup = this.formBuilder.group({
     roomName: ['', [Validators.required, Validators.minLength(2)]],
     roomPasscode: ['', [Validators.required, Validators.minLength(2)]],
   });
-  constructor(private router: Router, private roomService: RoomService, private formBuilder: FormBuilder,
-              private tokenService: TokenService) { }
+  constructor(private roomService: RoomService, private formBuilder: FormBuilder,
+              private tokenService: TokenService, private snackBar: MatSnackBar) { }
 
-  ngOnInit(): void {
-  }
-
+  /** Metoda pre zobrazenie/skrytie formularu
+   */
   showFormChange(): void {
     this.showForm = !this.showForm;
   }
 
+  /** Metoda pre vytovrenie miestnosti, pokial je pristupovy kod volny(podmienka), je mozne odoslat
+   * ziadost pre vytvorenie miestnosti, pokial bola miestnost vytvorena, zobrazi sa upozornenie a
+   * nasledne sa formular resetuje a skryje, pokial miestnost nebola vytvorena, zobrazi sa prislusne upozornenie
+   */
   createRoom(): void {
-      console.log( Number(this.tokenService.getUserId()));
+    if (this.passcodeMessage == null) {
       this.roomService.saveRoom({idRoom: 0, idOwner: Number(this.tokenService.getUserId()),
-      roomName: this.createRoomForm.get('roomName').value,
-      roomPasscode: this.createRoomForm.get('roomPasscode').value, active: true}).subscribe(
+        roomName: this.createRoomForm.get('roomName').value,
+        roomPasscode: this.createRoomForm.get('roomPasscode').value, active: true}).subscribe(
         response => {
-          this.successMsg = 'Miestnosť ' + response.roomName + ' bola vytvorená';
-          // this.router.navigate(['/home']);
+          this.snackBar.open(response.message, 'x', {
+            duration: 2000,
+          });
           this.createRoomForm.reset();
           this.showFormChange();
-          this.reloadComponent();
         }, error => {
           if (error === 406)
           {
-            this._errorMsg = 'Tento kód aktuálne nie je dostupný!';
+            this.snackBar.open('Tento kód aktuálne nie je dostupný!', 'x', {
+              duration: 2000,
+              panelClass: ['mat-toolbar', 'mat-warn']
+            });
+          } else if (error === 404)
+          {
+            this.snackBar.open('Nepodarilo sa vytvoriť miestnosť!', 'x', {
+              duration: 2000,
+              panelClass: ['mat-toolbar', 'mat-warn']
+            });
           }
         });
+    } else {
+      this.snackBar.open('Tento kód aktuálne nie je dostupný!', 'x', {
+        duration: 2000,
+        panelClass: ['mat-toolbar', 'mat-warn']
+      });
+    }
   }
 
+  /** Funkcia pre valdidaciu formularu - zitenie ci je pristupovy kod aktualne obsadeny,
+   * Je vyuzita funkcia debounce, takze po zadanom casovom intervale kedy pouzivatel prestane
+   * pisat kod, sa odosle poziadavka, ci je aktualne vlozeny kod obsadeny, ak ano zobrazi sa
+   * vo formulari message, ak nie message sa skryje a pristupovy kod je validny
+   * zdroj: https://www.learn2code.sk/aplikacia/skupiny#/angular/chapters/28-lodash-npm-types-debounce
+   */
   isPasscodeTaken = debounce((passcode: string): void =>
   {
     if (passcode !== '')
@@ -63,28 +89,18 @@ export class CreateRoomComponent implements OnInit {
         }
         else
         {
-          this._passcodeMessage = 'Tento kód je voľný';
+          this._passcodeMessage = null;
         }
-      }, error => this.errorMsg = error);
+      }, error =>  {
+        this.snackBar.open('Nepodarilo sa zistiť, či je kód aktuálne používaný!', 'x', {
+          duration: 2000,
+          panelClass: ['mat-toolbar', 'mat-warn']
+        });
+      });
     }
   }, 500);
 
-  reloadComponent(): void {
-    const currentUrl = this.router.url;
-    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
-    this.router.onSameUrlNavigation = 'reload';
-    this.router.navigate([currentUrl]);
-  }
-
-  /// GETTERS AND SETTERS
-  get errorMsg(): string {
-    return this._errorMsg;
-  }
-
-  set errorMsg(value: string) {
-    this._errorMsg = value;
-  }
-
+  /// GETTRE A SETTRE
   get createRoomForm(): FormGroup {
     return this._createRoomForm;
   }

@@ -18,7 +18,12 @@ import {MatStepperModule} from '@angular/material/stepper';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { MatTableExporterModule } from 'mat-table-exporter';
+import {MatTableModule} from '@angular/material/table';
 
+/** Import vsetkych pouzitych modulov z kniznice Angular Material
+ * zdroj: https://material.angular.io/
+ */
 const Material = [
   MatButtonModule,
   MatFormFieldModule,
@@ -38,7 +43,9 @@ const Material = [
   MatStepperModule,
   MatDialogModule,
   MatSlideToggleModule,
-  MatSnackBarModule
+  MatSnackBarModule,
+  MatTableExporterModule,
+  MatTableModule
 ];
 
 @NgModule({

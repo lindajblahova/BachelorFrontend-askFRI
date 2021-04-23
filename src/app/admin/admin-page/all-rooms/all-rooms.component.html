@@ -1,9 +1,8 @@
 <div class="container bg-light text-center">
   <div class="row">
     <div class="col-lg-12">
-      <p>{{errorMsg}}</p>
       <mat-accordion>
-        <div *ngIf="rooms">
+        <div *ngIf="rooms && isAdmin===true">
         <div *ngFor="let room of rooms.reverse()" class="d-flex">
           <div class="col-12 p-0 myMargin">
             <mat-expansion-panel>

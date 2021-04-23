@@ -4,10 +4,10 @@
     <div class="col-lg-12">
       <mat-tab-group mat-align-tabs="center" class="bg-light" color="accent">
         <mat-tab label="Všetky miestnosti">
-          <app-all-rooms></app-all-rooms>
+          <app-all-rooms [isAdmin]="isAdmin"></app-all-rooms>
         </mat-tab>
         <mat-tab label="Všetci užívatelia">
-          <app-all-users></app-all-users>
+          <app-all-users [isAdmin]="isAdmin"></app-all-users>
         </mat-tab>
       </mat-tab-group>
     </div>

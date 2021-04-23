@@ -37,6 +37,7 @@ import {AuthInterceptorService} from './services/auth-interceptor.service';
 import {AuthService} from './services/auth.service';
 import {TeacherGuard} from './auth/teacher.guard';
 import {AdminGuard} from './auth/admin.guard';
+import { RoomInfoComponent } from './pages/room-info/room-info.component';
 
 @NgModule({
   declarations: [
@@ -63,7 +64,8 @@ import {AdminGuard} from './auth/admin.guard';
     DialogDeleteQuestionComponent,
     AdminPageComponent,
     AllRoomsComponent,
-    AllUsersComponent
+    AllUsersComponent,
+    RoomInfoComponent
   ],
     imports: [
         BrowserModule,

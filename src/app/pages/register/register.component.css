@@ -13,14 +13,9 @@
   width: 100%;
 }
 
-.mat-card-header {
-  background-color: #e24747;
-}
-
 button:focus{
   outline: none;
 }
-
 
 @media screen and (max-width: 1205px) {
   .container {

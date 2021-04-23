@@ -11,6 +11,11 @@ button:focus{
   outline: none;
 }
 
+.myTitle {
+  display: flex;
+  justify-content: space-between;
+}
+
 .myMargin {
   margin: 8px;
 }
@@ -27,17 +32,22 @@ button:focus{
   }
 }
 
-@media screen and (max-width: 400px) {
-  mat-panel-title {
-    font-size: x-small;
-  }
+@media screen and (max-width: 450px) {
   .myMargin {
     margin: 2px;
   }
-}
-
-@media screen and (max-width: 300px) {
-  mat-panel-title {
-    font-size: xx-small;
+  .myTitle {
+    display: block!important;
+    justify-content: flex-start;
+    overflow:hidden;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+  }
+  .myOverflow {
+    display: block!important;
+    justify-content: flex-start;
+    overflow:hidden;
+    white-space:nowrap;
+    text-overflow:ellipsis;
   }
 }

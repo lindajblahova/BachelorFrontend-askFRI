@@ -8,6 +8,12 @@ import {Observable, of, throwError} from 'rxjs';
 import {MatDialog} from '@angular/material/dialog';
 import {catchError} from 'rxjs/operators';
 
+/** Interceptor Service pre odchytavanie odosielanych ziadosti
+ * pouziva CookieService z ngx-cookie-service
+ * @author Linda Blahova
+ * @version 1.0
+ * @since   2021-04-21
+ */
 @Injectable({
   providedIn: 'root'
 })
@@ -20,8 +26,12 @@ export class AuthInterceptorService {
               private router: Router) {
   }
 
+  /** Metody vytvara klon ziadosti, aby bola poziadavka nemenna, ak je pouzivatel prihlaseny
+   *  a do hlavicky sa prida JWT a posunie ziadost dalej
+   * @param request
+   * @param next
+   */
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    console.log('Interceptssssss');
     if (this.authService.isUserLoggedIn()) {
       request = request.clone({
         setHeaders: {
@@ -32,6 +42,10 @@ export class AuthInterceptorService {
     return next.handle(request).pipe(catchError(x => this.handleAuthError(x)));
   }
 
+  /** Metoda pre handling erroru ak pouzivatel nebol prihlaseny pri volani ziadosti
+   * metoda vymaze vsetky cookies a naviguje na domovsku stranku
+   * @param err
+   */
   private handleAuthError(err: HttpErrorResponse): Observable<any> {
     if ((err.status === 401 || err.status === 403) && this.authService.isUserLoggedIn()) {
       this.tokenService.signOut();

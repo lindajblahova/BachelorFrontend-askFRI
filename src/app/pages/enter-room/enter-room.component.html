@@ -1,6 +1,5 @@
-<app-navbar [participant]="2" [activeTab]="'Účastník'" ></app-navbar>
-<mat-card [class.d-none]="errorMsg==null" class="mat-card-header m-5 text-white">{{errorMsg}}</mat-card>
-<div class="container bg-light text-center">
+<app-navbar [participant]="2" [activeTab]="'Účastník'"></app-navbar>
+<div class="container bg-light text-center" *ngIf="isLoggedIn==true">
   <div class="row">
     <div class="col-12">
       <hr class="my-2">

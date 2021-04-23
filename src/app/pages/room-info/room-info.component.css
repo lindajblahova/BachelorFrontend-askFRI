@@ -1,0 +1,12 @@
+html, body {
+  height: 100%;
+}
+
+.full-height {
+  height: 100%;
+}
+
+.centered {
+  margin-left: auto;
+  margin-right: auto;
+}

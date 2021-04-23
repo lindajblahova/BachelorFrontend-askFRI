@@ -63,7 +63,6 @@
                         </p>
                       </mat-hint>
                     </mat-form-field>
-                    {{_min}}
                     <mat-form-field color="accent" class="mb-2">
                       <mat-label>Maximálna hodnota</mat-label>
                       <input matInput type="number" (value)="_max" formControlName="max">
@@ -74,7 +73,6 @@
                         </p>
                       </mat-hint>
                     </mat-form-field>
-                    {{_max}}
                     <mat-form-field color="accent" class="mb-2">
                       <mat-label>Veľkosť kroku</mat-label>
                       <input matInput type="number" (value)="_step" formControlName="step">
@@ -83,9 +81,11 @@
                         <p *ngIf="getSliderFormStepValidation() !== 0 ">
                           Táto veľkosť kroku pri zadanom minime a maxime nie je povolená
                         </p>
+                        <p *ngIf="getSliderFormStepValidation() === 0 && sliderForm.get('min').value > sliderForm.get('step').value">
+                          Prosím, zvoľte minimum menšie ako veľkosť kroku
+                        </p>
                       </mat-hint>
                     </mat-form-field>
-                    {{_step}}
                   </form>
                 </section>
               </div>
@@ -98,7 +98,8 @@
         (createQuestionForm.get('questionType').value === '1' && optionalAnswers.length === 0) ||
         ((createQuestionForm.get('questionType').value === '3' && ((sliderForm.get('min').value === null) ||
           sliderForm.get('max').value === null || sliderForm.get('step').value === null)) ||
-          (sliderForm.get('min').value >= sliderForm.get('max').value) || getSliderFormStepValidation() !== 0 )"
+          (sliderForm.get('min').value >= sliderForm.get('max').value) || getSliderFormStepValidation() !== 0  ||
+           sliderForm.get('min').value > sliderForm.get('step').value)"
                 type="submit" mat-raised-button color="accent" class="m-3">Vytvoriť
         </button>
       </form>

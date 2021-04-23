@@ -1,0 +1,10 @@
+<h2 mat-dialog-title>Tento prístupový kód aktuálne nie je dostupný :(</h2>
+<mat-dialog-content class="mat-typography">
+  <p>Prístupový kód ktorý ste zadali pri vytváraní miestnosti aktuálne používa iná miestnosť.
+    Ak si želáte obnoviť aktivitu miestnosti, prístupový kód miestnosti bude zmenený na nasledujúci kód.</p>
+  <h2>{{data.roomPasscode}}</h2>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button [mat-dialog-close]="false">Zavrieť</button>
+  <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Zmeniť kód</button>
+</mat-dialog-actions>

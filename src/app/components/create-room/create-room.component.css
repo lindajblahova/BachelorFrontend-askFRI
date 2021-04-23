@@ -1,15 +1,11 @@
 .my-form-container {
   width: 70%;
-  padding: 0px;
-  margin: 0px;
+  padding: 0;
+  margin: 0;
 }
 
 .full-width-form {
   width: 100%;
-}
-
-.mat-card-header {
-  background-color: #e24747;
 }
 
 button:focus{

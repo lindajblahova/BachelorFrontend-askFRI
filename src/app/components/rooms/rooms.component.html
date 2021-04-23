@@ -6,24 +6,24 @@
       <hr class="my-2">
     </div>
     <div class="col-lg-12">
-      <p>{{errorMsg}}</p>
       <mat-accordion>
         <div *ngFor="let room of rooms" class="d-flex">
           <div class="col-11 p-0 myMargin">
             <mat-expansion-panel>
               <mat-expansion-panel-header>
-                <mat-panel-title class="d-flex justify-content-between text-left">
-                  <div>
+                <mat-panel-title class="myTitle text-left">
+                  <div class="myOverflow">
                     {{ room.roomName }}
                   </div>
-                  <div class="passcode text-left">
+                  <div class="passcode myOverflow text-left">
                     | {{ room.roomPasscode }}
                   </div>
                 </mat-panel-title>
               </mat-expansion-panel-header>
-              <mat-action-row class="d-flex justify-content-between">
-                <button color="accent" mat-button class="float-left" (click)="enterRoom(room.idRoom)">Vstúpiť</button>
-                <button color="warn" mat-button class="float-right mr-4" (click)="openDeleteDialog(room.idRoom)">Vymazať</button>
+              <mat-action-row class="d-flex justify-content-between pl-0 pr-0 pm-1 pb-2">
+                <button color="accent" mat-button (click)="enterRoom(room.idRoom)">Vstúpiť</button>
+                <button color="primary" mat-button routerLink="/info/{{room.roomName}}/{{room.roomPasscode}}">Prístup</button>
+                <button color="warn" mat-button class="mr-2" (click)="openDeleteDialog(room.idRoom)">Vymazať</button>
               </mat-action-row>
             </mat-expansion-panel>
           </div>

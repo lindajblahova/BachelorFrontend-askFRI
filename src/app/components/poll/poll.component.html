@@ -13,7 +13,6 @@
       <div *ngIf="displayed=='question' && author==true">
         <app-create-poll (submit)="showQuestions()"></app-create-poll>
       </div>
-
       <div *ngIf="displayed=='questionList'">
         <app-questions [author]="author"></app-questions>
       </div>

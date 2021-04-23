@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute, ParamMap} from '@angular/router';
-import {TokenService} from '../../services/token.service';
+import {AuthService} from '../../services/auth.service';
 
+/** Component pre domovsku stranku vyucujuceho - obsahuje podkomponenty - create room a rooms (zoznam miestnosti)
+ * @author Linda Blahova
+ * @version 1.0
+ * @since   2021-04-21
+ */
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -9,30 +13,20 @@ import {TokenService} from '../../services/token.service';
 })
 export class HomeComponent implements OnInit {
 
-  private _errorMsg: string;
-  private _userId: number;
-  constructor(private tokenService: TokenService) { }
+  private _isLoggedIn: boolean = false;
+  constructor(private authService: AuthService) { }
 
   ngOnInit(): void {
-    this.userId = Number(this.tokenService.getUserId());
-    console.log(this.userId);
+    this.isLoggedIn = this.authService.isUserLoggedIn();
   }
 
   /// GETTERS AND SETTERS
-  get userId() {
-    return this._userId;
+  get isLoggedIn(): boolean {
+    return this._isLoggedIn;
   }
 
-  set userId(value) {
-    this._userId = value;
-  }
-
-  get errorMsg(): string {
-    return this._errorMsg;
-  }
-
-  set errorMsg(value: string) {
-    this._errorMsg = value;
+  set isLoggedIn(value: boolean) {
+    this._isLoggedIn = value;
   }
 
 }

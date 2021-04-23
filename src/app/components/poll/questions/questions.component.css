@@ -14,14 +14,20 @@ ul:nth-child(5n+5) mat-expansion-panel {
   background-color: rgba(112,234,80,0.3);
 }
 
-mat-checkbox-layout {
-  margin-bottom: 0px;
-}
-
 button:focus{
   outline: none;
 }
 
+.my-display {
+  display: flex;
+}
+
+mat-panel-title{
+  overflow:hidden;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+  display: block !important;
+}
 
 @media screen and (max-width: 800px) {
   mat-panel-title, mat-checkbox {
@@ -33,8 +39,11 @@ button:focus{
   mat-panel-title, mat-checkbox {
     font-size: small;
   }
+  .my-display {
+    display: block;
+  }
 }
-
+/*
 @media screen and (max-width: 400px) {
   mat-panel-title, mat-checkbox {
     font-size: x-small;
@@ -45,4 +54,4 @@ button:focus{
   mat-panel-title, mat-checkbox {
     font-size: xx-small;
   }
-}
+}*/
