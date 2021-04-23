@@ -1,29 +1,31 @@
-<app-navbar></app-navbar>
-{{errorMsg}}
-<div class="container bg-light text-center">
+<app-navbar [participant]="2" [activeTab]="'Účastník'"></app-navbar>
+<div class="container bg-light text-center" *ngIf="isLoggedIn==true">
   <div class="row">
     <div class="col-12">
       <hr class="my-2">
-      <h1 class="display-4">Účastník</h1>
+      <h1 class="mat-display-1 mt-3 mb-1 text-dark">Účastník</h1>
       <hr class="my-2">
     </div>
   </div>
   <div class="row">
     <div class="col-12">
       <form [formGroup]="passcodeForm" (ngSubmit)="onSubmit()">
-        <div class="form-group d-flex justify-content-center">
+        <div class=" d-flex justify-content-center">
           <div class="container my-form-container">
-            <div class="row">
-              <label for="passcode" class="mt-2">Zadajte prístupový kód</label>
-            </div>
-            <div class="row">
-              <input id="passcode" type="text" class="form-control form-control-lg" formControlName="passcode"
+            <mat-form-field class="full-width-form mt-2" color="accent">
+              <mat-label>Prístupový kód</mat-label>
+              <input matInput formControlName="passcode"
                      placeholder="napr. 12101998">
-            </div>
+              <mat-hint *ngIf="passcodeForm.get('passcode').touched || !(passcodeForm.get('passcode').pristine)">
+                <p *ngIf="passcodeForm.get('passcode').errors?.required" class="text-danger">Zadajte prístupový kód
+                </p>
+              </mat-hint>
+            </mat-form-field>
           </div>
         </div>
-
-        <button type="submit" class="btn btn-warning m-3"><i class="fas fa-door-open"></i> Vstúpiť</button>
+        <button [disabled]="passcodeForm.get('passcode').errors?.required" type="submit" mat-raised-button
+                color="accent" class="text-white mb-3"><i class="fas fa-door-open"></i> Vstúpiť
+        </button>
       </form>
     </div>
   </div>

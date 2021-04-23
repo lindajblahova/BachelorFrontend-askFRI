@@ -1,10 +1,20 @@
 .my-form-container {
   width: 70%;
-  padding: 0px;
-  margin: 0px;
+  padding: 0;
+  margin: 0;
 }
 
+.full-width-form {
+  width: 100%;
+}
 
+button:focus{
+  outline: none;
+}
+
+button:focus{
+  outline: none;
+}
 
 @media screen and (max-width: 992px) {
 

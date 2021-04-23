@@ -1,70 +1,107 @@
 <div class="container bg-light text-center">
-  <div class="row" >
+  <div class="row">
     <div class="col-12">
-      <form [formGroup]="createQuestionForm" (ngSubmit)="onSubmit()">
+      <form [formGroup]="createQuestionForm" (ngSubmit)="createQuestion()">
         <div class="form-group d-flex justify-content-center">
           <div class="container my-form-container">
             <div class="row">
-              <label for="questionType" class="mt-2">Vyberte typ otázky</label>
+              <mat-form-field class="full-width-form" color="accent">
+                <mat-label>Vyberte typ otázky</mat-label>
+                <mat-select formControlName="questionType" [(value)]="selectedType">
+                  <mat-option value="0">Otvorená otázka</mat-option>
+                  <mat-option value="1">Výber jednej možnosti</mat-option>
+                  <mat-option value="2">Výber viacerých možností</mat-option>
+                  <mat-option value="3">Posúvač</mat-option>
+                </mat-select>
+              </mat-form-field>
             </div>
             <div class="row">
-              <select #questionType class="form-select form-control" id="questionType" formControlName="questionType"
-                      (change)="selected(questionType.value)">
-                <option value="0">Otvorená otázka</option>
-                <option value="1">Výber jednej možnosti</option>
-                <option value="2">Výber viacerých možností</option>
-                <option value="3">Posúvač</option>
-              </select>
-            </div>
-            <div class="row">
-              <label for="content" class="mt-2">Otázka</label>
-            </div>
-            <div class="row">
-              <input id="content" type="text" class="form-control" formControlName="content"
-                     placeholder="Napíšte niečo...">
-            </div>
-            <div class="row">
-              <input hidden type="text" class="form-control" formControlName="content"
-                     placeholder="{{selectedType}}">
+              <mat-form-field class="full-width-form mt-2" color="accent">
+                <mat-label>Otázka</mat-label>
+                <input matInput id="content" type="text" formControlName="content"
+                       placeholder="Napíšte niečo...">
+                <mat-hint
+                  *ngIf="!(createQuestionForm.get('content').pristine) || createQuestionForm.get('content').touched"
+                  class="text-danger">
+                  <p *ngIf="createQuestionForm.get('content').errors?.required">
+                    Zadajte otázku
+                  </p>
+                </mat-hint>
+              </mat-form-field>
             </div>
 
             <div *ngIf="selectedType==1 || selectedType==2">
-              <div class="row">
-                <input hidden type="text" class="form-control" formControlName="content"
-                       placeholder="{{selectedType}}">
-              </div>
-              <form #formRef="ngForm">
-                <div class="row">
-                  <label class="mt-2">Odpovede</label>
-                </div>
-                <div *ngFor="let option of optionalAnswers; let ind=index" class="col-lg-12">
-                  <div class="form-group">
-                      <input type="text" [(ngModel)]="optionalAnswers[ind].value" name="name{{ind}}" class="form-control"
-                             #name="ngModel" required/>
-                      <!--<p [hidden]="optionalAnswers[in].value">Field is required</p>-->
-                  </div>
-                </div>
-                <button type="button" class="btn btn-warning m-3" [disabled]="!formRef.form.valid"
-                        (click)="addAnswer()"><i class="fas fa-plus"></i> Odpoveď</button>
-                <button type="button" class="btn btn-warning m-3"
-                        (click)="deleteAnswer()"><i class="fas fa-trash-alt"></i> Odpoveď</button>
-              </form>
+              <mat-form-field class="full-width-form mt-2" color="accent" required>
+                <mat-label>Odpovede</mat-label>
+                <mat-chip-list #chipList class="mat-chip-list-stacked" aria-label="select">
+                  <mat-chip *ngFor="let answer of optionalAnswers" [selectable]="true"
+                            [removable]="true" (removed)="remove(answer)" style="width: fit-content">
+                    {{answer.name}}
+                    <mat-icon matChipRemove>cancel</mat-icon>
+                  </mat-chip>
+                </mat-chip-list>
+                <input matInput class="full-width-form" type="text" placeholder="Napíšte niečo..."
+                       [matChipInputFor]="chipList"
+                       [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                       [matChipInputAddOnBlur]="true"
+                       (matChipInputTokenEnd)="add($event)">
+                <mat-hint>Stlačením tlačidla enter vytvoríte odpoveď</mat-hint>
+              </mat-form-field>
             </div>
 
             <div *ngIf="selectedType==3">
-              <div class="row">
-                <label for="customRange" class="form-label mt-2 mb-2">Rozsah</label>
-              </div>
               <div class="row d-flex mb-2">
-                <input #slider (change)="value=slider.value" type="range" class="form-range" min="{{minVal}}" max="{{maxVal}}" id="customRange">
-                <h4 class="mt-1 ml-2">{{value}}</h4>
-                <input #minValue id="inputMin" class="ctrl form-control w-25 ml-2 mr-2" type="number" value="0" (change)="minVal=minValue.value">
-                <input #maxValue id="inputMax" class="ctrl form-control w-25" type="number" value="10" (change)="maxVal=maxValue.value">
+                <section>
+                  <form [formGroup]="_sliderForm">
+                    <mat-form-field color="accent" class="mb-2">
+                      <mat-label>Minimálna hodnota</mat-label>
+                      <input matInput type="number" (value)="_min" formControlName="min">
+                      <mat-hint *ngIf="!(sliderForm.get('min').pristine) || sliderForm.get('min').touched"
+                                class="text-danger">
+                        <p *ngIf="sliderForm.get('min').value >= sliderForm.get('max').value">
+                          Minimum nemôže byť väčšie alebo rovné ako maximum
+                        </p>
+                      </mat-hint>
+                    </mat-form-field>
+                    <mat-form-field color="accent" class="mb-2">
+                      <mat-label>Maximálna hodnota</mat-label>
+                      <input matInput type="number" (value)="_max" formControlName="max">
+                      <mat-hint *ngIf="!(sliderForm.get('max').pristine) || sliderForm.get('max').touched"
+                                class="text-danger">
+                        <p *ngIf="sliderForm.get('min').value >= sliderForm.get('max').value">
+                          Maximum nemôže byť menšie alebo rovné ako minimum
+                        </p>
+                      </mat-hint>
+                    </mat-form-field>
+                    <mat-form-field color="accent" class="mb-2">
+                      <mat-label>Veľkosť kroku</mat-label>
+                      <input matInput type="number" (value)="_step" formControlName="step">
+                      <mat-hint *ngIf="!(sliderForm.get('step').pristine) || sliderForm.get('step').touched"
+                                class="text-danger">
+                        <p *ngIf="getSliderFormStepValidation() !== 0 ">
+                          Táto veľkosť kroku pri zadanom minime a maxime nie je povolená
+                        </p>
+                        <p *ngIf="getSliderFormStepValidation() === 0 && sliderForm.get('min').value > sliderForm.get('step').value">
+                          Prosím, zvoľte minimum menšie ako veľkosť kroku
+                        </p>
+                      </mat-hint>
+                    </mat-form-field>
+                  </form>
+                </section>
               </div>
             </div>
           </div>
         </div>
-        <button type="submit" class="btn btn-warning m-3">Vytvoriť</button>
+        <button [disabled]="(createQuestionForm.get('questionType').errors?.required ||
+        createQuestionForm.get('content').errors?.required) ||
+        (createQuestionForm.get('questionType').value === '2' && optionalAnswers.length === 0) ||
+        (createQuestionForm.get('questionType').value === '1' && optionalAnswers.length === 0) ||
+        ((createQuestionForm.get('questionType').value === '3' && ((sliderForm.get('min').value === null) ||
+          sliderForm.get('max').value === null || sliderForm.get('step').value === null)) ||
+          (sliderForm.get('min').value >= sliderForm.get('max').value) || getSliderFormStepValidation() !== 0  ||
+           sliderForm.get('min').value > sliderForm.get('step').value)"
+                type="submit" mat-raised-button color="accent" class="m-3">Vytvoriť
+        </button>
       </form>
     </div>
   </div>

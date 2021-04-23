@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute, ParamMap} from '@angular/router';
+import {AuthService} from '../../services/auth.service';
 
+/** Component pre domovsku stranku vyucujuceho - obsahuje podkomponenty - create room a rooms (zoznam miestnosti)
+ * @author Linda Blahova
+ * @version 1.0
+ * @since   2021-04-21
+ */
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -8,14 +13,20 @@ import {ActivatedRoute, ParamMap} from '@angular/router';
 })
 export class HomeComponent implements OnInit {
 
-  userId;
-  constructor(private route: ActivatedRoute) { }
+  private _isLoggedIn: boolean = false;
+  constructor(private authService: AuthService) { }
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe((params: ParamMap) => {
-      this.userId = Number(params.get('userId'));
-      console.log(this.userId);
-    });
+    this.isLoggedIn = this.authService.isUserLoggedIn();
+  }
+
+  /// GETTERS AND SETTERS
+  get isLoggedIn(): boolean {
+    return this._isLoggedIn;
+  }
+
+  set isLoggedIn(value: boolean) {
+    this._isLoggedIn = value;
   }
 
 }

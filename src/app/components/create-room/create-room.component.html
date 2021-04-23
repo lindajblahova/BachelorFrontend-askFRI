@@ -1,35 +1,59 @@
-<div class="container bg-light text-center">
+<div class="container bg-light text-center" >
   <div class="row">
     <div class="col-12">
       <hr class="my-2">
-      <button class="btn btn-warning m-3" (click)="onClick()"><i class="fas fa-plus"></i> Miestnosť</button>
+      <button mat-raised-button class=" m-3" color="accent" (click)="showFormChange()"><i class="fas fa-plus"></i> Miestnosť
+      </button>
     </div>
   </div>
-  <div class="row" >
+  <div class="row">
     <div class="col-12">
-      <form *ngIf="showForm" [formGroup]="createRoomForm" (ngSubmit)="onSubmit()">
-        <div class="form-group d-flex justify-content-center">
+      <form *ngIf="showForm" [formGroup]="createRoomForm" (ngSubmit)="createRoom()">
+        <div class="d-flex justify-content-center">
           <div class="container my-form-container">
             <div class="row">
-              <label for="roomName" class="mt-2">Vytvorte názov miestnosti</label>
+              <mat-form-field color="accent" class=" full-width-form mt-2">
+                <mat-label>Názov miestnosti</mat-label>
+                <input matInput type="text" formControlName="roomName" placeholder="napr. INF-2-Streda16">
+                <mat-hint
+                  *ngIf="createRoomForm.get('roomName').touched || !(createRoomForm.get('roomName').pristine)">
+                  <p *ngIf="createRoomForm.get('roomName').errors?.minlength" class="text-danger">Názov musí mať
+                    aspoň 2 znaky
+                  </p>
+                  <p *ngIf="createRoomForm.get('roomName').errors?.required" class="text-danger">Zadajte názov
+                    miestnosti
+                  </p>
+                </mat-hint>
+              </mat-form-field>
             </div>
             <div class="row">
-              <input id="roomName" type="text" class="form-control" formControlName="roomName"
-                     placeholder="napr. INF-2-Streda16">
-            </div>
-            <div class="row">
-              <label for="roomPasscode" class="mt-2">Vytvorte prístupový kód</label>
-            </div>
-            <div class="row">
-              <input id="roomPasscode" type="text" class="form-control" formControlName="roomPasscode"
-                     placeholder="napr. 12101998">
-            </div>
-            <div class="row">
-              <small>Prístupový kód musí byť unikátny!</small>
+              <mat-form-field color="accent" class="full-width-form mt-2 mb-2">
+                <mat-label>Prístupový kód</mat-label>
+                <input matInput type="text" formControlName="roomPasscode" #passInput placeholder="napr. 12101998"
+                       (input)="isPasscodeTaken(passInput.value)">
+                <mat-hint>
+                  <p [class.d-none]="createRoomForm.get('roomPasscode').touched ||
+                  !(createRoomForm.get('roomPasscode').pristine)">Pomocou prístupového kódu sa účastníci vedia
+                    pridať do miestnosti. Prístupový kód musí byť unikátny!</p>
+                  <div
+                    *ngIf="createRoomForm.get('roomPasscode').touched || !(createRoomForm.get('roomPasscode').pristine)">
+                    <p *ngIf="createRoomForm.get('roomPasscode').errors?.minlength" class="text-danger">Prístupový
+                      kód musí mať aspoň 2 znaky
+                    </p>
+                    <p *ngIf="createRoomForm.get('roomPasscode').errors?.required" class="text-danger">Zadajte
+                      prístupový kód
+                    </p>
+                    <p class="text-danger">{{passcodeMessage}}
+                    </p>
+                  </div>
+                </mat-hint>
+              </mat-form-field>
             </div>
           </div>
         </div>
-        <button type="submit" class="btn btn-warning m-3"><i class="fas fa-greater-than"></i></button>
+        <button color="accent" [disabled]="createRoomForm.get('roomName').errors?.required ||
+        createRoomForm.get('roomPasscode').errors?.required || _passcodeMessage != null" type="submit" mat-raised-button
+                class="btn btn-warning m-3"><i class="fas fa-greater-than"></i></button>
       </form>
     </div>
   </div>

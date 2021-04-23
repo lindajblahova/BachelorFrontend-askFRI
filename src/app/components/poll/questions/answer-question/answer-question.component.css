@@ -1,0 +1,22 @@
+.full-width-form {
+  width: 100%;
+}
+
+::ng-deep .mat-radio-button.mat-accent .mat-radio-ripple .mat-ripple-element {
+  margin-left: -20px !important;
+}
+
+button:focus{
+  outline: none;
+}
+
+::ng-deep .mat-checkbox-layout {
+  white-space: normal !important;
+  text-align: start;
+}
+
+::ng-deep .mat-radio-label-content {
+  white-space: normal !important;
+  text-align: start;
+}
+

@@ -1,40 +1,54 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {ActivatedRoute, ParamMap, Router} from '@angular/router';
-import {RoomService} from '../../services/room.service';
-import {FormBuilder} from '@angular/forms';
-import {QuestionService} from '../../services/question.service';
-import {IRoom} from '../../interfaces/IRoom';
 
+/** Component pre ankety v miestnosti - ma dalsie podkomponenty - create poll a questions
+ * @author Linda Blahova
+ * @version 1.0
+ * @since   2021-04-21
+ */
 @Component({
   selector: 'app-poll',
   templateUrl: './poll.component.html',
   styleUrls: ['./poll.component.css']
 })
-export class PollComponent implements OnInit {
+export class PollComponent {
 
-  @Input() room: IRoom;
-  @Input() author: boolean;
-  displayed = 'questionList';
-  questionId: number;
+  // urcuje co je predvolene zobrazene po nacitani komponentu (zoznam otazok)
+  private _displayed: string = 'questionList';
 
-  constructor() {
-  }
+  /** Vstup z rodica - komponentu room, ci je pouzivatel v miestnosti
+   * prihlaseny ako jej autor alebo nie
+   */
+  /// INPUTS
+  private _author = false;
 
-  ngOnInit(): void {
-    // this.questions = this.questionService.getQuestions();
-  }
-
+  /** Metoda pre zobrazenie dotaznika pre vytvorenie novej otazky
+   */
   newQuestion(): void {
     this.displayed = 'question';
   }
 
+  /** Metoda pre zobrazenie zoznamu otazok danej miestnosti
+   */
   showQuestions(): void {
     this.displayed = 'questionList';
   }
 
-  newAnswer(): void {
-    this.displayed = 'answer';
+  /// GETTRE A SETTRE
+  get author(): boolean {
+    return this._author;
   }
 
+  @Input()
+  set author(value: boolean) {
+    this._author = value;
+  }
+
+  get displayed(): string {
+    return this._displayed;
+  }
+
+  set displayed(value: string) {
+    this._displayed = value;
+  }
 
 }

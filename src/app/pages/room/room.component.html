@@ -1,16 +1,22 @@
-<app-navbar></app-navbar>
-<div class="container">
+<app-navbar [participant]="3" [room]="room"></app-navbar>
+<div class="container" *ngIf="isLoggedIn">
   <div class="row">
-    <div class="col-lg-6">
-      <div>
-      </div>
-      <app-messages [author]="true" [room]="room" ></app-messages>
-    </div>
-    <div class="col-lg-6">
-      <app-poll [room]="room" [author]="true"></app-poll>
+    <div class="col-lg-12">
+      <mat-tab-group mat-align-tabs="center" #tabs class="bg-light" color="accent"
+                     [selectedIndex]="sectionToDisplay == 0 ? 0 : 1"
+                     (selectedTabChange)="setSection(tabs.selectedIndex)">>
+        <mat-tab label="Konverzácia">
+          <ng-template matTabContent>
+            <app-messages [author]="author"></app-messages>
+          </ng-template>
+        </mat-tab>
+        <mat-tab label="Ankety">
+          <ng-template matTabContent>
+            <app-poll [author]="author"></app-poll>
+          </ng-template>
+        </mat-tab>
+      </mat-tab-group>
     </div>
   </div>
 </div>
-
-
 

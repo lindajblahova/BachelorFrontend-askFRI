@@ -1,0 +1,53 @@
+p {
+  text-align: left;
+  margin-left: 15px;
+}
+
+.passcode {
+  float: right;
+}
+
+button:focus{
+  outline: none;
+}
+
+.myTitle {
+  display: flex;
+  justify-content: space-between;
+}
+
+.myMargin {
+  margin: 8px;
+}
+
+@media screen and (max-width: 800px) {
+  mat-panel-title {
+    font-size: smaller;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  mat-panel-title {
+    font-size: small;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .myMargin {
+    margin: 2px;
+  }
+  .myTitle {
+    display: block!important;
+    justify-content: flex-start;
+    overflow:hidden;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+  }
+  .myOverflow {
+    display: block!important;
+    justify-content: flex-start;
+    overflow:hidden;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+  }
+}

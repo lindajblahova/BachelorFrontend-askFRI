@@ -1,34 +1,63 @@
-<app-navbar></app-navbar>
+<app-navbar [participant]="0" [activeTab]="'Prihlásiť'"></app-navbar>
 <div class="container bg-light text-center">
   <div class="row">
     <div class="col-12">
       <hr class="my-2">
-      <h1 class="display-4">Prihlásenie</h1>
+      <h1 class="mat-display-1 mt-3 mb-1 text-dark">Prihlásenie</h1>
       <hr class="my-2">
     </div>
   </div>
   <div class="row">
     <div class="col-12">
       <form [formGroup]="logInForm" (ngSubmit)="onSubmit()">
-        <div class="form-group d-flex justify-content-center">
+        <div class="d-flex justify-content-center">
           <div class="container my-form-container">
             <div class="row">
-              <label for="email">Email</label>
+              <mat-form-field color="accent" class=" full-width-form mt-2">
+                <mat-label>Email</mat-label>
+                <input matInput type="email" formControlName="email" placeholder="email@example.sk">
+                <mat-hint *ngIf="logInForm.get('email').touched || !(logInForm.get('email').pristine)">
+                  <p *ngIf="!(logInForm.get('email').errors?.required) &&
+                  !(logInForm.get('email').errors?.minlength) &&
+                logInForm.get('email').errors?.requiredRegex"
+                     class="text-danger">Tento email nie je podporovaný
+                  </p>
+                  <p *ngIf="logInForm.get('email').errors?.minlength" class="text-danger">Email musí mať
+                    aspoň 7 znakov
+                  </p>
+                  <p *ngIf="logInForm.get('email').errors?.required" class="text-danger">Zadajte email
+                  </p>
+                </mat-hint>
+              </mat-form-field>
             </div>
             <div class="row">
-              <input id="email" type="email" class="form-control" formControlName="email" placeholder="email@fri.sk">
-            </div>
-            <div class="row">
-              <label for="password" class="mt-2">Heslo</label>
-            </div>
-            <div class="row">
-              <input id="password" type="password" class="form-control " formControlName="password"
-                     placeholder="********">
+              <mat-form-field color="accent" class="full-width-form mt-2 mb-3">
+                <mat-label>Heslo</mat-label>
+                <input matInput type="password" formControlName="password" placeholder="********">
+                <mat-hint
+                  *ngIf="logInForm.get('password').touched || !(logInForm.get('password').pristine) ">
+                  <p *ngIf="logInForm.get('password').errors?.minlength" class="text-danger">Heslo musí mať
+                    aspoň 8 znakov.
+                  </p>
+                  <p *ngIf="!(logInForm.get('password').errors?.required) &&
+                   !(logInForm.get('password').errors?.minlength) &&
+                   logInForm.get('password').errors?.requiredRegex"
+                     class="text-danger"> Heslo musí obsahovať aspoň 1 veľké písmeno, aspoň 1 malé písmeno a
+                    aspoň 1 číslo.
+                  </p>
+                  <p *ngIf="logInForm.get('password').errors?.required" class="text-danger">Zadajte heslo
+                  </p>
+                </mat-hint>
+              </mat-form-field>
             </div>
           </div>
         </div>
-        <button type="submit" class="btn btn-warning m-3">Prihlásiť sa</button>
+        <button [disabled]="logInForm.get('email').errors?.requiredRegex ||
+                            logInForm.get('password').errors?.requiredRegex"
+                type="submit" mat-raised-button color="accent" class="text-white mb-3">Prihlásiť sa
+        </button>
       </form>
+      <small><a routerLink="/register" class="text-secondary">Registrovať sa</a></small>
     </div>
   </div>
 </div>

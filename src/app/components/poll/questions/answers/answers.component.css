@@ -1,0 +1,15 @@
+.cdk-virtual-scroll-viewport{
+  height: 300px;
+}
+
+@media screen and (max-width: 800px) {
+  mat-card-content {
+    font-size: smaller;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  mat-card-content {
+    font-size: small;
+  }
+}

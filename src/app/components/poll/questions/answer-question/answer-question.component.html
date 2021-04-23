@@ -1,0 +1,60 @@
+<div *ngIf="question.type==0 && author==false">
+  <form [formGroup]="answerForm" (submit)="createCustomAnswer()">
+    <mat-card class="m-2" [style.background-color]="getBackgroundColor(color+1)">
+      <mat-card-content>
+        <mat-form-field color="accent" class="full-width-form mt-2 mb-0">
+          <mat-label>Odpoveď</mat-label>
+          <textarea matInput type="text" formControlName="content"
+                    placeholder="Napíšte niečo..."></textarea>
+        </mat-form-field>
+      </mat-card-content>
+    </mat-card>
+    <button *ngIf="author==false" type="submit" mat-raised-button class="bg-warning m-3">Odoslať</button>
+  </form>
+</div>
+
+<div *ngIf="question.type==1 && author==false">
+  <mat-card class="m-2" [style.background-color]="getBackgroundColor(color+1)">
+    <mat-card-content>
+      <mat-radio-group [(ngModel)]="radioValue">
+        <mat-radio-button *ngFor="let answer of _optionalAnswers" class="d-flex ml-1 mt-1"
+                          [value]="answer.content">{{ answer.content }}</mat-radio-button>
+      </mat-radio-group>
+    </mat-card-content>
+  </mat-card>
+  <button *ngIf="author==false" type="submit" (click)="createRadioAnswer()" mat-raised-button class="bg-warning m-3">
+    Odoslať
+  </button>
+</div>
+
+<div *ngIf="question.type==2 && author==false">
+  <mat-card class="m-2" [style.background-color]="getBackgroundColor(color+1)">
+    <mat-card-content>
+      <section>
+        <mat-checkbox *ngFor="let answer of _optionalAnswers; let i=index" [(ngModel)]="checkFormChecked[i]"
+                      class="ml-1 mt-1 d-flex" [value]="answer.content"
+                      [checked]="checkFormChecked[i]">{{ answer.content }}</mat-checkbox>
+      </section>
+    </mat-card-content>
+  </mat-card>
+  <button *ngIf="author==false" type="submit" (click)="createCheckboxAnswer()" mat-raised-button class="bg-warning m-3">
+    Odoslať
+  </button>
+</div>
+
+<div *ngIf="question.type==3 && author==false">
+  <form (submit)="createSliderAnswer()">
+    <mat-card class="m-2" [style.background-color]="getBackgroundColor(color+1)">
+      <mat-card-content>
+        <mat-slider class="full-width-form"
+                    [max]="_max"
+                    [min]="_min"
+                    [step]="_step"
+                    [thumbLabel]="true"
+                    [(value)]="sliderValue">
+        </mat-slider>
+      </mat-card-content>
+    </mat-card>
+    <button *ngIf="author==false" type="submit" mat-raised-button class="bg-warning m-3">Odoslať</button>
+  </form>
+</div>

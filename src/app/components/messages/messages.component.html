@@ -1,40 +1,87 @@
-<div class="container bg-light text-center" *ngIf="room">
+<div class="container bg-light text-center ">
   <div class="row">
     <div class="col-12">
-      <hr class="my-2">
-      <div class="container">
-        <h1 class="display-4">{{room.roomName}} | {{room.roomPasscode}} </h1>
-      </div>
-      <hr class="my-2">
-    </div>
-    <div class="col-12">
       <div class="my-form-container">
-        <form [formGroup]="newMessageForm" (ngSubmit)="onSubmit()">
-          <div class="form-group">
-            <div class="row">
-              <div class="col-12 d-flex">
-              <textarea id="roomName" type="text" class="form-control" formControlName="content"
-                        placeholder="Napíšte niečo..." required="required"></textarea>
-                <button type="submit" class="btn btn-warning mt-4 ml-1"><i class="far fa-paper-plane"></i></button>
-              </div>
+        <form [formGroup]="newMessageForm" (ngSubmit)="createMessage()">
+          <div class="row">
+            <div class="col-12 d-flex">
+              <mat-form-field color="accent" class=" full-width-form mt-2 mb-0">
+                <mat-label>Správa</mat-label>
+                <textarea matInput type="text" formControlName="content"
+                          placeholder="Napíšte niečo..."></textarea>
+              </mat-form-field>
+              <button mat-fab type="submit"
+                      class=" mt-2 ml-1" color="accent"><i class="far fa-paper-plane"></i></button>
             </div>
           </div>
         </form>
-        <hr class="my-2">
+        <hr class="mt-0 mb-2">
+        <div class="row ml-2">
+          <form>
+            <mat-form-field class="full-width-form" color="accent">
+              <mat-label>Zoradenie správ</mat-label>
+              <mat-select name="orderBy" #sel (ngModelChange)="changeMessagesSortType(sel.value)" [(ngModel)]="msgSort">
+                <mat-option [value]="0">Zoradiť od najnovších</mat-option>
+                <mat-option [value]="1">Zoradiť od najobľúbenejších</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </form>
+        </div>
       </div>
     </div>
-    <div class="col-12 pre-scrollable ">
-      <ul class="list-group" *ngFor="let message of messages.reverse()" >
-        <li class="list-group-item d-flex justify-content-between bg-light border-secondary mt-2 mb-2 display-6">
-          {{ message.content }}
-          <div><i *ngIf="(clickedId != message.idMessage || !like)" class="far fa-heart mr-1"
-                  (click)="onClick(message.idMessage)"></i>
-            <i *ngIf="clickedId == message.idMessage && like" class="fas fa-heart mr-1"
-               (click)="onClick(message.idMessage)"></i>
-            <b *ngIf="[message.likesCount] != 0">{{ message.likesCount }}</b></div>
-        </li>
-      </ul>
-    </div>
-
   </div>
+  <div class="row myContainer">
+      <div class="col-lg-12 pre-scrollable">
+        <div *ngIf="messages">
+          <ul class="pl-0 d-flex m-0" *ngFor="let message of messages; let i = index">
+            <div>
+              <mat-card class="ml-2 mr-2 mb-1 mt-1 p-0" style="border-radius: 25px">
+                <mat-card-content class="d-flex justify-content-between align-items-center" >
+                  <div class="text-left myPadding">
+                    {{ message.message.content }}
+                  </div>
+                  <div class="mr-2">
+                    <button mat-icon-button type="button" style="color: white" >
+                      <i *ngIf="isMessageLiked(message) === false" class="far fa-heart" (click)="likeMessage(message.message.idMessage)"></i>
+                      <!--                 <i class="far fa-heart"></i>-->
+                      <i *ngIf="isMessageLiked(message) === true" class="fas fa-heart" (click)="unlikeMessage(message.message.idMessage)"></i>
+                      {{ message.setLikes.length }}
+                    </button>
+                    <!--                  <button mat-icon-button type="button" style="color: white" (click)="unlikeMessage(message.message.idMessage)">-->
+                    <!--                    <i class="fas fa-heart"></i>-->
+                    <!--                  </button>-->
+                  </div>
+                </mat-card-content>
+              </mat-card>
+            </div>
+            <button *ngIf="author==true" mat-mini-fab class="bg-warning
+          myButton m-0 p-0" (click)="openDeleteDialog(message.message.idMessage)"><mat-icon class="myIcon">close</mat-icon>
+            </button>
+          </ul>
+        </div>
+        <div *ngIf="messages.length == 0">
+          <h1 class="text-secondary mt-5">V konverzácii zatiaľ nie sú žiadne správy</h1>
+        </div>
+      </div>
+    </div>
 </div>
+
+<div *ngIf="author==true" class="d-flex justify-content-end">
+  <table id="excel-table" style="display: none">
+    <tr>
+      <th>Otázky od poslucháčov</th>
+    </tr>
+    <tr></tr>
+    <tr>
+      <th>Otázka</th>
+      <th>Počet reakcií</th>
+    </tr>
+    <tr *ngFor="let item of messages">
+      <td>{{item.message.content}}</td>
+      <td>{{item.setLikes.length}}</td>
+    </tr>
+  </table>
+  <button mat-icon-button *ngIf="author==true" (click)="exportexcel()">
+    <mat-icon class="text-secondary">save_alt</mat-icon></button>
+</div>
+

@@ -1,31 +1,113 @@
 <div *ngIf="question.type==0">
-  <div *ngFor="let answer of answers">
-    <div *ngIf="(displayedAnswers[answer.idQuestion]==true && author==true)">
-      <ul class="list-group">
-        <li class="list-group-item d-flex bg-light border-secondary ml-5 mr-5 mt-2 mb-2 display-6">
-          {{ answer.content }}
-        </li>
-      </ul>
+  <cdk-virtual-scroll-viewport itemSize="">
+    <ul class="list-group" *cdkVirtualFor="let answer of answers">
+      <mat-card class="mt-2 mb-2 ml-sm-2 mr-sm-2" [style.background-color]="getBackgroundColor(color+1)">
+        <mat-card-content class="d-flex">
+          <div>
+            {{ answer.content }}
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </ul>
+  </cdk-virtual-scroll-viewport>
+  <div *ngIf="author==true">
+    <table id="excel-table" style="display: none">
+      <tr>
+        <th>Otázka</th>
+      </tr>
+      <tr>
+        <td>{{question.content}}</td>
+      </tr>
+      <tr></tr>
+      <tr>
+        <th>Odpovede</th>
+      </tr>
+      <tr *ngFor="let item of answers">
+        <td>{{item.content}}</td>
+      </tr>
+    </table>
+  </div>
+</div>
+<div *ngIf="question.type==1 || question.type==2">
+  <div>
+    <ul class="list-group" *ngFor="let answer of optionalAnswers">
+      <div>
+        {{showCount(answer.content)}}
+        <mat-card class="m-2" [style.background-color]="getBackgroundColor(color+1)">
+          <mat-card-content class="d-flex justify-content-between">
+            <div>
+              {{ answer.content }}
+            </div>
+            <div><b>{{ answersCount }}</b></div>
+          </mat-card-content>
+        </mat-card>
+        <div class="progress ml-2 mr-2">
+          <div class="progress-bar bg-warning" role="progressbar"
+               [style.width.%]="(answersCount / answers.length)*100">{{(answersCount / answers.length) | percent}}</div>
+        </div>
+      </div>
+    </ul>
+    <div *ngIf="author==true" style="display: none">
+      <table id="excel-table">
+        <tr>
+          <th>Otázka</th>
+        </tr>
+        <tr>
+          <td>{{question.content}}</td>
+        </tr>
+        <tr></tr>
+        <tr>
+          <th>Odpoveď</th>
+          <th>Počet hlasov</th>
+        </tr>
+        <tr *ngFor="let item of optionalAnswers">
+          {{showCount(item.content)}}
+          <td>{{item.content}}</td>
+          <td>{{answersCount}}</td>
+        </tr>
+      </table>
     </div>
   </div>
 </div>
-<div *ngIf="question.type!=0">
-  <div *ngFor="let answer of question.optionalAnswers" >
-    <div *ngIf="author==true">
-    {{showCount(answer)}}
-    <div>
-      <ul class="list-group">
-        <li class="list-group-item d-flex justify-content-between bg-light border-secondary ml-5 mr-5 mt-2 mb-2 display-6">
-          <div> {{ answer }} </div>
-          <div>{{ answersCount }}</div>
-        </li>
-        <div class="ml-5 mr-5">
-          <div [style.width.%]="(answersCount / answers.length)*100" class="bg-warning">
-            {{(answersCount / answers.length) | percent}}
-          </div>
+
+<div *ngIf="question.type==3">
+  <div>
+    <ul class="list-group" *ngFor="let num of sliderNumbers">
+      {{showCountSlider(num)}}
+      <div *ngIf="answersCount!=0">
+        <mat-card class="m-2" [style.background-color]="getBackgroundColor(color+1)">
+          <mat-card-content class="d-flex justify-content-between">
+            <div>
+              {{ num }}
+            </div>
+            <div><b>{{ answersCount }}</b></div>
+          </mat-card-content>
+        </mat-card>
+        <div class="progress ml-2 mr-2">
+          <div class="progress-bar bg-warning" role="progressbar"
+               [style.width.%]="(answersCount / answers.length)*100">{{(answersCount / answers.length) | percent}}</div>
         </div>
-      </ul>
-    </div>
+      </div>
+    </ul>
+    <div *ngIf="author==true" style="display: none">
+      <table id="excel-table">
+        <tr>
+          <th>Otázka</th>
+        </tr>
+        <tr>
+          <td>{{question.content}}</td>
+        </tr>
+        <tr></tr>
+        <tr>
+          <th>Odpoveď</th>
+          <th>Počet hlasov</th>
+        </tr>
+        <tr *ngFor="let item of sliderNumbers">
+          {{showCountSlider(item)}}
+          <td>{{item}}</td>
+          <td>{{answersCount}}</td>
+        </tr>
+      </table>
     </div>
   </div>
 </div>

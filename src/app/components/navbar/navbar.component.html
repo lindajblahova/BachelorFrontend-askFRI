@@ -1,3 +1,61 @@
-<a (click)="goLogIn()" class="mr-2">Login</a>
-<a (click)="goRegister()">Register</a>
-<a (click)="goParticipant()">Participant</a>
+<mat-sidenav-container>
+  <mat-sidenav [(opened)]="isOpened" class="myNav nav-link" position="start" mode="push" *ngIf="isOpened">
+      <div class="container-fluid custom">
+        <p class="text-white h6 font-weight-light mt-0 mb-0 ml-3 mr-3">
+          Miestnosť: {{_room.roomName}}
+        </p>
+        <p class="text-white h6 font-weight-light mt-0 mb-0 ml-3 mr-3">
+          Prístupový kód: {{_room.roomPasscode}}
+        </p>
+      </div>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top myNav">
+        <a routerLink="#" class="text-white h3 font-weight-light m-0 mr-2">askFRI</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+          <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+            <li class="nav-item" *ngIf="isLoggedIn==false">
+              <a class="nav-link h5 font-weight-light m-0"
+                 [class.active]="activeTab=='Prihlásiť'" (click)="goLogIn()">Prihlásiť</a>
+            </li>
+            <li class="nav-item" *ngIf="participant==3 || participant==5">
+              <a class="nav-link h5 font-weight-light m-0"  (click)="isOpened=!isOpened">Info</a>
+            </li>
+            <li class="nav-item" *ngIf="participant==5">
+              <a class="nav-link h5 font-weight-light m-0"  (click)="goParticipant()">Odísť</a>
+            </li>
+            <li class="nav-item" *ngIf="role=='Student' || role=='Vyucujuci'">
+              <a class="nav-link h5 font-weight-light m-0"
+                 [class.active]="activeTab=='Účastník'" (click)="goParticipant()">Účastník</a>
+            </li>
+            <li class="nav-item" *ngIf="role=='Admin'">
+              <a class="nav-link h5 font-weight-light m-0"
+                 [class.active]="activeTab=='Administrácia'" (click)="goAdmin()">Administrácia</a>
+            </li>
+            <li class="nav-item" *ngIf="role=='Student' || role=='Vyucujuci' || role=='Admin'">
+              <a class="nav-link h5 font-weight-light m-0"
+                 [class.active]="activeTab=='Profil'" (click)="goProfile()">Profil</a>
+            </li>
+            <li class="nav-item" *ngIf="role=='Vyucujuci'">
+              <a class="nav-link h5 font-weight-light m-0"
+                 [class.active]="activeTab=='Prehľad'" (click)="goHome()">Prehľad</a>
+            </li>
+            <li class="nav-item" *ngIf="role=='Student' || role=='Vyucujuci' || role=='Admin'">
+              <a class="nav-link h5 font-weight-light m-0"  (click)="goLogOut()">Odhlásiť</a>
+            </li>
+          </ul>
+        </div>
+    </nav>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
+<!--participant kódovanie-->
+<!-- initial              - 0 -> prihlasit, registrovat -->
+<!-- admin                - 1 -> odhlasit sa -->
+<!-- teacher              - 2 (prihlaseny) -> ucastnik, profil, prehlad, odhlasit sa -->
+<!-- teacher              - 3 (v roomke) ->  info, profil, prehlad, odhlasit sa -->
+<!-- student/participant  - 4 (prihlaseny) -> odhlasit sa-->
+<!-- student/participant  - 5 (v roomke) -> info, odist z miest., odhlasit sa-->

@@ -1,0 +1,12 @@
+.full-width-form {
+  width: 100%;
+}
+
+button:focus{
+  outline: none;
+}
+
+::ng-deep.mat-accent .mat-option.mat-selected:not(.mat-option-disabled) {
+  color: #d0b400;
+}
+

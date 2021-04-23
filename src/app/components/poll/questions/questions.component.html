@@ -1,26 +1,69 @@
-<div class="col-12 pre-scrollable ">
-  <ul class="list-group" *ngFor="let question of questions?.reverse()">
-    <a *ngIf="question.displayed==true || author==true"
-       (click)="showAnswers(question.idQuestion); onClick(question)" >
-      <li class="list-group-item d-flex justify-content-between bg-light border-secondary mt-2 mb-2 display-6">
-        {{ question.content }}
-      </li>
-    </a>
-    <div class="d-flex justify-content-end" *ngIf="author==true">
-      <div class="form-check form-switch mr-2">
-        <input class="form-check-input" type="checkbox" id="checkboxQuestion"
-               (change)="displayQuestionPublic(question.idQuestion)">
-        <label class="form-check-label" for="checkboxQuestion">Zobraziť otázku všetkým</label>
-      </div>
-      <div class="form-check form-switch">
-        <input class="form-check-input" type="checkbox" id="checkboxAnswers"
-               (change)="displayAnswersPublic(question.idQuestion)">
-        <label class="form-check-label" for="checkboxAnswers">Zobraziť odpovede všetkým</label>
-      </div>
-    </div>
-    <div *ngIf="(displayedAnswers[question.idQuestion]==true && author==true) ||
-     (displayedAnswersPublic[question.idQuestion]==true && author==false)">
-      <app-answers [question]="question" [displayedAnswers]="displayedAnswers" [author]="author"></app-answers>
-    </div>
-  </ul>
+<hr *ngIf="author==true" class="mt-3 mb-0">
+<div class="d-flex justify-content-end">
+  <button  mat-icon-button (click)="author==true? getRoomQuestions() : getRoomActiveQuestions()"><mat-icon>refresh</mat-icon></button>
 </div>
+<div class="mt-0">
+  <ul class="list-group" *ngFor="let question of questions; let i = index" [attr.data-index]="i">
+    <a *ngIf="question.questionDisplayed==true || author==true">
+      <mat-accordion>
+        <mat-expansion-panel #panel
+                             [expanded]="answeredQuestions.indexOf(question.idQuestion) === -1 && author === false"
+                             class="mt-2 mb-2">
+          <mat-expansion-panel-header>
+            <mat-panel-title class="text-left" *ngIf="panel.expanded==false">
+              {{ question.content}}
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <p class="text-center mt-2" *ngIf="panel.expanded==true">
+            {{ question.content}}
+          </p>
+          <div *ngIf="(author==true && panel.expanded==true) ||
+          (answeredQuestions.indexOf(question.idQuestion) !== -1 && question.answersDisplayed==true && panel.expanded==true)">
+            <app-answers [question]="question" [author]="author" [color]="i"></app-answers>
+          </div>
+          <div
+            *ngIf="panel.expanded==true && answeredQuestions.indexOf(question.idQuestion) !== -1 && question.answersDisplayed==false">
+            Ďakujeme za vašu odpoveď.
+            <div>
+              <mat-icon>sentiment_satisfied_alt</mat-icon>
+            </div>
+          </div>
+          <div *ngIf="(answeredQuestions.indexOf(question.idQuestion) === -1 && author==false &&
+           panel.expanded==true)">
+            <app-answer-question [class.d-none]="answeredQuestions.indexOf(question.idQuestion) !== -1"
+                                 [author]="author" [question]="question" [color]="i">
+              <!--                (questionWasAnswered)="questionAnswered($event)"-->
+            </app-answer-question>
+          </div>
+          <mat-action-row *ngIf="author==true" class="align-middle">
+            <section class="my-display">
+              <div>
+                <mat-slide-toggle class="ml-2 mr-2 mt-2" (toggleChange)="displayQuestionPublic(question.idQuestion)"
+                                  [checked]="question.questionDisplayed">
+                  Zobraziť otázku všetkým
+                </mat-slide-toggle>
+                <mat-slide-toggle class="ml-2 mr-2 mt-2" [checked]="question.answersDisplayed"
+                                  (toggleChange)="displayAnswersPublic(question.idQuestion)">
+                  Zobraziť odpovede všetkým
+                </mat-slide-toggle>
+              </div>
+              <div>
+                <button mat-icon-button *ngIf="author==true" (click)="exportexcel()">
+                  <mat-icon class="text-secondary">save_alt</mat-icon>
+                </button>
+                <button *ngIf="author==true" mat-icon-button class="m-0 p-0"
+                        (click)="openDeleteDialog(question.idQuestion)">
+                  <mat-icon class="text-danger">delete_outline</mat-icon>
+                </button>
+              </div>
+            </section>
+          </mat-action-row>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </a>
+  </ul>
+  <div *ngIf="questions.length == 0">
+    <h1 class="text-secondary mt-5">V miestnosti zatiaľ nie sú žiadne ankety</h1>
+  </div>
+</div>
+
