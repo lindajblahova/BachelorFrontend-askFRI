@@ -180,7 +180,7 @@ export class AnswerQuestionComponent implements OnInit {
   createCustomAnswer(): void {
     if (this.answerForm.get('content').value.trim() !== '') {
       this._answersToSend.push({idAnswer: 0, idQuestion: this.question.idQuestion,
-        content: this.answerForm.get('content').value});
+        content: this.answerForm.get('content').value.trim()});
       this.createBasicAnswer();
     }
   }

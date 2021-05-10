@@ -43,9 +43,9 @@ export class RegisterComponent {
                                                     '@feit.uniza.sk')) {
       this.role = 'Vyucujuci';
     }
-    this.userService.saveUser({idUser: 0, firstname: this.signUpForm.get('name').value,
-      surname: this.signUpForm.get('surname').value, email: this.signUpForm.get('email').value,
-      password: this.signUpForm.get('password').value, role: this.role}).subscribe(
+    this.userService.saveUser({idUser: 0, firstname: this.signUpForm.get('name').value.trim(),
+      surname: this.signUpForm.get('surname').value.trim(), email: this.signUpForm.get('email').value.trim(),
+      password: this.signUpForm.get('password').value.trim(), role: this.role}).subscribe(
       response => {
         this.snackBar.open(response.message, 'x', {
           duration: 2000,

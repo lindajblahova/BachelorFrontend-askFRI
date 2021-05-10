@@ -41,8 +41,8 @@ export class CreateRoomComponent {
   createRoom(): void {
     if (this.passcodeMessage == null) {
       this.roomService.saveRoom({idRoom: 0, idOwner: Number(this.tokenService.getUserId()),
-        roomName: this.createRoomForm.get('roomName').value,
-        roomPasscode: this.createRoomForm.get('roomPasscode').value, active: true}).subscribe(
+        roomName: this.createRoomForm.get('roomName').value.trim(),
+        roomPasscode: this.createRoomForm.get('roomPasscode').value.trim(), active: true}).subscribe(
         response => {
           this.snackBar.open(response.message, 'x', {
             duration: 2000,
